@@ -13,6 +13,7 @@
 #endif /* CMSTable_h */
 
 #include "HashColumn.h"
+#include "Hasher.h"
 
 template <typename T>
 class CMSTable {
