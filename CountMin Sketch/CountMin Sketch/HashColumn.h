@@ -15,12 +15,13 @@
 #include <functional>
 
 #include "Fenwick.h"
+#include "SegmentTree.h"
 
 template <typename T>
 class HashColumn {
     int size;
-    T* entries;
-    Fenwick<T> fenwickTree;
+    vector<T> entries;
+//    SegmentTree<T> segmentTree;
     
 public:
     HashColumn() {
@@ -28,38 +29,39 @@ public:
     }
     HashColumn(int __size) {
         size = __size;
-        entries = new T[size + 1]{0};
-        fenwickTree = Fenwick<T>(size);
+        entries = vector<T>(size + 1, 0);
+//        segmentTree = SegmentTree<T>(size);
     }
-    HashColumn(int __size, T* __entries) {
+    HashColumn(int __size, vector<T> __entries) {
         size = __size;
         entries = __entries;
-        fenwickTree = Fenwick<T>(size, entries);
+//        segmentTree = SegmentTree<T>(size, entries);
     }
     int getSize() {
         return size;
     }
-    T* getEntries() {
+    vector<T> getEntries() {
         return entries;
     }
-    T* getTree() {
-        return fenwickTree.getData();
-    }
+//    T* getTree() {
+//        return segmentTree;
+//    }
     int getValueAt(int position) {
         return entries[position];
     }
     void updateValueAt(int position, T newValue) {
         entries[position] = newValue;
-        fenwickTree.modify(position, newValue);
+//        segmentTree.update(position, newValue);
     }
     void incrementValueAt(int position) {
-        fenwickTree.modify(position, ++entries[position]);
+        ++entries[position];
+//        segmentTree.update(position, entries[position]);
     }
-    int getMinimum() {
-        return fenwickTree.getAt(size);
-    }
+//    int getMinimum() {
+//        return segmentTree.get(1, size);
+//    }
     int getMinimumNaive() {
-        T result = MAX_VALUE;
+        T result = KERNEL_DUMMY;
         for (int i = 1; i <= size; i ++) {
             if (entries[i] < result)
                 result = entries[i];

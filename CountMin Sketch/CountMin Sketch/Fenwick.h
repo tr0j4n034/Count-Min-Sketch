@@ -12,10 +12,11 @@
 
 #endif /* Fenwick_h */
 
+#include <vector>
 #include <climits>
 
 const int DUMMY = 0;
-const int MAX_VALUE = INT_MAX;
+const int KERNEL_DUMMY = INT_MAX;
 
 template <typename T>
 T kernel(T a, T b) {
@@ -25,7 +26,7 @@ T kernel(T a, T b) {
 template <typename T>
 class Fenwick {
     int size;
-    T* data;
+    vector<T> data;
     
 public:
     Fenwick() {
@@ -33,18 +34,15 @@ public:
     }
     Fenwick(int __size) {
         size = __size;
-        data = new T[size + 1];
-        fill(data, data + size + 1, MAX_VALUE);
+        data = vector<T>(size + 1, KERNEL_DUMMY);
     }
     Fenwick(int __size, T __dummy) {
         size = __size;
-        data = new T[size + 1];
-        fill(data, data + size + 1, MAX_VALUE);
+        data = vector<T>(size + 1, KERNEL_DUMMY);
     }
     Fenwick(int __size, T* entries) {
         size = __size;
-        data = new T[size + 1];
-        fill(data, data + size + 1, MAX_VALUE);
+        data = vector<T>(size + 1, KERNEL_DUMMY);
         int ptr = 0;
         for_each(entries, entries + size, [&](T& entry){
             modify(++ptr, entry);
@@ -57,7 +55,7 @@ public:
         return data;
     }
     T getAt(int position) { // prefix minimum
-        T value = MAX_VALUE;
+        T value = KERNEL_DUMMY;
         while (position > 0) {
             value = kernel(value, data[position]);
             position -= (position & -position);

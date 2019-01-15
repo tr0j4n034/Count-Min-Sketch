@@ -19,7 +19,8 @@ template <typename T>
 class CMSTable {
     int hashesCount;
     int tableSize;
-    HashColumn<T>* table;
+    vector<HashColumn<T>> table;
+    vector<Hasher<T>> hashFunctions;
     
 public:
     CMSTable() {
@@ -28,12 +29,24 @@ public:
     CMSTable(int __hashCount, int __tableSize) {
         hashesCount = __hashCount;
         tableSize = __tableSize;
-        table = new HashColumn<T>[tableSize + 1];
+        table = vector<HashColumn<int>>(hashesCount + 1);
+        for (int i = 1; i <= hashesCount; i ++) {
+            table[i] = HashColumn<int>(tableSize + 1);
+        }
+        for (int i = 0; i < hashesCount + 1; i ++) {
+            hashFunctions.push_back(Hasher<T>(2, 2, 2));
+        }
     }
-    CMSTable(int __hashesCount, int __tableSize, HashColumn<T>* __table) {
-        hashesCount = __hashesCount;
+    CMSTable(int __hashCount, int __tableSize, vector<HashColumn<T>> __table) {
+        hashesCount = __hashCount;
         tableSize = __tableSize;
         table = __table;
+        hashFunctions = vector<Hasher<T>>(hashesCount + 1);
+    }
+    void setHashFunctions(T range = MAX_COEFFICIENT) {
+        for (int i = 1; i <= hashesCount; i ++) {
+            hashFunctions[i] = Hasher<T>(tableSize, range);
+        }
     }
     int getHashesCount() {
         return hashesCount;
@@ -41,7 +54,26 @@ public:
     int getTableSize() {
         return tableSize;
     }
-    HashColumn<T>* getTable() {
+    vector<HashColumn<T>> getTable() {
         return table;
+    }
+    vector<Hasher<T>> getHashFunctions() {
+        return hashFunctions;
+    }
+    void insertEntry(T entry) {
+        for (int i = 1; i <= hashesCount; i ++) {
+            int hashValue = hashFunctions[i].getHash(entry);
+            table[i].incrementValueAt(hashValue);
+        }
+    }
+    int getCount(T entry) {
+        int minimumCount = INT_MAX;
+        for (int i = 1; i <= hashesCount; i ++) {
+            int hashValue = hashFunctions[i].getHash(entry);
+            if (table[i].getValueAt(hashValue) < minimumCount) {
+                minimumCount = table[i].getValueAt(hashValue);
+            }
+        }
+        return minimumCount;
     }
 };

@@ -28,6 +28,7 @@
 		510513DE21ECA4DC004167EA /* Fenwick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fenwick.h; sourceTree = "<group>"; };
 		510513DF21ECA7F4004167EA /* HashColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashColumn.h; sourceTree = "<group>"; };
 		510513E021ECB65F004167EA /* CMSTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMSTable.h; sourceTree = "<group>"; };
+		51CC541221EDB3EC00456ADF /* SegmentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentTree.h; sourceTree = "<group>"; };
 		51E6323121ED124000D17F76 /* Hasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hasher.h; sourceTree = "<group>"; };
 		51E6323221ED1A0C00D17F76 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +69,7 @@
 				51E6323221ED1A0C00D17F76 /* Random.h */,
 				510513DF21ECA7F4004167EA /* HashColumn.h */,
 				510513DE21ECA4DC004167EA /* Fenwick.h */,
+				51CC541221EDB3EC00456ADF /* SegmentTree.h */,
 			);
 			path = "CountMin Sketch";
 			sourceTree = "<group>";
