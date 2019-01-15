@@ -17,7 +17,8 @@
 
 const int PRIME_CHECK_TRIALS = 1 << 7;
 
-auto isPrime(int N) {
+template<typename T>
+auto isPrime(T N) {
     if (N < 2) return false;
     for (int i = 2; 1LL * i * i <= N; i ++) {
         if (N % i == 0) return false;

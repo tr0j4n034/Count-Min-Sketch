@@ -15,8 +15,11 @@
 #include "HashColumn.h"
 #include "Hasher.h"
 
+#include <cmath>
+
 template <typename T>
 class CMSTable {
+    double epsilon;
     int hashesCount;
     int tableSize;
     vector<HashColumn<T>> table;
@@ -24,7 +27,8 @@ class CMSTable {
     
 public:
     CMSTable() {
-        
+        hashesCount = 0;
+        tableSize = 0;
     }
     CMSTable(int __hashCount, int __tableSize) {
         hashesCount = __hashCount;
@@ -43,7 +47,10 @@ public:
         table = __table;
         hashFunctions = vector<Hasher<T>>(hashesCount + 1);
     }
-    void setHashFunctions(T range = MAX_COEFFICIENT) {
+    void setSizesOnStream(int streamSize) {
+        d =
+    }
+    void setHashFunctions(T range = INT_MAX) {
         for (int i = 1; i <= hashesCount; i ++) {
             hashFunctions[i] = Hasher<T>(tableSize, range);
         }
@@ -63,6 +70,7 @@ public:
     void insertEntry(T entry) {
         for (int i = 1; i <= hashesCount; i ++) {
             int hashValue = hashFunctions[i].getHash(entry);
+            cout << "entry = " << entry << ", hashval = " << hashValue << endl;
             table[i].incrementValueAt(hashValue);
         }
     }

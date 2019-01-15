@@ -15,7 +15,8 @@
 #include "Random.h"
 
 const int MAX_COEFFICIENT = INT_MAX;
-long long SALT = 0;
+
+int SALT = 0;
 
 template <typename T>
 class Hasher { // (AX + B) % C
@@ -36,16 +37,20 @@ public:
     Hasher(T maxRange = MAX_COEFFICIENT) {
         Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
         SALT ^= 1LL * rand() * rand() % INT_MAX;
-        A = device.generatePrimeInRange(2, ((maxRange >> 3) < 3 ? 3 : (maxRange >> 3)));
-        B = device.generatePrimeInRange(2, (maxRange - 1 < 3 ? 3: maxRange - 1));
-        C = device.generatePrimeInRange(maxRange >> 2, maxRange);
+        A = (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
+        B = (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
+        C = device.generatePrimeInRange(maxRange >> 1, maxRange);
+        A %= C;
+        B %= C;
     }
     Hasher(T fixedC, T maxRange = MAX_COEFFICIENT) {
         Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
         SALT ^= 1LL * rand() * rand() % INT_MAX;
-        A = device.generatePrimeInRange(2, ((maxRange >> 3) < 3 ? 3 : (maxRange >> 3)));
-        B = device.generatePrimeInRange(2, (maxRange - 1 < 3 ? 3: maxRange - 1));
+        A = (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
+        B = (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
         C = fixedC;
+        A %= C;
+        B %= C;
     }
     T getA() {
         return A;
