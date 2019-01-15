@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]) {
     int h = 5, c = 10001;
     int stream = 10000;
     CMSTable<int> cms(h, c);
-    cms.setParams(0.01, 0.9);
+    cms.setParams(0.001, 0.995);
     cms.setParamsViaStream(stream);
     cout << cms.getHashesCount() << endl;
     cout << cms.getTableSize() << endl;

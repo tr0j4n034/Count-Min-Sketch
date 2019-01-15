@@ -30,8 +30,8 @@ public:
     CMSTable() {
         hashesCount = 0;
         tableSize = 0;
-        errorFactor = 0.05;
-        confidence = 0.7;
+        errorFactor = 0.00005;
+        confidence = 0.99;
     }
     CMSTable(int __hashCount, int __tableSize) {
         hashesCount = __hashCount;
@@ -43,8 +43,8 @@ public:
         for (int i = 0; i < hashesCount + 1; i ++) {
             hashFunctions.push_back(Hasher<T>(2, 2, 2));
         }
-        errorFactor = 0.05;
-        confidence = 0.7;
+        errorFactor = 0.00005;
+        confidence = 0.99;
     }
     CMSTable(int __hashCount, int __tableSize, vector<HashColumn<T>> __table) {
         hashesCount = __hashCount;
@@ -57,8 +57,10 @@ public:
         confidence = __confidence;
     }
     void setParamsViaStream(int streamSize) {
-        hashesCount = int(ceil(log(1. / (1 - confidence))));
+        cout << "hrere " << errorFactor << " " << confidence << endl;
+        hashesCount = int(ceil(log(1. / (1. - confidence))));
         tableSize = int(ceil(exp(1.) / errorFactor));
+        cout << "asdsa" << hashesCount << " " << tableSize << endl;
         table = vector<HashColumn<int>>(hashesCount + 1);
         for (int i = 1; i <= hashesCount; i ++) {
             table[i] = HashColumn<int>(tableSize + 1);
