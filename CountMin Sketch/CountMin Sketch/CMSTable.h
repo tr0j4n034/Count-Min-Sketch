@@ -19,7 +19,8 @@
 
 template <typename T>
 class CMSTable {
-    double epsilon;
+    double errorFactor;
+    double confidence;
     int hashesCount;
     int tableSize;
     vector<HashColumn<T>> table;
@@ -29,6 +30,8 @@ public:
     CMSTable() {
         hashesCount = 0;
         tableSize = 0;
+        errorFactor = 0.05;
+        confidence = 0.7;
     }
     CMSTable(int __hashCount, int __tableSize) {
         hashesCount = __hashCount;
@@ -40,6 +43,8 @@ public:
         for (int i = 0; i < hashesCount + 1; i ++) {
             hashFunctions.push_back(Hasher<T>(2, 2, 2));
         }
+        errorFactor = 0.05;
+        confidence = 0.7;
     }
     CMSTable(int __hashCount, int __tableSize, vector<HashColumn<T>> __table) {
         hashesCount = __hashCount;
@@ -47,12 +52,24 @@ public:
         table = __table;
         hashFunctions = vector<Hasher<T>>(hashesCount + 1);
     }
-    void setSizesOnStream(int streamSize) {
-        d =
+    void setParams(double __error, double __confidence) {
+        errorFactor = __error;
+        confidence = __confidence;
+    }
+    void setParamsViaStream(int streamSize) {
+        hashesCount = int(ceil(log(1. / (1 - confidence))));
+        tableSize = int(ceil(exp(1.) / errorFactor));
+        table = vector<HashColumn<int>>(hashesCount + 1);
+        for (int i = 1; i <= hashesCount; i ++) {
+            table[i] = HashColumn<int>(tableSize + 1);
+        }
+        for (int i = 0; i < hashesCount + 1; i ++) {
+            hashFunctions.push_back(Hasher<T>(INT_MAX));
+        }
     }
     void setHashFunctions(T range = INT_MAX) {
         for (int i = 1; i <= hashesCount; i ++) {
-            hashFunctions[i] = Hasher<T>(tableSize, range);
+            hashFunctions[i] = Hasher<T>(range);
         }
     }
     int getHashesCount() {
@@ -69,15 +86,14 @@ public:
     }
     void insertEntry(T entry) {
         for (int i = 1; i <= hashesCount; i ++) {
-            int hashValue = hashFunctions[i].getHash(entry);
-            cout << "entry = " << entry << ", hashval = " << hashValue << endl;
+            int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
             table[i].incrementValueAt(hashValue);
         }
     }
     int getCount(T entry) {
         int minimumCount = INT_MAX;
         for (int i = 1; i <= hashesCount; i ++) {
-            int hashValue = hashFunctions[i].getHash(entry);
+            int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
             if (table[i].getValueAt(hashValue) < minimumCount) {
                 minimumCount = table[i].getValueAt(hashValue);
             }

@@ -34,21 +34,12 @@ public:
         B = __B;
         C = __C;
     }
-    Hasher(T maxRange = MAX_COEFFICIENT) {
+    Hasher(T maxRange) {
         Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
         SALT ^= 1LL * rand() * rand() % INT_MAX;
         A = (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
         B = (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
-        C = device.generatePrimeInRange(maxRange >> 1, maxRange);
-        A %= C;
-        B %= C;
-    }
-    Hasher(T fixedC, T maxRange = MAX_COEFFICIENT) {
-        Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
-        SALT ^= 1LL * rand() * rand() % INT_MAX;
-        A = (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
-        B = (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
-        C = fixedC;
+        C = device.generatePrimeInRange(1 << 27, INT_MAX);
         A %= C;
         B %= C;
     }
@@ -62,6 +53,6 @@ public:
         return C;
     }
     T getHash(T data) {
-        return (1ULL * A * data + B) % C + 1;
+        return (1ULL * A * data + B) % C;
     }
 };

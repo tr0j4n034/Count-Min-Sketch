@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include <functional>
 
 using namespace std;
@@ -25,6 +26,36 @@ int main(int argc, const char * argv[]) {
 //    for (int i = 0; i < (int)hh.size(); i ++) {
 //        cout << hh[i].getA() << " " << hh[i].getB() << " " << hh[i].getC() << endl;
 //    }
+    
+    int h = 5, c = 10001;
+    int stream = 10000;
+    CMSTable<int> cms(h, c);
+    cms.setParams(0.01, 0.9);
+    cms.setParamsViaStream(stream);
+    cout << cms.getHashesCount() << endl;
+    cout << cms.getTableSize() << endl;
+    cms.setHashFunctions();
+
+    vector<Hasher<int>> hs = cms.getHashFunctions();
+    for (int i = 1; i <= cms.getHashesCount(); i ++) {
+        cout << hs[i].getA() << " " << hs[i].getB() << " " << hs[i].getC() << endl;
+    }
+    int to = 10000;
+    vector<int> counts(to + 1);
+    for (int i = 0; i < stream; i ++) {
+        int position = rand() % to + 1;
+        counts[position] ++;
+    }
+    for (int i = 1; i <= to; i ++) {
+        for (int j = 0; j < counts[i]; j ++) {
+            //cout << "inserting: " << i << endl;
+            cms.insertEntry(i);
+        }
+    }
+    for (int i = 1; i <= to; i ++) {
+        if (counts[i] == 0) continue;
+        cout << i << " --> " << counts[i] << " vs " << cms.getCount(i) << endl;
+    }
     
     
     return 0;
