@@ -57,10 +57,8 @@ public:
         confidence = __confidence;
     }
     void setParamsViaStream(int streamSize) {
-        cout << "hrere " << errorFactor << " " << confidence << endl;
         hashesCount = int(ceil(log(1. / (1. - confidence))));
         tableSize = int(ceil(exp(1.) / errorFactor));
-        cout << "asdsa" << hashesCount << " " << tableSize << endl;
         table = vector<HashColumn<int>>(hashesCount + 1);
         for (int i = 1; i <= hashesCount; i ++) {
             table[i] = HashColumn<int>(tableSize + 1);

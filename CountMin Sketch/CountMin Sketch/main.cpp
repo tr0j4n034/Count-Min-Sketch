@@ -13,6 +13,7 @@
 using namespace std;
 
 #include "CMSTable.h"
+#include "Generator.h"
 
 int main(int argc, const char * argv[]) {
 //    Hasher<int> h = Hasher<int>(4);
@@ -28,21 +29,21 @@ int main(int argc, const char * argv[]) {
 //    }
     
     int h = 5, c = 10001;
-    int stream = 10000;
+    int streamSize = 10000;
     CMSTable<int> cms(h, c);
     cms.setParams(0.001, 0.995);
-    cms.setParamsViaStream(stream);
+    cms.setParamsViaStream(streamSize);
     cout << cms.getHashesCount() << endl;
     cout << cms.getTableSize() << endl;
     cms.setHashFunctions();
 
     vector<Hasher<int>> hs = cms.getHashFunctions();
-    for (int i = 1; i <= cms.getHashesCount(); i ++) {
-        cout << hs[i].getA() << " " << hs[i].getB() << " " << hs[i].getC() << endl;
-    }
+//    for (int i = 1; i <= cms.getHashesCount(); i ++) {
+//        cout << hs[i].getA() << " " << hs[i].getB() << " " << hs[i].getC() << endl;
+//    }
     int to = 10000;
     vector<int> counts(to + 1);
-    for (int i = 0; i < stream; i ++) {
+    for (int i = 0; i < streamSize; i ++) {
         int position = rand() % to + 1;
         counts[position] ++;
     }
@@ -52,11 +53,12 @@ int main(int argc, const char * argv[]) {
             cms.insertEntry(i);
         }
     }
+    int deltaSum = 0;
     for (int i = 1; i <= to; i ++) {
-        if (counts[i] == 0) continue;
-        cout << i << " --> " << counts[i] << " vs " << cms.getCount(i) << endl;
+        deltaSum += abs(counts[i] - cms.getCount(i));
     }
-    
+    cout << "Average error is: ";
+    cout << 1. * deltaSum / streamSize << endl;
     
     return 0;
 }

@@ -28,6 +28,7 @@
 		510513DE21ECA4DC004167EA /* Fenwick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fenwick.h; sourceTree = "<group>"; };
 		510513DF21ECA7F4004167EA /* HashColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashColumn.h; sourceTree = "<group>"; };
 		510513E021ECB65F004167EA /* CMSTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMSTable.h; sourceTree = "<group>"; };
+		511B61A821F1097600CE50F1 /* Generator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generator.h; sourceTree = "<group>"; };
 		51CC541221EDB3EC00456ADF /* SegmentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentTree.h; sourceTree = "<group>"; };
 		51E6323121ED124000D17F76 /* Hasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hasher.h; sourceTree = "<group>"; };
 		51E6323221ED1A0C00D17F76 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				510513D721ECA4B6004167EA /* main.cpp */,
+				511B61A821F1097600CE50F1 /* Generator.h */,
 				510513E021ECB65F004167EA /* CMSTable.h */,
 				51E6323121ED124000D17F76 /* Hasher.h */,
 				51E6323221ED1A0C00D17F76 /* Random.h */,
