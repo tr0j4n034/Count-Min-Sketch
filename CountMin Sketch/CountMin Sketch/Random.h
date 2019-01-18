@@ -39,6 +39,12 @@ public:
     dist(std::uniform_int_distribution<>(0, __range - 1)){
         generator.seed(unsigned(time((NULL))));
     }
+    int getRange() {
+        return range;
+    }
+    mt19937 getGenerator() {
+        return generator;
+    }
     int generate() {
         return dist(generator);
     }

@@ -57,7 +57,7 @@ vector<vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int
     int unionSize = sizeA + sizeB - common;
     vector<int> elements(unionSize);
     iota(elements.begin(), elements.end(), 0);
-    shuffle(elements.begin(), elements.end(), device);
+    shuffle(elements.begin(), elements.end(), device.getGenerator());
     for (int i = 0; i < common; i ++) {
         v[0].push_back(elements[i]);
         v[1].push_back(elements[i]);
@@ -69,5 +69,8 @@ vector<vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int
     }
     for (int i = sizeA; i < unionSize; i ++)
         v[1].push_back(elements[i]);
+    for_each(v.begin(), v.end(), [&](vector<int> &list) {
+        shuffle(list.begin(), list.end(), device.getGenerator());
+    });
     return v;
 }
