@@ -75,27 +75,37 @@ int main(int argc, const char * argv[]) {
 //        cout << endl;
 //    }
     
-    
     vector<int> v, x;
-    cout << (std::is_base_of<int, vector<int>>::value) << endl;
+    //cout << (std::is_base_of<int, vector<int>>::value) << endl;
     
     int a[] = {1, 2, 3};
-//    for_each(begin(a), end(a), [](int x) {
+//    v = {1, 2, 3};
+//    x = {10, 10, 10};
+//    vector<int> res(int(v.size()));
+//    auto xt = begin(a);
+//    transform(begin(v), end(v), begin(v), [&](int x) {
+//        return x + (*xt ++);
+//    });
+//    for (int i: v) cout << i << " "; cout << endl;
+//    for (int i: x) cout << i << " "; cout << endl;
+//    cout << "sizes = " << v.size() << " " << x.size() << endl;
+//    cout << sizeof(v) / sizeof(v[0]) << endl;
+//    cout << sizeof(x) / sizeof(x[0]) << endl;
+//    cout << EuclideanDistance<vector<int>, int>(v, x) << endl;
+    
+//    for_each(a, *(&a + 1), [](int x) {
 //        cout << x << endl;
 //    });
-    v = {1, 2, 3};
-    x = {10, 10, 10};
-    vector<int> res(int(v.size()));
-    auto xt = begin(a);
-    transform(begin(v), end(v), begin(v), [&](int x) {
-        return x + (*xt ++);
+
+
+    unordered_map<int, int> m;
+    m[1] = 3;
+    m[2] = 6;
+    m[3] = 10;
+    for_each(begin(m), end(m), [](auto data) {
+        cout << data.first << endl;
     });
-    for (int i: v) cout << i << " "; cout << endl;
-    for (int i: x) cout << i << " "; cout << endl;
-    cout << "sizes = " << v.size() << " " << x.size() << endl;
-    cout << sizeof(v) / sizeof(v[0]) << endl;
-    cout << sizeof(x) / sizeof(x[0]) << endl;
-    cout << EuclideanDistance<vector<int>, int>(v, x) << endl;
+    
     
     return 0;
 }
