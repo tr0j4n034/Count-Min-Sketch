@@ -46,6 +46,34 @@ R EuclideanDistance(T objectA, T objectB) { // arrays
     });
     return sqrt(result);
 }
+template <typename T, typename R>
+R ManhattanDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+    // for custom data types
+    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+    assert((int)objectA.size() == (int)objectB.size());
+    auto itB = begin(objectB);
+    transform(begin(objectA), end(objectA), begin(objectA), [&](R value) {
+        return value - (*itB ++);
+    });
+    R result = accumulate(begin(objectA), end(objectA), 0, [](R currentResult, R delta) {
+        return currentResult + abs(delta);
+    });
+    return sqrt(result);
+}
+template <typename T, typename R>
+R ManhattanDistance(T objectA, T objectB) { // arrays
+    // for custom data types
+    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+    assert(sizeof(objectA) && sizeof(objectB));
+    assert(sizeof(objectA) / sizeof(objectA[0]) == sizeof(objectB) / sizeof(objectB[0]));
+    R result = 0;
+    R* ptrB = *objectB;
+    for_each(objectA, *(&objectA + 1), [&](R value) {
+        T delta = value - *(ptrB ++);
+        result += abs(delta);
+    });
+    return sqrt(result);
+}
 template <typename T, typename dt, typename R>
 R JaccardDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     unordered_map<dt, int> mapA, mapB;
@@ -108,6 +136,10 @@ R CosineDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     return 1. * dotProduct / normA / normB;
 }
 template <typename T, typename R>
+R CosineSimilarityIterable(T objectA, T objectB) {
+    return 1. - CosineDistanceIterable<T, R>(objectA, objectB);
+}
+template <typename T, typename R>
 R CosineDistance(T objectA, T objectB) { // arrays
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
@@ -125,9 +157,12 @@ R CosineDistance(T objectA, T objectB) { // arrays
     }); normB = sqrtl(normB);
     return 1. * dotProduct / normA / normB;
 }
-
 template <typename T, typename R>
-R EditDistance(T objectA, T objectB) {
+R CosineSimilarity(T objectA, T objectB) {
+    return 1. - CosineDistance<T, R>(objectA, objectB);
+}
+template <typename T>
+int EditDistance(T objectA, T objectB) {
     int lA = int(objectA.size());
     int lB = int(objectB.size());
     vector<vector<int>> dpTables(lA + 1);
@@ -145,7 +180,7 @@ R EditDistance(T objectA, T objectB) {
     }
     return dpTables[lA][lB];
 }
-template <typename T, typename R>
-R EditDistanceWithWeights(T objectA, T objectB) {
+template <typename T>
+int EditDistanceWithWeights(T objectA, T objectB) {
     // to be implemented
 }

@@ -85,7 +85,7 @@ int main(int argc, const char * argv[]) {
     vector<int> g = {3, 2, 4};
     cout << HammingDistanceIterable<vector<int>, double>(v, g) << endl;
     
-    cout << EditDistance<vector<int>, float>(v, g) << endl;
-     
+    cout << EditDistance<vector<int>>(v, g) << endl;
+    
     return 0;
 }
