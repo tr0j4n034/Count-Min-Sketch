@@ -75,37 +75,17 @@ int main(int argc, const char * argv[]) {
 //        cout << endl;
 //    }
     
-    vector<int> v, x;
-    //cout << (std::is_base_of<int, vector<int>>::value) << endl;
-    
-    int a[] = {1, 2, 3};
-//    v = {1, 2, 3};
-//    x = {10, 10, 10};
-//    vector<int> res(int(v.size()));
-//    auto xt = begin(a);
-//    transform(begin(v), end(v), begin(v), [&](int x) {
-//        return x + (*xt ++);
-//    });
-//    for (int i: v) cout << i << " "; cout << endl;
-//    for (int i: x) cout << i << " "; cout << endl;
-//    cout << "sizes = " << v.size() << " " << x.size() << endl;
-//    cout << sizeof(v) / sizeof(v[0]) << endl;
-//    cout << sizeof(x) / sizeof(x[0]) << endl;
-//    cout << EuclideanDistance<vector<int>, int>(v, x) << endl;
-    
-//    for_each(a, *(&a + 1), [](int x) {
-//        cout << x << endl;
-//    });
-
-
-    unordered_map<int, int> m;
-    m[1] = 3;
-    m[2] = 6;
-    m[3] = 10;
-    for_each(begin(m), end(m), [](auto data) {
-        cout << data.first << endl;
+    vector<int>a = {1, 2, 3};
+    int f = accumulate(begin(a), end(a), 0, [](int x, int y) {
+        return x + y * y;
     });
+    cout << f << endl;
+
+    vector<int> v = {1, 2, 4};
+    vector<int> g = {3, 2, 4};
+    cout << HammingDistanceIterable<vector<int>, double>(v, g) << endl;
     
-    
+    cout << EditDistance<vector<int>, float>(v, g) << endl;
+     
     return 0;
 }
