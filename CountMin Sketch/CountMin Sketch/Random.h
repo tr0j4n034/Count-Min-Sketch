@@ -26,7 +26,7 @@ auto isPrime(T N) {
     return true;
 }
 
-class Random {
+class Random { // PseudoRandom number generator
 private:
     int range;
     std::random_device rd;
@@ -60,3 +60,65 @@ public:
         return -1;
     }
 };
+
+template<typename T>
+class GammaRandomVar {
+    T alpha;
+    T beta;
+    default_random_engine dre;
+    gamma_distribution<T> distribution;
+    
+public:
+    GammaRandomVar() {
+        alpha = 0;
+        beta = 0;
+        distribution = gamma_distribution<T>(alpha, beta);
+    }
+    GammaRandomVar(T __alpha, T __beta) {
+        alpha = __alpha;
+        beta = __beta;
+        distribution = gamma_distribution<T>(alpha, beta);
+    }
+    T getAlpha() {
+        return alpha;
+    }
+    T getBeta() {
+        return beta;
+    }
+    T getGammaDistribution() {
+        return distribution;
+    }
+    T generate() {
+        return distribution(dre);
+    }
+};
+
+template <typename T>
+class UniformRandomVar {
+    T lowBound;
+    T highbound;
+    default_random_engine dre;
+    uniform_real_distribution<T> distribution;
+public:
+    UniformRandomVar() {
+        
+    }
+    UniformRandomVar(T __low, T __high) {
+        lowBound = __low;
+        highbound = __high;
+        distribution = uniform_real_distribution<T>(lowBound, highbound);
+    }
+    T getLowBound() {
+        return lowBound;
+    }
+    T getHighBound() {
+        return highbound;
+    }
+    T getUniformDistribution() {
+        return distribution;
+    }
+    T generate() {
+        return distribution(dre);
+    }
+};
+

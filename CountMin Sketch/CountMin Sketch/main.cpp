@@ -75,17 +75,31 @@ int main(int argc, const char * argv[]) {
 //        cout << endl;
 //    }
     
-    vector<int>a = {1, 2, 3};
-    int f = accumulate(begin(a), end(a), 0, [](int x, int y) {
-        return x + y * y;
-    });
-    cout << f << endl;
-
-    vector<int> v = {1, 2, 4};
-    vector<int> g = {3, 2, 4};
-    cout << HammingDistanceIterable<vector<int>, double>(v, g) << endl;
     
-    cout << EditDistance<vector<int>>(v, g) << endl;
+    
+    
+//    vector<int>a = {1, 2, 3};
+//    int f = accumulate(begin(a), end(a), 0, [](int x, int y) {
+//        return x + y * y;
+//    });
+//    cout << f << endl;
+//
+//    vector<int> v = {1, 2, 4};
+//    vector<int> g = {3, 2, 4};
+//    cout << HammingDistanceIterable<vector<int>, double>(v, g) << endl;
+//
+//    cout << EditDistance<vector<int>>(v, g) << endl;
+    
+    
+//    GammaRandomVar<float> g(2, 2);
+//    for (int i = 0; i < 10; i ++) {
+//        cout << i << " --> " << g.generate() << endl;
+//    }
+//    UniformRandomVar<float> u(0, 1);
+//    for (int i = 0; i < 10; i ++) {
+//        cout << "uniform: " << i << " --> " << u.generate() << endl;
+//    }
+    
     
     return 0;
 }
