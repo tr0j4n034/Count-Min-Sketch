@@ -65,7 +65,15 @@ int main(int argc, const char * argv[]) {
 //        cout << error << " " << confidence << " " << getMinErrorOnStream(stream_size, error, confidence) << endl;
 //    }
     
-    for (int stream = 4096; stream <= 20000; stream *= 2) {
+    
+    cout << "Count-Min sketch average errors over artificial datasets:" << endl;
+    cout << endl;
+    cout << "The values per line shows" << endl;
+    cout << "1. sketch error parameter" << endl;
+    cout << "2. sketch confidence parameter" << endl;
+    cout << "3. mean average error of the sketch on all possible inputs" << endl;
+    cout << endl;
+    for (int stream = 8192; stream <= 200000; stream *= 2) {
         cout << "for stream size = " << stream << endl;
         for (int e = 10; e <= 100; e += 10) {
             double error = 1. * e / 100;
@@ -77,7 +85,8 @@ int main(int argc, const char * argv[]) {
                 for (int i = 0; i < trials; i ++) {
                     errorSum += getMinErrorOnStream(stream_size, error, confidence);
                 }
-                cout << 1. * error << " " << 1. * confidence << " " << 1. * errorSum / trials << endl;
+                cout.precision(3);
+                cout << fixed << 1. * error << " " << 1. * confidence << " " << 1. * errorSum / trials << endl;
             }
         }
         cout << endl; cout << endl;
