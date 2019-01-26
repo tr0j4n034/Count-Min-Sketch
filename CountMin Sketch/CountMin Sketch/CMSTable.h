@@ -56,9 +56,14 @@ public:
         errorFactor = __error;
         confidence = __confidence;
     }
-    void setParamsViaStream(int streamSize) {
-        hashesCount = int(ceil(log(1. / (1. - confidence))));
-        tableSize = int(ceil(exp(1.) / errorFactor));
+    void setParamsViaStreamSize(int streamSize, bool ORIGINAL_PAPER_PARAMS = true) {
+        if (ORIGINAL_PAPER_PARAMS) {
+            hashesCount = int(ceil(log(1. / (1. - confidence))));
+            tableSize = int(ceil(exp(1.) / errorFactor));
+        } else {
+            hashesCount = int(ceil(log(1. / (1. - confidence)) / log(2.)));
+            tableSize = int(ceil(2. / errorFactor));
+        }
         table = vector<HashColumn<int>>(hashesCount + 1);
         for (int i = 1; i <= hashesCount; i ++) {
             table[i] = HashColumn<int>(tableSize + 1);
@@ -99,5 +104,11 @@ public:
             }
         }
         return minimumCount;
+    }
+    void clearTable() {
+        for (auto row: table) {
+            for (auto &record: row)
+                record = 0;
+        }
     }
 };
