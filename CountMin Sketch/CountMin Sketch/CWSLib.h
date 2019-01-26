@@ -12,4 +12,13 @@
 
 #endif /* CWSLib_h */
 
-cl
+template <typename T>
+class CWSEngine {
+    GammaRandomVar<T> r = GammaRandomVar<T>(2, 1);
+    GammaRandomVar<T> c = GammaRandomVar<T>(2, 1);
+    
+public:
+    CWSEngine() {
+        
+    }
+};

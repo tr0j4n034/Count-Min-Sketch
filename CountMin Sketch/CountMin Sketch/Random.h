@@ -85,9 +85,6 @@ public:
     T getBeta() {
         return beta;
     }
-    T getGammaDistribution() {
-        return distribution;
-    }
     T generate() {
         return distribution(dre);
     }
@@ -100,9 +97,7 @@ class UniformRandomVar {
     default_random_engine dre;
     uniform_real_distribution<T> distribution;
 public:
-    UniformRandomVar() {
-        
-    }
+    UniformRandomVar() {}
     UniformRandomVar(T __low, T __high) {
         lowBound = __low;
         highbound = __high;
@@ -114,11 +109,38 @@ public:
     T getHighBound() {
         return highbound;
     }
-    T getUniformDistribution() {
-        return distribution;
-    }
     T generate() {
         return distribution(dre);
     }
 };
 
+
+#if __has_include("boost/random.hpp")
+#include <boost/random.hpp>
+
+template <typename T>
+class BetaRandomVar {
+    T alpha;
+    T beta;
+    boost::random::mt19937 rng = boost::random::mt19937(unsigned(time(NULL)));
+    boost::random::beta_distribution<> distribution;
+    
+public:
+    BetaRandomVar() {}
+    BetaRandomVar(T __alpha, T __beta) {
+        alpha = __alpha;
+        beta = __beta;
+        distribution = boost::random::beta_distribution<T>(alpha, beta);
+    }
+    T getAlpha() {
+        return alpha;
+    }
+    T getBeta() {
+        return beta;
+    }
+    T generate() {
+        return distribution(rng);
+    }
+};
+
+#endif

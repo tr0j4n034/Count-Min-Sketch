@@ -15,6 +15,7 @@ using namespace std;
 #include "CMSTable.h"
 #include "Generator.h"
 #include "SimLib.h"
+#include "CWSLib.h"
 
 int main(int argc, const char * argv[]) {
 //    Hasher<int> h = Hasher<int>(4);
@@ -30,30 +31,47 @@ int main(int argc, const char * argv[]) {
 //    }
     
     
-    freopen("output.txt", "w", stdout);
+//    int seed = 2018;
+//    typedef boost::random::mt19937 RandomNumberGenerator;
+//    typedef boost::random::beta_distribution<> BetaDistribution;
+//    RandomNumberGenerator Rng(seed);
+//    BetaDistribution distribution(2,5);
+//    for (int idx = 0 ; idx < 1000 ; ++idx)
+//    {
+//        std::cout << distribution(Rng) << std::endl;
+//    }
+//
+//    cout << BOOST_VERSION << endl;
     
-    auto getMinErrorOnStream = [](int streamSize, int universeSize = 100000, double error = 0.05, double confidence = 0.95) {
-        CMSTable<int> cms;
-        cms.setParamsViaStreamSize(streamSize);
-        cms.setHashFunctions();
-        int to = streamSize;
-        vector<int> counts(to + 1);
-        for (int i = 0; i < streamSize; i ++) {
-            int position = rand() % to + 1;
-            counts[position] ++;
-        }
-        for (int i = 1; i <= streamSize; i ++) {
-            for (int j = 0; j < counts[i]; j ++) {
-                //cout << "inserting: " << i << endl;
-                cms.insertEntry(i);
-            }
-        }
-        int deltaSum = 0;
-        for (int i = 1; i <= to; i ++) {
-            deltaSum += abs(counts[i] - cms.getCount(i));
-        }
-        return 1. * deltaSum / streamSize;
-    };
+    
+    
+    
+    
+    
+//    freopen("output.txt", "w", stdout);
+//
+//    auto getMinErrorOnStream = [](int streamSize, int universeSize = 100000, double error = 0.05, double confidence = 0.95) {
+//        CMSTable<int> cms;
+//        cms.setParamsViaStreamSize(streamSize);
+//        cms.setHashFunctions();
+//        int to = streamSize;
+//        vector<int> counts(to + 1);
+//        for (int i = 0; i < streamSize; i ++) {
+//            int position = rand() % to + 1;
+//            counts[position] ++;
+//        }
+//        for (int i = 1; i <= streamSize; i ++) {
+//            for (int j = 0; j < counts[i]; j ++) {
+//                //cout << "inserting: " << i << endl;
+//                cms.insertEntry(i);
+//            }
+//        }
+//        int deltaSum = 0;
+//        for (int i = 1; i <= to; i ++) {
+//            deltaSum += abs(counts[i] - cms.getCount(i));
+//        }
+//        return 1. * deltaSum / streamSize;
+//    };
     
     //cout << getMinErrorOnStream(100000) << endl;
     
@@ -66,33 +84,33 @@ int main(int argc, const char * argv[]) {
 //    }
     
     
-    cout << "Count-Min sketch average errors over artificial datasets:" << endl;
-    cout << endl;
-    cout << "The values per line shows" << endl;
-    cout << "1. sketch error parameter" << endl;
-    cout << "2. sketch confidence parameter" << endl;
-    cout << "3. mean average error of the sketch on all possible inputs" << endl;
-    cout << endl;
-    for (int stream = 8192; stream <= 200000; stream *= 2) {
-        cout << "for stream size = " << stream << endl;
-        for (int e = 10; e <= 100; e += 10) {
-            double error = 1. * e / 100;
-            for (int c = 10; c <= 100; c += 10) {
-                double confidence = 1. * c / 100;
-                int stream_size = stream;
-                double errorSum = 0.;
-                int trials = 10;
-                for (int i = 0; i < trials; i ++) {
-                    errorSum += getMinErrorOnStream(stream_size, error, confidence);
-                }
-                cout.precision(3);
-                cout << fixed << 1. * error << " " << 1. * confidence << " " << 1. * errorSum / trials << endl;
-            }
-        }
-        cout << endl; cout << endl;
-        cout << "--------------------" << endl;
-        cout << endl;
-    }
+//    cout << "Count-Min sketch average errors over artificial datasets:" << endl;
+//    cout << endl;
+//    cout << "The values per line shows" << endl;
+//    cout << "1. sketch error parameter" << endl;
+//    cout << "2. sketch confidence parameter" << endl;
+//    cout << "3. mean average error of the sketch on all possible inputs" << endl;
+//    cout << endl;
+//    for (int stream = 8192; stream <= 200000; stream *= 2) {
+//        cout << "for stream size = " << stream << endl;
+//        for (int e = 10; e <= 100; e += 10) {
+//            double error = 1. * e / 100;
+//            for (int c = 10; c <= 100; c += 10) {
+//                double confidence = 1. * c / 100;
+//                int stream_size = stream;
+//                double errorSum = 0.;
+//                int trials = 10;
+//                for (int i = 0; i < trials; i ++) {
+//                    errorSum += getMinErrorOnStream(stream_size, error, confidence);
+//                }
+//                cout.precision(3);
+//                cout << fixed << 1. * error << " " << 1. * confidence << " " << 1. * errorSum / trials << endl;
+//            }
+//        }
+//        cout << endl; cout << endl;
+//        cout << "--------------------" << endl;
+//        cout << endl;
+//    }
     
     
     
