@@ -16,7 +16,7 @@ template <typename T>
 class CWSEngine {
     GammaRandomVar<T> r = GammaRandomVar<T>(2, 1);
     GammaRandomVar<T> c = GammaRandomVar<T>(2, 1);
-    
+    UniformRandomVar<T> b = UniformRandomVar<T>(0, 1);
 public:
     CWSEngine() {
         
