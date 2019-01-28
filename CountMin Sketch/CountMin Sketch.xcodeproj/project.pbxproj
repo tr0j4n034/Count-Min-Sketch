@@ -30,6 +30,7 @@
 		510513E021ECB65F004167EA /* CMSTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMSTable.h; sourceTree = "<group>"; };
 		511B61A821F1097600CE50F1 /* Generator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generator.h; sourceTree = "<group>"; };
 		511B61A921F1151A00CE50F1 /* SimLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimLib.h; sourceTree = "<group>"; };
+		513AED3921FEDE5D00241617 /* CWSSketch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWSSketch.h; sourceTree = "<group>"; };
 		518DA17121FCAFF40074D447 /* CWSLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWSLib.h; sourceTree = "<group>"; };
 		51CC541221EDB3EC00456ADF /* SegmentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentTree.h; sourceTree = "<group>"; };
 		51E6323121ED124000D17F76 /* Hasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hasher.h; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 			children = (
 				510513D721ECA4B6004167EA /* main.cpp */,
 				518DA17121FCAFF40074D447 /* CWSLib.h */,
+				513AED3921FEDE5D00241617 /* CWSSketch.h */,
 				511B61A821F1097600CE50F1 /* Generator.h */,
 				511B61A921F1151A00CE50F1 /* SimLib.h */,
 				510513E021ECB65F004167EA /* CMSTable.h */,

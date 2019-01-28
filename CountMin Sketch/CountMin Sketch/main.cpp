@@ -45,37 +45,49 @@ int main(int argc, const char * argv[]) {
     
     
     
-    freopen("output.txt", "w", stdout);
-
-    auto getMinErrorOnStream = [](int streamSize, int universeSize = 100000, double error = 0.05, double confidence = 0.95) {
-        CMSTable<int> cms;
-        cms.setParamsViaStreamSize(streamSize);
-        cms.setHashFunctions();
-        int to = streamSize;
-        vector<int> counts(to + 1);
-        for (int i = 0; i < streamSize; i ++) {
-            int position = rand() % to + 1;
-            counts[position] ++;
-        }
-        for (int i = 1; i <= streamSize; i ++) {
-            for (int j = 0; j < counts[i]; j ++) {
-                //cout << "inserting: " << i << endl;
-                cms.insertEntry(i);
-            }
-        }
-        int deltaSum = 0;
-        for (int i = 1; i <= to; i ++) {
-            deltaSum += abs(counts[i] - cms.getCount(i));
-        }
-        return 1. * deltaSum / streamSize;
-    };
+//    freopen("output.txt", "w", stdout);
+//
+//    auto getMinErrorOnStream = [](int streamSize, int universeSize = 100000, double error = 0.05, double confidence = 0.95) {
+//        CMSTable<int> cms;
+//        cms.setParamsViaStreamSize(streamSize);
+//        cms.setHashFunctions();
+//        int to = streamSize;
+//        vector<int> counts(to + 1);
+//        for (int i = 0; i < streamSize; i ++) {
+//            int position = rand() % to + 1;
+//            counts[position] ++;
+//        }
+//        for (int i = 1; i <= streamSize; i ++) {
+//            for (int j = 0; j < counts[i]; j ++) {
+//                //cout << "inserting: " << i << endl;
+//                cms.insertEntry(i);
+//            }
+//        }
+//        int deltaSum = 0;
+//        for (int i = 1; i <= to; i ++) {
+//            deltaSum += abs(counts[i] - cms.getCount(i));
+//        }
+//        return 1. * deltaSum / streamSize;
+//    };
+//
+//    for (int i = 0; i < 1000; i ++) {
+//        double error = 0.01 * (rand() % 100 + 1);
+//        double confidence = 0.01 * (rand() % 100 + 1);
+//        int stream_size = int(100000 * max(0.5, error / confidence));
+//        cout << error << " " << confidence << " " << getMinErrorOnStream(stream_size, error, confidence) << endl;
+//    }
     
-    for (int i = 0; i < 1000; i ++) {
-        double error = 0.01 * (rand() % 100 + 1);
-        double confidence = 0.01 * (rand() % 100 + 1);
-        int stream_size = int(100000 * max(0.5, error / confidence));
-        cout << error << " " << confidence << " " << getMinErrorOnStream(stream_size, error, confidence) << endl;
+    
+    vector<int> v = {1, 2, 10, 6, 4, 7};
+    CWSEngine<double> cwse;
+    CWSSketch<double> sk = cwse.getSketchIterable(v);
+    
+    for (double v: sk.getSketchElems()) {
+        cout << v << endl;
     }
+    
+    
+    
     
     
 //    cout << "Count-Min sketch average errors over artificial datasets:" << endl;

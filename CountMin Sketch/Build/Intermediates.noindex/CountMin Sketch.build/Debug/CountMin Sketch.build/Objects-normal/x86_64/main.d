@@ -650,4 +650,5 @@ dependencies: \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random/weibull_distribution.hpp \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Generator.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/SimLib.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.h
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.h \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSSketch.h
