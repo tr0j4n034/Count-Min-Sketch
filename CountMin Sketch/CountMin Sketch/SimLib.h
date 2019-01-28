@@ -76,21 +76,23 @@ R ManhattanDistance(T objectA, T objectB) { // arrays
 }
 template <typename T, typename dt, typename R>
 R JaccardDistanceIterable(T objectA, T objectB) { // vectors and other iterables
-    unordered_map<dt, int> mapA, mapB;
-    unordered_map<dt, int> mapUnion;
-    for_each(begin(objectA), end(objectA), [=](dt value) {
+    unordered_map<int, int> mapA, mapB;
+    unordered_map<int, int> mapUnion;
+    for_each(begin(objectA), end(objectA), [&](auto value) {
         mapA[value] ++;
     });
-    for_each(begin(objectB), end(objectB), [=](dt value) {
+    for_each(begin(objectB), end(objectB), [&](auto value) {
         mapB[value] ++;
     });
     int intersection = 0;
-    for_each(begin(mapA), end(mapA), [=](auto record) {
-        if (mapB.count(record))
+    for_each(begin(mapA), end(mapA), [&](auto record) {
+        if (mapB.count(record.first))
             intersection += min(record.second, mapB[record.first]);
     });
+    cout << "intersection = " << intersection << endl;
     int unionSize = (int)objectA.size() + (int)objectB.size();
-    return 1. - intersection / unionSize;
+    cout << "unionSize = " << unionSize << endl;
+    return 1. - 1. * intersection / unionSize;
 }
 template <typename T, typename dt, typename R>
 R JaccardSimilarityIterable(T objectA, T objectB) { // vectors and other iterables

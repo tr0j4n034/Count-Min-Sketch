@@ -19,13 +19,22 @@
 
 const int MAX_BIT = 29;
 
-vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) {
+
+vector<int> generateRandomList(int setSize, int maxRange = 1 << 20) {
+    Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
+    vector<int> list(setSize);
+    for (auto &element: list) {
+        element = device.generate(1, maxRange);
+    }
+    return list;
+}
+vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) { // matrix
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
     vector<vector<int>> v(dataSetSize);
     for (auto list: v) list.resize(setSize);
     for (auto list: v) {
         for (auto &element: list)
-            element = device.generate(2, maxRange);
+            element = device.generate(1, maxRange);
     }
     return v;
 }
@@ -37,7 +46,7 @@ vector<vector<int>> generateRandomPair(int sizeA, int sizeB = -1, bool sameSize 
     v[1].resize(sizeB);
     for (auto list: v) {
         for (auto &element: list) {
-            element = device.generate(2, maxRange);
+            element = device.generate(1, maxRange);
         }
     }
     return v;

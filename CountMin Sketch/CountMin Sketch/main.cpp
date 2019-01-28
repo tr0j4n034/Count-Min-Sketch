@@ -18,6 +18,43 @@ using namespace std;
 #include "CWSLib.h"
 
 int main(int argc, const char * argv[]) {
+    int streamSize = 10000;
+    int streamMax = 1 << 10;
+    vector<int> data1 = generateRandomList(streamSize, streamMax);
+//    copy(begin(data1), end(data1),
+//         ostream_iterator<int>(cout, " "));
+//    cout << endl;
+//
+//    cout << endl;
+    
+    vector<int> data2 = generateRandomList(streamSize, streamMax);
+//    copy(begin(data1), end(data1),
+//         ostream_iterator<int>(cout, " "));
+//    cout << endl;
+    
+    //    vector<int> v = {1, 2, 10, 6, 4, 7};
+    //    CWSEngine<double> cwse;
+    //    CWSSketch<double> sk = cwse.getSketchIterable(v);
+    //
+    //    for (double v: sk.getSketchElems()) {
+    //        cout << v << endl;
+    //    }
+    
+    int sketchSize = 100;
+    CWSEngine<double> cwse;
+    CWSSketch<double> sk1 = cwse.getSketchIterable(data1, sketchSize);
+    CWSSketch<double> sk2 = cwse.getSketchIterable(data2, sketchSize);
+    vector<double> skelems1 = sk1.getSketchElems();
+    vector<double> skelems2 = sk2.getSketchElems();
+    
+//    cout << "Jaccard distances between data: ";
+//    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
+//    cout << "Jaccard distance between CWS sketches: ";
+//    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
+
+    cout << EuclideanDistanceIterable<vector<int>, double>(data1, data2) / sqrt(streamSize) << endl;
+    cout << EuclideanDistanceIterable<vector<double>, double>(skelems1, skelems2) / sqrt(sketchSize) << endl;
+    
 //    Hasher<int> h = Hasher<int>(4);
 //    cout << h.getA() << endl;
 //
@@ -78,13 +115,16 @@ int main(int argc, const char * argv[]) {
 //    }
     
     
-    vector<int> v = {1, 2, 10, 6, 4, 7};
-    CWSEngine<double> cwse;
-    CWSSketch<double> sk = cwse.getSketchIterable(v);
+//    vector<int> v = {1, 2, 10, 6, 4, 7};
+//    CWSEngine<double> cwse;
+//    CWSSketch<double> sk = cwse.getSketchIterable(v);
+//
+//    for (double v: sk.getSketchElems()) {
+//        cout << v << endl;
+//    }
     
-    for (double v: sk.getSketchElems()) {
-        cout << v << endl;
-    }
+    
+    
     
     
     
@@ -165,17 +205,17 @@ int main(int argc, const char * argv[]) {
     
     
     
-//    vector<int>a = {1, 2, 3};
-//    int f = accumulate(begin(a), end(a), 0, [](int x, int y) {
-//        return x + y * y;
-//    });
-//    cout << f << endl;
-//
+    
+    
 //    vector<int> v = {1, 2, 4};
 //    vector<int> g = {3, 2, 4};
 //    cout << HammingDistanceIterable<vector<int>, double>(v, g) << endl;
 //
 //    cout << EditDistance<vector<int>>(v, g) << endl;
+    
+    
+    
+    
     
     
 //    GammaRandomVar<float> g(2, 2);

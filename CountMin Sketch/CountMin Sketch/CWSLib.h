@@ -26,11 +26,29 @@ public:
         b = UniformRandomVar<T>(0, 1);
     }
     template<typename R>
-    CWSSketch<T> getSketchIterable(R &stream, int sketchSize = 5) {
+    CWSSketch<T> getSketchIterable(R &stream, int sketchSize = 5) { // vectors and other iterables
         CWSSketch<T> sk;
         for (int it = 0; it < sketchSize; it ++) {
             T minHashElement, minHash = 1e308;
-            for_each(begin(stream), end(stream), [&](auto &element){
+            for_each(begin(stream), end(stream), [&](auto &element) {
+                T rval = r.generate();
+                T y = exp(log(element) + rval * b.generate());
+                T aux = c.generate() / (y * exp(rval));
+                if (aux < minHash) {
+                    minHashElement = element;
+                    minHash = aux;
+                }
+            });
+            sk.append(minHashElement, minHash);
+        }
+        return sk;
+    }
+    template<typename R>
+    CWSSketch<T> getSketch(R &stream, int sketchSize = 5) { // arrays
+        CWSSketch<T> sk;
+        for (int it = 0; it < sketchSize; it ++) {
+            T minHashElement, minHash = 1e308;
+            for_each(stream, *(&stream + 1), [&](auto &element) {
                 T rval = r.generate();
                 T y = exp(log(element) + rval * b.generate());
                 T aux = c.generate() / (y * exp(rval));
