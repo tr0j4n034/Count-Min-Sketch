@@ -40,18 +40,21 @@ int main(int argc, const char * argv[]) {
     //        cout << v << endl;
     //    }
     
-    int sketchSize = 100;
+    int sketchSize = 1000;
     CWSEngine<double> cwse;
     CWSSketch<double> sk1 = cwse.getSketchIterable(data1, sketchSize);
     CWSSketch<double> sk2 = cwse.getSketchIterable(data2, sketchSize);
     vector<double> skelems1 = sk1.getSketchElems();
     vector<double> skelems2 = sk2.getSketchElems();
     
-//    cout << "Jaccard distances between data: ";
-//    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
-//    cout << "Jaccard distance between CWS sketches: ";
-//    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
-
+    cout << "Jaccard distances between data: ";
+    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
+    cout << "Jaccard distance between CWS sketches: ";
+    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
+    
+    cout << endl;
+    
+    cout << "Euclidean distances in the same fashion:" << endl;
     cout << EuclideanDistanceIterable<vector<int>, double>(data1, data2) / sqrt(streamSize) << endl;
     cout << EuclideanDistanceIterable<vector<double>, double>(skelems1, skelems2) / sqrt(sketchSize) << endl;
     

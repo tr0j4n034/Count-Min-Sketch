@@ -17,6 +17,7 @@
 #include <ctime>
 #include <cstdlib>
 
+
 const int MAX_BIT = 29;
 
 
@@ -28,7 +29,7 @@ vector<int> generateRandomList(int setSize, int maxRange = 1 << 20) {
     }
     return list;
 }
-vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) { // matrix
+vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
     vector<vector<int>> v(dataSetSize);
     for (auto list: v) list.resize(setSize);

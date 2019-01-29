@@ -59,6 +59,13 @@ public:
         }
         return -1;
     }
+    vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1) {
+        vector<int> list(size);
+        for_each(begin(list), end(list), [=](int &elem) {
+            elem = scalingFactor * generate(minValue, maxValue);
+        });
+        return list;
+    }
 };
 
 template<typename T>
@@ -88,6 +95,13 @@ public:
     T generate() {
         return distribution(dre);
     }
+    vector<T> generateList(int size, T scalingFactor = 1) {
+        vector<T> list(size);
+        for_each(begin(list), end(list), [=](T &elem) {
+            elem = scalingFactor * generate();
+        });
+        return list;
+    }
 };
 
 template <typename T>
@@ -111,6 +125,13 @@ public:
     }
     T generate() {
         return distribution(dre);
+    }
+    vector<T> generateList(int size, T scalingFactor = 1) {
+        vector<T> list(size);
+        for_each(begin(list), end(list), [=](T &elem) {
+            elem = scalingFactor * generate();
+        });
+        return list;
     }
 };
 
@@ -140,6 +161,13 @@ public:
     }
     T generate() {
         return distribution(rng);
+    }
+    vector<T> generateList(int size, T scalingFactor = 1) {
+        vector<T> list(size);
+        for_each(begin(list), end(list), [=](T &elem) {
+            elem = scalingFactor * generate();
+        });
+        return list;
     }
 };
 
