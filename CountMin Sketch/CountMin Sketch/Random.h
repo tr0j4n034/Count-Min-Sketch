@@ -79,11 +79,13 @@ public:
     GammaRandomVar() {
         alpha = 0;
         beta = 0;
+        dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
         distribution = gamma_distribution<T>(alpha, beta);
     }
     GammaRandomVar(T __alpha, T __beta) {
         alpha = __alpha;
         beta = __beta;
+        dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
         distribution = gamma_distribution<T>(alpha, beta);
     }
     T getAlpha() {
@@ -115,6 +117,7 @@ public:
     UniformRandomVar(T __low, T __high) {
         lowBound = __low;
         highbound = __high;
+        dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
         distribution = uniform_real_distribution<T>(lowBound, highbound);
     }
     T getLowBound() {
@@ -143,7 +146,7 @@ template <typename T>
 class BetaRandomVar {
     T alpha;
     T beta;
-    boost::random::mt19937 rng = boost::random::mt19937(unsigned(time(NULL)));
+    boost::random::mt19937 rng = boost::random::mt19937(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
     boost::random::beta_distribution<> distribution;
     
 public:

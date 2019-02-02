@@ -16,6 +16,7 @@
 #include <cmath>
 
 #include <cassert>
+#include <map>
 #include <unordered_map>
 
 template <typename T, typename R>
@@ -75,7 +76,7 @@ R ManhattanDistance(T objectA, T objectB) { // arrays
     return sqrt(result);
 }
 template <typename T, typename dt, typename R>
-R JaccardDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted = false) { // vectors and other iterables
     unordered_map<int, int> mapA, mapB;
     unordered_map<int, int> mapUnion;
     for_each(begin(objectA), end(objectA), [&](auto value) {
@@ -88,17 +89,16 @@ R JaccardDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     int unionSize = 0;
     for_each(begin(mapA), end(mapA), [&](auto record) {
         if (mapB.count(record.first)) {
-            intersection += min(record.second, mapB[record.first]);
-            unionSize += max(record.second, mapB[record.first]);
+            intersection += makeUnweighted ? 1 : min(record.second, mapB[record.first]);
+            unionSize += makeUnweighted ? 1 : max(record.second, mapB[record.first]);
         } else {
-            unionSize += record.second;
+            unionSize += makeUnweighted ? 1 : record.second;
         }
     });
     for_each(begin(mapB), end(mapB), [&](auto record) {
         if (!mapA.count(record.first))
-            unionSize += record.second;
+            unionSize += makeUnweighted ? 1 : record.second;
     });
-    cout << "inters: " << intersection << ", union: " << unionSize << endl;
     return 1. - 1. * intersection / unionSize;
 }
 template <typename T, typename dt, typename R>
@@ -194,3 +194,20 @@ int EditDistanceWithWeights(T objectA, T objectB) {
     // to be implemented
 }
 
+
+template <typename T = vector<int>, typename R = int>
+map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
+    map<R, int> bins;
+    for_each(begin(stream), end(stream), [&](R record) {
+        bins[record] ++;
+    });
+    return bins;
+}
+template <typename T, typename R = int>
+map<R, int> StreamToBins(T &stream) { // arrays
+    map<R, int> bins;
+    for_each(begin(stream), end(stream), [&](R record) {
+        bins[record] ++;
+    });
+    return bins;
+}

@@ -21,39 +21,52 @@ class CWSEngine {
     UniformRandomVar<T> b;
 public:
     CWSEngine() {
-        r = GammaRandomVar<T>(2, 1);
-        c = GammaRandomVar<T>(2, 1);
-        b = UniformRandomVar<T>(0, 1);
+        r = GammaRandomVar<T>(2., 1.);
+        c = GammaRandomVar<T>(2., 1.);
+        b = UniformRandomVar<T>(0., 1.);
     }
-    template<typename R>
+    void resetVars() {
+        r = GammaRandomVar<T>(2., 1.);
+        c = GammaRandomVar<T>(2., 1.);
+        b = UniformRandomVar<T>(0., 1.);
+    }
+    template<typename R, typename V = int>
     CWSSketch<T> getSketchIterable(R &stream, int sketchSize = 5) { // vectors and other iterables
         CWSSketch<T> sk;
+        map<V, int> streamBins = StreamToBinsIterable(stream);
         for (int it = 0; it < sketchSize; it ++) {
+            resetVars();
             T minHashElement, minHash = 1e308;
-            for_each(begin(stream), end(stream), [&](auto &element) {
+            for_each(begin(streamBins), end(streamBins), [&](auto &element) {
                 T rval = r.generate();
-                T y = exp(log(element) + rval * b.generate());
-                T aux = c.generate() / (y * exp(rval));
+                T bval = b.generate();
+                T cval = c.generate();
+                T delta = rval * (int(log(element.second / rval + bval)) - bval);
+                T y = exp(delta);
+                T z = y * exp(rval);
+                T aux = cval / z;
                 if (aux < minHash) {
-                    minHashElement = element;
+                    minHashElement = element.first;
                     minHash = aux;
                 }
             });
             sk.append(minHashElement, minHash);
+            cout << minHashElement << endl;
         }
         return sk;
     }
-    template<typename R>
+    template<typename R, typename V = int>
     CWSSketch<T> getSketch(R &stream, int sketchSize = 5) { // arrays
         CWSSketch<T> sk;
+        map<V, int> streamBins = StreamToBins(stream);
         for (int it = 0; it < sketchSize; it ++) {
             T minHashElement, minHash = 1e308;
             for_each(stream, *(&stream + 1), [&](auto &element) {
                 T rval = r.generate();
-                T y = exp(log(element) + rval * b.generate());
+                T y = exp(log(element.second) + rval * b.generate());
                 T aux = c.generate() / (y * exp(rval));
                 if (aux < minHash) {
-                    minHashElement = element;
+                    minHashElement = element.first;
                     minHash = aux;
                 }
             });

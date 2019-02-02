@@ -22,24 +22,26 @@ int main(int argc, const char * argv[]) {
     
     // 644 619 925 415 77 64 974 842 923 888
     
-    int streamSize = 10;
-    int streamMax = 1 << 10;
+    int streamSize = 100;
+    int streamMax = 1 << 15;
     vector<int> data1 = generateRandomList(streamSize, streamMax);
     
-    data1 = {25, 644, 32, 619, 332, 925, 415, 77, 64, 974 };
+    //data1 = {25, 644, 32, 619, 332, 925, 415, 77, 64, 974 };
     
-    copy(begin(data1), end(data1),
-         ostream_iterator<int>(cout, " "));
-    cout << endl;
-
-    cout << endl;
+    //iota(data1.begin(), data1.end(), 1);
+    
+//    copy(begin(data1), end(data1),
+//         ostream_iterator<int>(cout, " "));
+//    cout << endl;
+//
+//    cout << endl;
 
     vector<int> data2 = generateRandomList(streamSize, streamMax);
-    data2 = {644, 619, 925, 415, 77, 64, 974, 842, 923, 888};
+    //data2 = {644, 619, 925, 415, 77, 64, 974, 842, 923, 888};
     
-    copy(begin(data2), end(data2),
-         ostream_iterator<int>(cout, " "));
-    cout << endl;
+//    copy(begin(data2), end(data2),
+//         ostream_iterator<int>(cout, " "));
+//    cout << endl;
 
     //    vector<int> v = {1, 2, 10, 6, 4, 7};
     //    CWSEngine<double> cwse;
@@ -49,17 +51,21 @@ int main(int argc, const char * argv[]) {
     //        cout << v << endl;
     //    }
 
-    int sketchSize = 10;
+    int sketchSize = 100;
     CWSEngine<double> cwse;
     CWSSketch<double> sk1 = cwse.getSketchIterable(data1, sketchSize);
     CWSSketch<double> sk2 = cwse.getSketchIterable(data2, sketchSize);
     vector<double> skelems1 = sk1.getSketchElems();
     vector<double> skelems2 = sk2.getSketchElems();
-
+    
+    cout << "sketches here:" << endl;
+    //copy(begin(skelems1), end(skelems1), ostream_iterator<double>(cout, " ")); cout << endl;
+    //copy(begin(skelems2), end(skelems2), ostream_iterator<double>(cout, " ")); cout << endl;
+    
     cout << "Jaccard distances between data: ";
-    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
+    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2, false) << endl;
     cout << "Jaccard distance between CWS sketches: ";
-    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
+    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2, false) << endl;
 
     cout << endl;
 
