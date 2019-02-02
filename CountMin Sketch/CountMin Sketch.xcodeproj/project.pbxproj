@@ -25,14 +25,14 @@
 /* Begin PBXFileReference section */
 		510513D421ECA4B6004167EA /* CountMin Sketch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CountMin Sketch"; sourceTree = BUILT_PRODUCTS_DIR; };
 		510513D721ECA4B6004167EA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		510513DE21ECA4DC004167EA /* Fenwick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fenwick.h; sourceTree = "<group>"; };
 		510513DF21ECA7F4004167EA /* HashColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HashColumn.h; sourceTree = "<group>"; };
 		510513E021ECB65F004167EA /* CMSTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMSTable.h; sourceTree = "<group>"; };
 		511B61A821F1097600CE50F1 /* Generator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generator.h; sourceTree = "<group>"; };
 		511B61A921F1151A00CE50F1 /* SimLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimLib.h; sourceTree = "<group>"; };
 		513AED3921FEDE5D00241617 /* CWSSketch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWSSketch.h; sourceTree = "<group>"; };
+		5179399D22004AB40003F1A9 /* Fenwick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fenwick.h; sourceTree = "<group>"; };
+		5179399E22004AB40003F1A9 /* SegmentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentTree.h; sourceTree = "<group>"; };
 		518DA17121FCAFF40074D447 /* CWSLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWSLib.h; sourceTree = "<group>"; };
-		51CC541221EDB3EC00456ADF /* SegmentTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentTree.h; sourceTree = "<group>"; };
 		51E6323121ED124000D17F76 /* Hasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hasher.h; sourceTree = "<group>"; };
 		51E6323221ED1A0C00D17F76 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,8 +76,8 @@
 				51E6323121ED124000D17F76 /* Hasher.h */,
 				51E6323221ED1A0C00D17F76 /* Random.h */,
 				510513DF21ECA7F4004167EA /* HashColumn.h */,
-				510513DE21ECA4DC004167EA /* Fenwick.h */,
-				51CC541221EDB3EC00456ADF /* SegmentTree.h */,
+				5179399D22004AB40003F1A9 /* Fenwick.h */,
+				5179399E22004AB40003F1A9 /* SegmentTree.h */,
 			);
 			path = "CountMin Sketch";
 			sourceTree = "<group>";

@@ -3,7 +3,6 @@ dependencies: \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CMSTable.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/HashColumn.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Fenwick.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/SegmentTree.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Hasher.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Random.h \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random.hpp \

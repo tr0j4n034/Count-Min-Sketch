@@ -15,7 +15,6 @@
 #include <functional>
 
 #include "Fenwick.h"
-#include "SegmentTree.h"
 
 template <typename T>
 class HashColumn {

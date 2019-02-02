@@ -17,9 +17,7 @@
 #include <ctime>
 #include <cstdlib>
 
-
 const int MAX_BIT = 29;
-
 
 vector<int> generateRandomList(int setSize, int maxRange = 1 << 20) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
@@ -29,6 +27,48 @@ vector<int> generateRandomList(int setSize, int maxRange = 1 << 20) {
     }
     return list;
 }
+template <typename T = double>
+vector<T> generateRandomListViaGamma(int setSize, GammaRandomVar<T> g, double scaler = 1.) {
+     vector<T> list(setSize);
+     for (auto &element: list) {
+         element = T(scaler * g.generate());
+     }
+     return list;
+}
+template <typename T = double>
+vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, double scaler = 1.) {
+    GammaRandomVar<T> g = GammaRandomVar<T>(alpha, beta);
+    cout << alpha << " " << beta << endl;
+    cout << g.generate() << endl;
+    vector<T> list(setSize);
+    for (auto &element: list) {
+        element = T(scaler * g.generate());
+    }
+    return list;
+}
+
+#if __has_include("boost/random.hpp")
+template<typename T = double>
+vector<T> generateRandomListViaBeta(int setSize, BetaRandomVar<T> b, double scaler = 1.) {
+    vector<T> list(setSize);
+    for (auto &element: list) {
+        element = T(scaler * b.generate());
+    }
+    return list;
+}
+template<typename T = double>
+vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double scaler = 1.) {
+    BetaRandomVar<T> b(alpha, beta);
+    vector<T> list(setSize);
+    for (auto &element: list) {
+        element = T(scaler * b.generate());
+    }
+    return list;
+}
+#endif
+
+
+
 vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
     vector<vector<int>> v(dataSetSize);
