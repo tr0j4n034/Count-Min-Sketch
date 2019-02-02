@@ -90,12 +90,15 @@ R JaccardDistanceIterable(T objectA, T objectB) { // vectors and other iterables
         if (mapB.count(record.first)) {
             intersection += min(record.second, mapB[record.first]);
             unionSize += max(record.second, mapB[record.first]);
+        } else {
+            unionSize += record.second;
         }
     });
     for_each(begin(mapB), end(mapB), [&](auto record) {
         if (!mapA.count(record.first))
             unionSize += record.second;
     });
+    cout << "inters: " << intersection << ", union: " << unionSize << endl;
     return 1. - 1. * intersection / unionSize;
 }
 template <typename T, typename dt, typename R>

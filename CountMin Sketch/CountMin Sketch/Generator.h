@@ -67,8 +67,6 @@ vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double s
 }
 #endif
 
-
-
 vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange = 1 << 20) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
     vector<vector<int>> v(dataSetSize);

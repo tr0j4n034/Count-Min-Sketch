@@ -18,52 +18,61 @@ using namespace std;
 #include "CWSLib.h"
 
 int main(int argc, const char * argv[]) {
-//    int streamSize = 10000;
-//    int streamMax = 1 << 10;
-//    vector<int> data1 = generateRandomList(streamSize, streamMax);
-////    copy(begin(data1), end(data1),
-////         ostream_iterator<int>(cout, " "));
-////    cout << endl;
-////
-////    cout << endl;
-//
-//    vector<int> data2 = generateRandomList(streamSize, streamMax);
-////    copy(begin(data1), end(data1),
-////         ostream_iterator<int>(cout, " "));
-////    cout << endl;
-//
-//    //    vector<int> v = {1, 2, 10, 6, 4, 7};
-//    //    CWSEngine<double> cwse;
-//    //    CWSSketch<double> sk = cwse.getSketchIterable(v);
-//    //
-//    //    for (double v: sk.getSketchElems()) {
-//    //        cout << v << endl;
-//    //    }
-//
-//    int sketchSize = 1000;
-//    CWSEngine<double> cwse;
-//    CWSSketch<double> sk1 = cwse.getSketchIterable(data1, sketchSize);
-//    CWSSketch<double> sk2 = cwse.getSketchIterable(data2, sketchSize);
-//    vector<double> skelems1 = sk1.getSketchElems();
-//    vector<double> skelems2 = sk2.getSketchElems();
-//
-//    cout << "Jaccard distances between data: ";
-//    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
-//    cout << "Jaccard distance between CWS sketches: ";
-//    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
-//
-//    cout << endl;
-//
-//    cout << "Euclidean distances in the same fashion:" << endl;
-//    cout << EuclideanDistanceIterable<vector<int>, double>(data1, data2) / sqrt(streamSize) << endl;
-//    cout << EuclideanDistanceIterable<vector<double>, double>(skelems1, skelems2) / sqrt(sketchSize) << endl;
-//
-//
+    // 25 644 32 619 332 925 415 77 64 974
+    
+    // 644 619 925 415 77 64 974 842 923 888
+    
+    int streamSize = 10;
+    int streamMax = 1 << 10;
+    vector<int> data1 = generateRandomList(streamSize, streamMax);
+    
+    data1 = {25, 644, 32, 619, 332, 925, 415, 77, 64, 974 };
+    
+    copy(begin(data1), end(data1),
+         ostream_iterator<int>(cout, " "));
+    cout << endl;
+
+    cout << endl;
+
+    vector<int> data2 = generateRandomList(streamSize, streamMax);
+    data2 = {644, 619, 925, 415, 77, 64, 974, 842, 923, 888};
+    
+    copy(begin(data2), end(data2),
+         ostream_iterator<int>(cout, " "));
+    cout << endl;
+
+    //    vector<int> v = {1, 2, 10, 6, 4, 7};
+    //    CWSEngine<double> cwse;
+    //    CWSSketch<double> sk = cwse.getSketchIterable(v);
+    //
+    //    for (double v: sk.getSketchElems()) {
+    //        cout << v << endl;
+    //    }
+
+    int sketchSize = 10;
+    CWSEngine<double> cwse;
+    CWSSketch<double> sk1 = cwse.getSketchIterable(data1, sketchSize);
+    CWSSketch<double> sk2 = cwse.getSketchIterable(data2, sketchSize);
+    vector<double> skelems1 = sk1.getSketchElems();
+    vector<double> skelems2 = sk2.getSketchElems();
+
+    cout << "Jaccard distances between data: ";
+    cout << JaccardDistanceIterable<vector<int>, int, double>(data1, data2) << endl;
+    cout << "Jaccard distance between CWS sketches: ";
+    cout << JaccardDistanceIterable<vector<double>, double, double>(skelems1, skelems2) << endl;
+
+    cout << endl;
+
+    cout << "Euclidean distances in the same fashion:" << endl;
+    cout << EuclideanDistanceIterable<vector<int>, double>(data1, data2) / sqrt(streamSize) << endl;
+    cout << EuclideanDistanceIterable<vector<double>, double>(skelems1, skelems2) / sqrt(sketchSize) << endl;
+
+
     
 
-    vector<double> v = generateRandomListViaBetaParams<double>(10, 1, 3);
-    copy(v.begin(), v.end(), ostream_iterator<double>(cout, " "));
-    cout << endl;
+//    vector<double> v = generateRandomListViaBetaParams<double>(10, 1, 3);
+//    copy(v.begin(), v.end(), ostream_iterator<double>(cout, " "));
+//    cout << endl;
     
     
     
