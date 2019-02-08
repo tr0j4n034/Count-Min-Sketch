@@ -6,6 +6,8 @@
 //  Copyright © 2019 Mahmud. All rights reserved.
 //
 
+#pragma once
+
 #ifndef Random_h
 #define Random_h
 

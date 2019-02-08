@@ -194,7 +194,6 @@ int EditDistanceWithWeights(T objectA, T objectB) {
     // to be implemented
 }
 
-
 template <typename T = vector<int>, typename R = int>
 map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
     map<R, int> bins;
@@ -206,8 +205,12 @@ map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
 template <typename T, typename R = int>
 map<R, int> StreamToBins(T &stream) { // arrays
     map<R, int> bins;
-    for_each(begin(stream), end(stream), [&](R record) {
+    for_each(stream, *(&stream + 1), [&](R record) {
         bins[record] ++;
     });
     return bins;
+}
+template<typename T = int, typename R = double>
+R JaccardDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB) {
+    
 }

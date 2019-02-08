@@ -6,6 +6,8 @@
 //  Copyright © 2019 Mahmud. All rights reserved.
 //
 
+#pragma once
+
 #ifndef CMSTable_h
 #define CMSTable_h
 
@@ -16,6 +18,7 @@
 #include "Hasher.h"
 
 #include <cmath>
+#include <algorithm>
 
 template <typename T>
 class CMSTable {
@@ -30,7 +33,7 @@ public:
     CMSTable() {
         hashesCount = 0;
         tableSize = 0;
-        errorFactor = 0.00005;
+        errorFactor = 0.05;
         confidence = 0.99;
     }
     CMSTable(int __hashCount, int __tableSize) {
@@ -43,7 +46,7 @@ public:
         for (int i = 0; i < hashesCount + 1; i ++) {
             hashFunctions.push_back(Hasher<T>(2, 2, 2));
         }
-        errorFactor = 0.00005;
+        errorFactor = 0.05;
         confidence = 0.99;
     }
     CMSTable(int __hashCount, int __tableSize, vector<HashColumn<T>> __table) {
@@ -56,7 +59,7 @@ public:
         errorFactor = __error;
         confidence = __confidence;
     }
-    void setParamsViaStreamSize(int streamSize, bool ORIGINAL_PAPER_PARAMS = true) {
+    void setParamsDefault(bool ORIGINAL_PAPER_PARAMS = true) {
         if (ORIGINAL_PAPER_PARAMS) {
             hashesCount = int(ceil(log(1. / (1. - confidence))));
             tableSize = int(ceil(exp(1.) / errorFactor));
@@ -89,13 +92,42 @@ public:
     vector<Hasher<T>> getHashFunctions() {
         return hashFunctions;
     }
-    void insertEntry(T entry) {
+    vector<T> getTableElems(bool outliersIN = false, bool includeZeros = false, bool __sorted = false) { // collect elements [not equal to maximum in the columns = outliers]
+        vector<T> elems;
+        if (!outliersIN) {
+            vector<T> columnMax(tableSize + 1, 0);
+            for (int i = 1; i <= hashesCount; i ++) {
+                for (int j = 1; j <= tableSize; j ++) {
+                    if (table[i].getValueAt(j) > columnMax[j])
+                        columnMax[j] = table[i].getValueAt(j);
+                }
+            }
+            for (int i = 1; i <= hashesCount; i ++) {
+                for (int j = 1; j <= tableSize; j ++) {
+                    if (table[i].getValueAt(j) != columnMax[j] && (includeZeros || table[i].getValueAt(j) > 0))
+                        elems.push_back(table[i].getValueAt(j));
+                }
+            }
+        } else {
+            for (int i = 1; i <= hashesCount; i ++) {
+                for (int j = 1; j <= tableSize; j ++) {
+                    if (includeZeros || table[i].getValueAt(j) > 0)
+                        elems.push_back(table[i].getValueAt(j));
+                }
+            }
+        }
+        if (__sorted)
+            sort(elems.begin(), elems.end());
+        return elems;
+    }
+    void insertEntry(T& entry) {
         for (int i = 1; i <= hashesCount; i ++) {
             int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
             table[i].incrementValueAt(hashValue);
+            cout << entry << ", i = " << i << ", pos = " << hashValue << endl;
         }
     }
-    int getCount(T entry) {
+    int getCount(T& entry) {
         int minimumCount = INT_MAX;
         for (int i = 1; i <= hashesCount; i ++) {
             int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
@@ -110,5 +142,13 @@ public:
             for (auto &record: row)
                 record = 0;
         }
+    }
+    string describe() {
+        string desc = "";
+        desc += "hashes count: " + to_string(hashesCount) + "\n";
+        desc += "table width: " + to_string(tableSize) + "\n";
+        desc += "error factor: " + to_string(errorFactor) + "\n";
+        desc += "confidence: " + to_string(confidence) + "\n";
+        return desc;
     }
 };

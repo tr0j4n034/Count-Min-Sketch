@@ -6,6 +6,8 @@
 //  Copyright © 2019 Mahmud. All rights reserved.
 //
 
+#pragma once
+
 #ifndef CWSLib_h
 #define CWSLib_h
 
@@ -41,7 +43,7 @@ public:
                 T rval = r.generate();
                 T bval = b.generate();
                 T cval = c.generate();
-                T delta = rval * (int(log(element.second / rval + bval)) - bval);
+                T delta = 1. * rval * (int(log(1. * element.second / rval + bval)) - bval);
                 T y = exp(delta);
                 T z = y * exp(rval);
                 T aux = cval / z;
@@ -51,7 +53,6 @@ public:
                 }
             });
             sk.append(minHashElement, minHash);
-            cout << minHashElement << endl;
         }
         return sk;
     }
