@@ -37,8 +37,8 @@ public:
     Hasher(T maxRange) {
         Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
         SALT ^= 1LL * rand() * rand() % INT_MAX;
-        A = (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
-        B = (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
+        A = 1ULL * (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
+        B = 1ULL * (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
         C = device.generatePrimeInRange(1 << 27, INT_MAX);
         A %= C;
         B %= C;

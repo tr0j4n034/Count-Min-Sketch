@@ -54,10 +54,21 @@ public:
         tableSize = __tableSize;
         table = __table;
         hashFunctions = vector<Hasher<T>>(hashesCount + 1);
+        setHashFunctions();
     }
     void setParams(double __error, double __confidence) {
         errorFactor = __error;
         confidence = __confidence;
+    }
+    void setDims(int __hashCount, int __tableSize) {
+        hashesCount = __hashCount;
+        tableSize = __tableSize;
+        hashFunctions = vector<Hasher<T>>(hashesCount + 1);
+        table = vector<HashColumn<int>>(hashesCount + 1);
+        for (int i = 1; i <= hashesCount; i ++) {
+            table[i] = HashColumn<int>(tableSize + 1);
+        }
+        setHashFunctions();
     }
     void setParamsDefault(bool ORIGINAL_PAPER_PARAMS = true) {
         if (ORIGINAL_PAPER_PARAMS) {
@@ -85,6 +96,9 @@ public:
     }
     int getTableSize() {
         return tableSize;
+    }
+    int getValueAt(int row, int column) { // hashID, hashValue
+        return table[row].getValueAt(column);
     }
     vector<HashColumn<T>> getTable() {
         return table;
@@ -124,7 +138,6 @@ public:
         for (int i = 1; i <= hashesCount; i ++) {
             int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
             table[i].incrementValueAt(hashValue);
-            cout << entry << ", i = " << i << ", pos = " << hashValue << endl;
         }
     }
     int getCount(T& entry) {

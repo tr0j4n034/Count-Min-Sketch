@@ -211,6 +211,42 @@ map<R, int> StreamToBins(T &stream) { // arrays
     return bins;
 }
 template<typename T = int, typename R = double>
-R JaccardDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB) {
-    
+R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outliersIn = true) {
+    assert(tableA.getTableSize() == tableB.getTableSize());
+    assert(tableA.getHashesCount() == tableB.getHashesCount());
+    int rows = tableA.getHashesCount(), columns = tableA.getTableSize();
+    R all = 0;
+    R same = 0;
+    if (outliersIn) {
+        all = 1. * rows * columns;
+        for (int i = 1; i <= rows; i ++) {
+            for (int j = 1; j <= columns; j ++) {
+                if (tableA.getValueAt(i, j) == tableB.getValueAt(i, j))
+                    same ++;
+            }
+        }
+    } else {
+        vector<T> columnMaxA(columns + 1, 0);
+        vector<T> columnMaxB(columns + 1, 0);
+        for (int i = 1; i <= rows; i ++) {
+            for (int j = 1; j <= columns; j ++) {
+                if (tableA.getValueAt(i, j) > columnMaxA[j])
+                    columnMaxA[j] = tableA.getValueAt(i, j);
+                if (tableB.getValueAt(i, j) > columnMaxB[j])
+                    columnMaxB[j] = tableB.getValueAt(i, j);
+            }
+        }
+        for (int i = 1; i <= rows; i ++) {
+            for (int j = 1; j <= columns; j ++) {
+                bool ismaxA = (tableA.getValueAt(i, j) == columnMaxA[j]);
+                bool ismaxB = (tableB.getValueAt(i, j) == columnMaxB[j]);
+                if (ismaxA && ismaxB)
+                    continue;
+                all ++;
+                if (!ismaxA && !ismaxB && tableA.getValueAt(i, j) == tableB.getValueAt(i, j))
+                    same ++;
+            }
+        }
+    }
+    return 1. - 1. * same / all;
 }

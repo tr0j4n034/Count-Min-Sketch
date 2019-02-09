@@ -162,20 +162,30 @@ void checkDefaultSettings() {
 
 
 int main(int argc, const char * argv[]) {
-    vector<double> v = {1, 2, 10, 6, 4, 7};
-    
+    vector<int> v1 = generateRandomList(10000);
+    vector<int> v2 = generateRandomList(10000);
     //checkingCWS();
     
-    CMSTable<int> table = CMSTable<int>();
-    table.setParamsDefault();
-    for (int i: v)
-        table.insertEntry(i);
-    cout << table.describe() << endl;
+    CMSTable<int> table1 = CMSTable<int>();
+    CMSTable<int> table2 = CMSTable<int>();
+    table1.setParamsDefault();
+    table2.setParamsDefault();
+    table1.setDims(10, 2000);
+    table2.setDims(10, 2000);
     
-    vector<int> elems = table.getTableElems(true, false, false);
-    copy(elems.begin(), elems.end(), ostream_iterator<int>(cout, " "));
+    cout << table1.describe() << endl;
+    
+    for (int i: v1)
+        table1.insertEntry(i);
+    for (int i: v2)
+        table2.insertEntry(i);
+    cout << table1.describe() << endl;
     cout << endl;
-    
+    cout << table2.describe() << endl;
+
+    cout << HammingDistanceIterable<vector<int>, double>(v1, v2) << endl;
+    cout << JaccardDistanceIterable<vector<int>, int, double>(v1, v2) << endl;
+    cout << HammingDistanceCMSTables<int, double>(table1, table2, false) << endl;
     
     return 0;
 }
