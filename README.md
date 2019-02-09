@@ -3,9 +3,9 @@
 Count-Min Sketch and Consistent Weighted Sampling implementation
 
 Quick look:
-https://en.wikipedia.org/wiki/Count–min_sketch
-https://www.microsoft.com/en-us/research/publication/consistent-weighted-sampling/
-https://arxiv.org/abs/1706.01172
+    https://en.wikipedia.org/wiki/Count–min_sketch
+    https://www.microsoft.com/en-us/research/publication/consistent-weighted-sampling/
+    https://arxiv.org/abs/1706.01172
 
 
 It is a tool for generating Count-Min sketches and consistent weighted samples for varying sized data streams. The implementation has been tested over artificially generated datasets with size upto $10^8$. The library contains:
