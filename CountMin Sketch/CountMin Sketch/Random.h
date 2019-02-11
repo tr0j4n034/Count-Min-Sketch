@@ -68,6 +68,9 @@ public:
         });
         return list;
     }
+    ~Random() {
+        
+    }
 };
 
 template<typename T>

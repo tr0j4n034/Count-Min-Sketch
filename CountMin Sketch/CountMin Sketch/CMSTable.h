@@ -156,6 +156,9 @@ public:
                 record = 0;
         }
     }
+    ~CMSTable() {
+        
+    }
     string describe() {
         string desc = "";
         desc += "hashes count: " + to_string(hashesCount) + "\n";

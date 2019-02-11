@@ -55,4 +55,14 @@ public:
     T getHash(T data) {
         return (1ULL * A * data + B) % C;
     }
+    ~Hasher() {
+        
+    }
+    string describe() {
+        string desc = "hasher(x) = (Ax + B) % C\n";
+        desc += "A = " + to_string(A) + "\n";
+        desc += "B = " + to_string(B) + "\n";
+        desc += "C = " + to_string(C) + "\n";
+        return desc;
+    }
 };

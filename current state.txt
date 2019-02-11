@@ -1,0 +1,12 @@
+CMS table
+	- constructors
+	- retrieving members
+	- describe as a string
+	- destructor
+
+Hasher
+	- constructors
+	- retrieving members
+	- describe as a string
+	- destructor
+
