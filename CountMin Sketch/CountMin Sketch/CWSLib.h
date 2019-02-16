@@ -75,4 +75,8 @@ public:
         }
         return sk;
     }
+    
+    ~CWSEngine() {
+        
+    }
 };

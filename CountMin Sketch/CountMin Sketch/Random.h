@@ -109,6 +109,9 @@ public:
         });
         return list;
     }
+    ~GammaRandomVar() {
+        
+    }
 };
 
 template <typename T>
@@ -140,6 +143,9 @@ public:
             elem = scalingFactor * generate();
         });
         return list;
+    }
+    ~UniformRandomVar() {
+        
     }
 };
 
@@ -176,6 +182,9 @@ public:
             elem = scalingFactor * generate();
         });
         return list;
+    }
+    ~BetaRandomVar() {
+        
     }
 };
 

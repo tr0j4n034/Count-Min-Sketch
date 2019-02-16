@@ -31,6 +31,10 @@ public:
         entries = vector<T>(size + 1, 0);
 //        segmentTree = SegmentTree<T>(size);
     }
+    HashColumn(vector<T> __entries) {
+        size = int(__entries.size());
+        entries = __entries;
+    }
     HashColumn(int __size, vector<T> __entries) {
         size = __size;
         entries = __entries;
@@ -66,5 +70,8 @@ public:
                 result = entries[i];
         }
         return result;
+    }
+    ~HashColumn() {
+        
     }
 };

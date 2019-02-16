@@ -34,6 +34,9 @@ public:
         sketchElements.push_back(__element);
         sketchHashes.push_back(__hash);
     }
+    int getCWSSketchSize() {
+        return int(sketchElements.size());
+    }
     vector<T> getSketchElems() {
         return sketchElements;
     }
@@ -43,5 +46,8 @@ public:
     void clear() {
         sketchElements.clear();
         sketchHashes.clear();
+    }
+    ~CWSSketch() {
+        
     }
 };

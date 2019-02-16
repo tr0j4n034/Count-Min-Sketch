@@ -10,3 +10,80 @@ Hasher
 	- describe as a string
 	- destructor
 
+HashColumn
+	- constructors
+	- retrieving members
+	- describe as a string
+	- destructor
+
+SimLib
+	- Euclidean iterated
+	- Euclidean array
+	- Manhattan iterated
+	- Manhattan array
+	- Jaccard iterated
+	- Jaccard iterated similarity
+	- Jaccard array
+	- Jaccard array similarity
+	- Hamming iterated
+	- Hamming array
+	- Hamming iterated similarity
+	- Hamming array similarity
+	- Cosine iterated
+	- Cosine iterated similarity
+	- Cosine array
+	- Cosine array similarity
+	- Edit distance
+	- Edit distance with weights  ??
+	- Stream to bins iterated
+	- Stream to bins array
+	- Hamming distance CMS tables
+
+Random
+	- constructors
+	- generations
+	- destructor
+
+GammaRandomVar
+	- constructors
+	- generations (1, 1+)
+	- destructor
+
+UniformRandomVar
+	- constructors
+	- generations (1, 1+)
+	- destructor
+
+BetaRandomVar
+	- constructors
+	- generations (1, 1+)
+	- destructor
+
+CWSLib
+	- constructors
+	- stream sketch iterated
+	- stream sketch array
+	- CMS table sketch ??
+	- destructor
+
+CWSSketch
+	- constructors
+	- retrieving members
+	- destructors
+
+Generator.h
+	- generateRandomList Default
+	- generateRandomList Gamma
+	- generateRandomList Beta
+	- generateRandomList Uniform
+	- generateRandomDataSet Default
+	- generateRandomDataSet Gamma
+	- generatePairWithSimilarity Default
+
+
+
+
+
+
+
+

@@ -38,8 +38,6 @@ vector<T> generateRandomListViaGamma(int setSize, GammaRandomVar<T> g, double sc
 template <typename T = double>
 vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, double scaler = 1.) {
     GammaRandomVar<T> g = GammaRandomVar<T>(alpha, beta);
-    cout << alpha << " " << beta << endl;
-    cout << g.generate() << endl;
     vector<T> list(setSize);
     for (auto &element: list) {
         element = T(scaler * g.generate());

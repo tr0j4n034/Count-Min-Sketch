@@ -105,6 +105,36 @@ template <typename T, typename dt, typename R>
 R JaccardSimilarityIterable(T objectA, T objectB) { // vectors and other iterables
     return 1. - JaccardDistanceIterable<T, dt, R>(objectA, objectB);
 }
+template <typename T, typename dt, typename R>
+R JaccardDistance(T objectA, T objectB, bool makeUnweighted = false) { // arrays
+    unordered_map<int, int> mapA, mapB;
+    unordered_map<int, int> mapUnion;
+    for_each(objectA, *(&objectA + 1), [&](auto value) {
+        mapA[value] ++;
+    });
+    for_each(objectB, *(&objectB + 1), [&](auto value) {
+        mapB[value] ++;
+    });
+    int intersection = 0;
+    int unionSize = 0;
+    for_each(begin(mapA), end(mapA), [&](auto record) {
+        if (mapB.count(record.first)) {
+            intersection += makeUnweighted ? 1 : min(record.second, mapB[record.first]);
+            unionSize += makeUnweighted ? 1 : max(record.second, mapB[record.first]);
+        } else {
+            unionSize += makeUnweighted ? 1 : record.second;
+        }
+    });
+    for_each(begin(mapB), end(mapB), [&](auto record) {
+        if (!mapA.count(record.first))
+            unionSize += makeUnweighted ? 1 : record.second;
+    });
+    return 1. - 1. * intersection / unionSize;
+}
+template <typename T, typename dt, typename R>
+R JaccardSimilarity(T objectA, T objectB) { // arrays
+    return 1. - JaccardDistance<T, dt, R>(objectA, objectB);
+}
 template <typename T, typename R>
 R HammingDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     assert(objectA.size() == objectB.size());
@@ -114,6 +144,10 @@ R HammingDistanceIterable(T objectA, T objectB) { // vectors and other iterables
         deltas += int(record == *itB); itB ++;
     });
     return 1. - 1. * deltas / int(objectA.size());
+}
+template <typename T, typename R>
+R HammingSimilarityIterable(T objectA, T objectB) { // vectors and other iterables
+    return 1. - HammingDistanceIterable<T, R>(objectA, objectB);
 }
 template <typename T, typename R>
 R HammingDistance(T objectA, T objectB) { // arrays
@@ -127,7 +161,6 @@ R HammingDistance(T objectA, T objectB) { // arrays
         deltas += int(objectA[i] != objectB[i]);
     return 1. * deltas / length;
 }
-
 template <typename T, typename R>
 R CosineDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     assert(objectA.size() == objectB.size());
@@ -189,11 +222,6 @@ int EditDistance(T objectA, T objectB) {
     }
     return dpTables[lA][lB];
 }
-template <typename T>
-int EditDistanceWithWeights(T objectA, T objectB) {
-    // to be implemented
-}
-
 template <typename T = vector<int>, typename R = int>
 map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
     map<R, int> bins;
