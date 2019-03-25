@@ -14,10 +14,10 @@
 
 using namespace std;
 
-#include "CMSTable.h"
-#include "Generator.h"
-#include "SimLib.h"
-#include "CWSLib.h"
+#include "CMSTable.cpp"
+#include "Generator.cpp"
+#include "SimLib.cpp"
+#include "CWSLib.cpp"
 
 void checkingCWS() {
     int streamSize = 10000;
@@ -160,7 +160,6 @@ void checkDefaultSettings() {
     cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2) << endl;
 }
 
-
 int main(int argc, const char * argv[]) {
     vector<int> v1 = generateRandomList(10000);
     vector<int> v2 = generateRandomList(10000);
@@ -168,10 +167,8 @@ int main(int argc, const char * argv[]) {
     
     CMSTable<int> table1 = CMSTable<int>();
     CMSTable<int> table2 = CMSTable<int>();
-    table1.setParamsDefault();
-    table2.setParamsDefault();
-    table1.setDims(10, 2000);
-    table2.setDims(10, 2000);
+    table1.setParamsDefault(true, -1);
+    table2.setParamsDefault(true, -1);
     
     cout << table1.describe() << endl;
     

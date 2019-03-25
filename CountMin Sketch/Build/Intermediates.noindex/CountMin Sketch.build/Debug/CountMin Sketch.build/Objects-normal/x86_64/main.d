@@ -1,10 +1,13 @@
 dependencies: \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/main.cpp \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CMSTable.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/HashColumn.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Fenwick.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Hasher.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Random.h \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CMSTable.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CMSTable.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/HashColumn.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/HashColumn.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Hasher.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Hasher.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Random.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Random.hpp \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random.hpp \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random/additive_combine.hpp \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/config.hpp \
@@ -647,7 +650,11 @@ dependencies: \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random/uniform_on_sphere.hpp \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random/uniform_smallint.hpp \
   /usr/local/Cellar/boost/1.68.0_1/include/boost/random/weibull_distribution.hpp \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Generator.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/SimLib.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.h \
-  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSSketch.h
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Generator.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/Generator.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/SimLib.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/SimLib.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSSketch.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSSketch.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.hpp
