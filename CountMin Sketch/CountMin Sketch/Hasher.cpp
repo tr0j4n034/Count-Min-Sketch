@@ -55,7 +55,7 @@ Hasher<T>::~Hasher() {
 }
 template<typename T>
 std::string Hasher<T>::describe() {
-    string desc = "hash(x) = (Ax + B) % C\n";
+    std::string desc = "hash(x) = (Ax + B) % C\n";
     desc += "A = " + to_string(A) + "\n";
     desc += "B = " + to_string(B) + "\n";
     desc += "C = " + to_string(C) + "\n";

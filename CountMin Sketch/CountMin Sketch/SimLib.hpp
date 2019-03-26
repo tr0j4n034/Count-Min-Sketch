@@ -63,11 +63,11 @@ R CosineSimilarity(T objectA, T objectB);
 template <typename T>
 int EditDistance(T objectA, T objectB);
 
-template <typename T = vector<int>, typename R = int>
-map<R, int> StreamToBinsIterable(T &stream);
+template <typename T = std::vector<int>, typename R = int>
+std::map<R, int> StreamToBinsIterable(T &stream);
 
 template <typename T, typename R = int>
-map<R, int> StreamToBins(T &stream);
+std::map<R, int> StreamToBins(T &stream);
 
 template<typename T = int, typename R = double>
 R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outliersIn = true);

@@ -11,14 +11,14 @@
 
 const int MAX_BIT = 29;
 
-vector<int> generateRandomList
+std::vector<int> generateRandomList
     (int setSize, int maxRange = 1 << 20);
 template <typename T = double>
-vector<T> generateRandomListViaGamma
+std::vector<T> generateRandomListViaGamma
     (int setSize, GammaRandomVar<T> g, double scaler = 1.);
 
 template <typename T = double>
-vector<T> generateRandomListViaGammaParams
+std::vector<T> generateRandomListViaGammaParams
     (int setSize, T alpha, T beta, double scaler = 1.);
 
 #if __has_include("boost/random.hpp")
@@ -31,13 +31,13 @@ vector<T> generateRandomListViaBetaParams
     (int setSize, T alpha, T beta, double scaler = 1.);
 #endif
 
-vector<vector<int>> generateRandomDataSet
+std::vector<std::vector<int>> generateRandomDataSet
     (int dataSetSize, int setSize, int maxRange = 1 << 20);
 
-vector<vector<int>> generateRandomPair
+std::vector<std::vector<int>> generateRandomPair
     (int sizeA, int sizeB = -1, bool sameSize = true, int maxRange = 1 << 20);
 
-vector<vector<int>> generatePairWithSimilarity
+std::vector<std::vector<int>> generatePairWithSimilarity
     (int sizeA, double similarity, int sizeB = -1, bool sameSize = true);
 
 

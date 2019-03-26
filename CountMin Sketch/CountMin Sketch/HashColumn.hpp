@@ -14,15 +14,15 @@
 template <typename T>
 class HashColumn {
     int size;
-    vector<T> entries;
+    std::vector<T> entries;
     
 public:
     HashColumn();
     HashColumn(int __size);
-    HashColumn(vector<T> __entries);
-    HashColumn(int __size, vector<T> __entries);
+    HashColumn(std::vector<T> __entries);
+    HashColumn(int __size, std::vector<T> __entries);
     int getSize();
-    vector<T> getEntries();
+    std::vector<T> getEntries();
     int getValueAt(int position);
     void updateValueAt(int position, T newValue);
     void incrementValueAt(int position);

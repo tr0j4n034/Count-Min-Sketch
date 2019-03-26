@@ -31,6 +31,7 @@ public:
     void setParams(double __error, double __confidence);
     void setDims(int __hashCount, int __tableSize);
     void setParamsDefault(bool ORIGINAL_PAPER_PARAMS = true, long long memory = -1);
+    void scaleDims(long long memory = -1);
     
     void setHashFunctions(T range = INT_MAX);
     int getHashesCount();

@@ -20,7 +20,7 @@ CWSSketch<T>::CWSSketch() {
 template<typename T>
 CWSSketch<T>::CWSSketch(std::vector<T> __elems, std::vector<T> __hashes) {
     if (int(__elems.size()) != int(__hashes.size()))
-        throw runtime_error("the sets should have the same size!");
+        throw std::runtime_error("the sets should have the same size!");
     sketchElements = __elems;
     sketchHashes = __hashes;
 }

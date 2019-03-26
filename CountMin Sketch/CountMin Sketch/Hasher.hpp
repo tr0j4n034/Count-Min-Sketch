@@ -28,7 +28,7 @@ public:
     
     ~Hasher();
     
-    string describe();
+    std::string describe();
 };
 
 #endif /* Hasher_hpp */

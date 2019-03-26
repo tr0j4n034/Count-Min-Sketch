@@ -30,6 +30,7 @@
 		511B61A821F1097600CE50F1 /* Generator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Generator.cpp; sourceTree = "<group>"; };
 		511B61A921F1151A00CE50F1 /* SimLib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimLib.cpp; sourceTree = "<group>"; };
 		513AED3921FEDE5D00241617 /* CWSSketch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CWSSketch.cpp; sourceTree = "<group>"; };
+		51460EFB224956AE00D1ED1C /* CountMinTable_testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CountMinTable_testing.h; sourceTree = "<group>"; };
 		518DA17121FCAFF40074D447 /* CWSLib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CWSLib.cpp; sourceTree = "<group>"; };
 		51E0C7B52249055400B56912 /* Hasher.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Hasher.hpp; sourceTree = "<group>"; };
 		51E0C7B622490AA600B56912 /* HashColumn.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = HashColumn.hpp; sourceTree = "<group>"; };
@@ -74,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				510513D721ECA4B6004167EA /* main.cpp */,
+				51460EFB224956AE00D1ED1C /* CountMinTable_testing.h */,
 				518DA17121FCAFF40074D447 /* CWSLib.cpp */,
 				51E0C7BB2249200800B56912 /* CWSLib.hpp */,
 				513AED3921FEDE5D00241617 /* CWSSketch.cpp */,
@@ -134,6 +136,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 510513CB21ECA4B6004167EA;
 			productRefGroup = 510513D521ECA4B6004167EA /* Products */;
@@ -271,7 +274,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
-				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/Cellar/boost/1.68.0_1/include/;
+				"HEADER_SEARCH_PATHS[arch=*]" = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

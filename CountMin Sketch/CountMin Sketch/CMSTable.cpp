@@ -16,6 +16,8 @@
 
 #include "CMSTable.hpp"
 
+const double EPSILON = 1.e-9;
+
 template<typename T>
 CMSTable<T>::CMSTable() {
     hashesCount = 0;
@@ -28,6 +30,7 @@ CMSTable<T>::CMSTable(int __hashCount, int __tableSize) {
     hashesCount = __hashCount;
     tableSize = __tableSize;
     table = std::vector<HashColumn<int>>(hashesCount + 1);
+    hashFunctions.clear();
     for (int i = 1; i <= hashesCount; i ++) {
         table[i] = HashColumn<int>(tableSize + 1);
     }
@@ -42,27 +45,51 @@ CMSTable<T>::CMSTable(int __hashCount, int __tableSize, std::vector<HashColumn<T
     hashesCount = __hashCount;
     tableSize = __tableSize;
     table = __table;
-    hashFunctions = vector<Hasher<T>>(hashesCount + 1);
+    hashFunctions = std::vector<Hasher<T>>(hashesCount + 1);
     setHashFunctions();
 }
 template<typename T>
 void CMSTable<T>::setParams(double __error, double __confidence) {
     errorFactor = __error;
     confidence = __confidence;
+    hashesCount = int(ceil(log(1. / (1. - confidence + EPSILON))));
+    tableSize = int(ceil(exp(1.) / errorFactor));
+    table = std::vector<HashColumn<int>>(hashesCount + 1);
+    for (int i = 1; i <= hashesCount; i ++) {
+        table[i] = HashColumn<int>(tableSize + 1);
+    }
+    for (int i = 0; i < hashesCount + 1; i ++) {
+        hashFunctions.push_back(Hasher<T>(1 << 30));
+    }
 }
 template<typename T>
 void CMSTable<T>::setDims(int __hashCount, int __tableSize) {
     hashesCount = __hashCount;
     tableSize = __tableSize;
-    hashFunctions = vector<Hasher<T>>(hashesCount + 1);
-    table = vector<HashColumn<int>>(hashesCount + 1);
+    hashFunctions = std::vector<Hasher<T>>(hashesCount + 1);
+    table = std::vector<HashColumn<int>>(hashesCount + 1);
     for (int i = 1; i <= hashesCount; i ++) {
         table[i] = HashColumn<int>(tableSize + 1);
     }
     setHashFunctions();
 }
-
-
+template<typename T>
+void CMSTable<T>::scaleDims(long long memory) {
+    while (memory >= 8LL * hashesCount * tableSize) {
+        tableSize <<= 3;
+        if (memory >= 2LL * hashesCount * tableSize)
+            hashesCount <<= 1;
+    }
+    tableSize *= memory / (1LL * hashesCount * tableSize);
+    table = std::vector<HashColumn<int>>(hashesCount + 1);
+    hashFunctions.clear();
+    for (int i = 1; i <= hashesCount; i ++) {
+        table[i] = HashColumn<int>(tableSize + 1);
+    }
+    for (int i = 0; i < hashesCount + 1; i ++) {
+        hashFunctions.push_back(Hasher<T>(1 << 30));
+    }
+}
 template<typename T>
 void CMSTable<T>::setParamsDefault(bool ORIGINAL_PAPER_PARAMS, long long memory) {
     if (ORIGINAL_PAPER_PARAMS) {
@@ -73,19 +100,17 @@ void CMSTable<T>::setParamsDefault(bool ORIGINAL_PAPER_PARAMS, long long memory)
         tableSize = int(ceil(2. / errorFactor));
     }
     if (memory != -1) {
-        while (memory >= 2LL * hashesCount * tableSize) {
-            tableSize <<= 1;
+        while (memory >= 8LL * hashesCount * tableSize) {
+            tableSize <<= 3;
             if (memory >= 2LL * hashesCount * tableSize)
                 hashesCount <<= 1;
         }
     }
-    table = vector<HashColumn<int>>(hashesCount + 1);
+    table = std::vector<HashColumn<int>>(hashesCount + 1);
     for (int i = 1; i <= hashesCount; i ++) {
         table[i] = HashColumn<int>(tableSize + 1);
     }
-    for (int i = 0; i < hashesCount + 1; i ++) {
-        hashFunctions.push_back(Hasher<T>(1 << 30));
-    }
+    setHashFunctions(1 << 30);
 }
 template<typename T>
 void CMSTable<T>::setHashFunctions(T range) {
@@ -115,9 +140,9 @@ std::vector<Hasher<T>> CMSTable<T>::getHashFunctions() {
 }
 template<typename T>
 std::vector<T> CMSTable<T>:: getTableElems(bool outliersIN, bool includeZeros, bool __sorted) {
-    vector<T> elems;
+    std::vector<T> elems;
     if (!outliersIN) {
-        vector<T> columnMax(tableSize + 1, 0);
+        std::vector<T> columnMax(tableSize + 1, 0);
         for (int i = 1; i <= hashesCount; i ++) {
             for (int j = 1; j <= tableSize; j ++) {
                 if (table[i].getValueAt(j) > columnMax[j])
@@ -151,7 +176,7 @@ void CMSTable<T>::insertEntry(T& entry) {
 }
 template<typename T>
 int CMSTable<T>::getCount(T &entry) {
-    int minimumCount = INT_MAX;
+    int minimumCount = 1 << 30;
     for (int i = 1; i <= hashesCount; i ++) {
         int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;
         if (table[i].getValueAt(hashValue) < minimumCount) {
@@ -174,10 +199,10 @@ CMSTable<T>::~CMSTable() {
 }
 template<typename T>
 std::string CMSTable<T>::describe() {
-    string desc = "";
-    desc += "hashes count: " + to_string(hashesCount) + "\n";
-    desc += "table width: " + to_string(tableSize) + "\n";
-    desc += "error factor: " + to_string(errorFactor) + "\n";
-    desc += "confidence: " + to_string(confidence) + "\n";
+    std::string desc = "";
+    desc += "hashes count: " + std::to_string(hashesCount) + "\n";
+    desc += "table width: " + std::to_string(tableSize) + "\n";
+    desc += "error factor: " + std::to_string(errorFactor) + "\n";
+    desc += "confidence: " + std::to_string(confidence) + "\n";
     return desc;
 }

@@ -20,12 +20,12 @@ class CWSSketch {
     std::vector<T> sketchHashes;
 public:
     CWSSketch();
-    CWSSketch(vector<T> __elems, vector<T> __hashes);
+    CWSSketch(std::vector<T> __elems, std::vector<T> __hashes);
     CWSSketch(int __size);
     void append(T __element, T __hash);
     int getCWSSketchSize();
-    vector<T> getSketchElems();
-    vector<T> getSketchHashes();
+    std::vector<T> getSketchElems();
+    std::vector<T> getSketchHashes();
     void clear();
     ~CWSSketch();
 };

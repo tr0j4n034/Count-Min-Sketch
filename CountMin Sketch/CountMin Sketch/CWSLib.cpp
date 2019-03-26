@@ -30,7 +30,7 @@ template<typename T>
 template<typename R, typename V>
 CWSSketch<T> CWSEngine<T>::getSketchIterable(R& stream, int sketchSize) {
     CWSSketch<T> sk;
-    map<V, int> streamBins = StreamToBinsIterable(stream);
+    std::map<V, int> streamBins = StreamToBinsIterable(stream);
     for (int it = 0; it < sketchSize; it ++) {
         resetVars();
         T minHashElement, minHash = 1e308;
@@ -55,7 +55,7 @@ template<typename T>
 template<typename R, typename V>
 CWSSketch<T> CWSEngine<T>::getSketch(R& stream, int sketchSize) {
     CWSSketch<T> sk;
-    map<V, int> streamBins = StreamToBins(stream);
+    std::map<V, int> streamBins = StreamToBins(stream);
     for (int it = 0; it < sketchSize; it ++) {
         T minHashElement, minHash = 1e308;
         for_each(stream, *(&stream + 1), [&](auto &element) {

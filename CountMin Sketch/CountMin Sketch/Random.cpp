@@ -27,7 +27,7 @@ dist(std::uniform_int_distribution<>(0, __range - 1)){
 int Random::getRange() {
     return range;
 }
-mt19937 Random::getGenerator() {
+std::mt19937 Random::getGenerator() {
     return generator;
 }
 int Random::generate() {
@@ -45,7 +45,7 @@ int Random::generatePrimeInRange(int low, int high) {
     return -1;
 }
 std::vector<int> Random::generateList(int size, int minValue, int maxValue, int scalingFactor) {
-    vector<int> list(size);
+    std::vector<int> list(size);
     for_each(begin(list), end(list), [=](int &elem) {
         elem = scalingFactor * generate(minValue, maxValue);
     });
@@ -59,15 +59,15 @@ template<typename T>
 GammaRandomVar<T>::GammaRandomVar() {
     alpha = 0;
     beta = 0;
-    dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
-    distribution = gamma_distribution<T>(alpha, beta);
+    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    distribution = std::gamma_distribution<T>(alpha, beta);
 }
 template<typename T>
 GammaRandomVar<T>::GammaRandomVar(T __alpha, T __beta) {
     alpha = 0;
     beta = 0;
-    dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
-    distribution = gamma_distribution<T>(alpha, beta);
+    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    distribution = std::gamma_distribution<T>(alpha, beta);
 }
 template<typename T>
 T GammaRandomVar<T>::getAlpha() {
@@ -83,7 +83,7 @@ T GammaRandomVar<T>::generate() {
 }
 template<typename T>
 std::vector<T> GammaRandomVar<T>::generateList(int size, T scalingFactor) {
-    vector<T> list(size);
+    std::vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });
@@ -102,8 +102,8 @@ template<typename T>
 UniformRandomVar<T>::UniformRandomVar(T __low, T __high) {
     lowBound = __low;
     highBound = __high;
-    dre = default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
-    distribution = uniform_real_distribution<T>(lowBound, highBound);
+    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    distribution = std::uniform_real_distribution<T>(lowBound, highBound);
 }
 template<typename T>
 T UniformRandomVar<T>::getLowBound() {
@@ -120,7 +120,7 @@ T UniformRandomVar<T>::generate() {
 template<typename T>
 std::vector<T> UniformRandomVar<T>::
 generateList(int size, T scalingFactor) {
-    vector<T> list(size);
+    std::vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });

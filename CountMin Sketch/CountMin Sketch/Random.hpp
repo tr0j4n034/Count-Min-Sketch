@@ -30,13 +30,13 @@ public:
     Random();
     Random(int __range);
     int getRange();
-    mt19937 getGenerator();
+    std::mt19937 getGenerator();
     int generate();
     int generate(int low, int high);
     
     int generatePrimeInRange(int low, int high);
     
-    vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1);
+    std::vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1);
     
     ~Random();
 };
@@ -45,8 +45,8 @@ template<typename T>
 class GammaRandomVar {
     T alpha;
     T beta;
-    default_random_engine dre;
-    gamma_distribution<T> distribution;
+    std::default_random_engine dre;
+    std::gamma_distribution<T> distribution;
     
 public:
     GammaRandomVar();
@@ -54,7 +54,7 @@ public:
     T getAlpha();
     T getBeta();
     T generate();
-    vector<T> generateList(int size, T scalingFactor = 1);
+    std::vector<T> generateList(int size, T scalingFactor = 1);
     ~GammaRandomVar();
 };
 
@@ -62,15 +62,15 @@ template <typename T>
 class UniformRandomVar {
     T lowBound;
     T highBound;
-    default_random_engine dre;
-    uniform_real_distribution<T> distribution;
+    std::default_random_engine dre;
+    std::uniform_real_distribution<T> distribution;
 public:
     UniformRandomVar();
     UniformRandomVar(T __low, T __high);
     T getLowBound();
     T getHighBound();
     T generate();
-    vector<T> generateList(int size, T scalingFactor = 1);
+    std::vector<T> generateList(int size, T scalingFactor = 1);
     ~UniformRandomVar();
 };
 

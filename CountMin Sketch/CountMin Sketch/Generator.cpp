@@ -16,26 +16,26 @@
 #include <ctime>
 #include <cstdlib>
 
-vector<int> generateRandomList(int setSize, int maxRange) {
+std::vector<int> generateRandomList(int setSize, int maxRange) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
-    vector<int> list(setSize);
+    std::vector<int> list(setSize);
     for (auto &element: list) {
         element = device.generate(1, maxRange);
     }
     return list;
 }
 template <typename T>
-vector<T> generateRandomListViaGamma(int setSize, GammaRandomVar<T> g, double scaler) {
-    vector<T> list(setSize);
+std::vector<T> generateRandomListViaGamma(int setSize, GammaRandomVar<T> g, double scaler) {
+    std::vector<T> list(setSize);
     for (auto &element: list) {
         element = T(scaler * g.generate());
     }
     return list;
 }
 template <typename T>
-vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, double scaler) {
+std::vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, double scaler) {
     GammaRandomVar<T> g = GammaRandomVar<T>(alpha, beta);
-    vector<T> list(setSize);
+    std::vector<T> list(setSize);
     for (auto &element: list) {
         element = T(scaler * g.generate());
     }
@@ -62,9 +62,9 @@ vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double s
 }
 #endif
 
-vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange) {
+std::vector<std::vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange) {
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
-    vector<vector<int>> v(dataSetSize);
+    std::vector<std::vector<int>> v(dataSetSize);
     for (auto list: v) list.resize(setSize);
     for (auto list: v) {
         for (auto &element: list)
@@ -72,10 +72,10 @@ vector<vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxR
     }
     return v;
 }
-vector<vector<int>> generateRandomPair(int sizeA, int sizeB, bool sameSize, int maxRange) {
+std::vector<std::vector<int>> generateRandomPair(int sizeA, int sizeB, bool sameSize, int maxRange) {
     if (sameSize) sizeB = sizeA;
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
-    vector<vector<int>> v(2);
+    std::vector<std::vector<int>> v(2);
     v[0].resize(sizeA);
     v[1].resize(sizeB);
     for (auto list: v) {
@@ -85,20 +85,20 @@ vector<vector<int>> generateRandomPair(int sizeA, int sizeB, bool sameSize, int 
     }
     return v;
 }
-vector<vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int sizeB, bool sameSize) {
+std::vector<std::vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int sizeB, bool sameSize) {
     if (sameSize) sizeB = sizeA;
     Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
-    vector<vector<int>> v(2);
+    std::vector<std::vector<int>> v(2);
     int common = 0;
     for (int i = MAX_BIT; i >= 0; i --) {
-        if (common + (1 << i) > min(sizeA, sizeB)) continue;
+        if (common + (1 << i) > std::min(sizeA, sizeB)) continue;
         int candidate = common + (1 << i);
         int currentUnionSize = sizeA + sizeB - candidate;
         if (1. * candidate / currentUnionSize <= similarity)
             common = candidate;
     }
     int unionSize = sizeA + sizeB - common;
-    vector<int> elements(unionSize);
+    std::vector<int> elements(unionSize);
     iota(elements.begin(), elements.end(), 0);
     shuffle(elements.begin(), elements.end(), device.getGenerator());
     for (int i = 0; i < common; i ++) {
@@ -108,11 +108,11 @@ vector<vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int
     for (int i = common; i < sizeA; i ++) {
         int position = device.generate(i + 1, unionSize - 1);
         v[0].push_back(elements[position]);
-        swap(elements[i], elements[position]);
+        std::swap(elements[i], elements[position]);
     }
     for (int i = sizeA; i < unionSize; i ++)
         v[1].push_back(elements[i]);
-    for_each(v.begin(), v.end(), [&](vector<int> &list) {
+    for_each(v.begin(), v.end(), [&](std::vector<int> &list) {
         shuffle(list.begin(), list.end(), device.getGenerator());
     });
     return v;

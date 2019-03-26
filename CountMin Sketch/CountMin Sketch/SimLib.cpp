@@ -69,8 +69,8 @@ R ManhattanDistance(T objectA, T objectB) { // arrays
 }
 template <typename T, typename dt, typename R>
 R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted) { // vectors and other iterables
-    unordered_map<int, int> mapA, mapB;
-    unordered_map<int, int> mapUnion;
+    std::unordered_map<int, int> mapA, mapB;
+    std::unordered_map<int, int> mapUnion;
     for_each(begin(objectA), end(objectA), [&](auto value) {
         mapA[value] ++;
     });
@@ -81,8 +81,8 @@ R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted) { // vector
     int unionSize = 0;
     for_each(begin(mapA), end(mapA), [&](auto record) {
         if (mapB.count(record.first)) {
-            intersection += makeUnweighted ? 1 : min(record.second, mapB[record.first]);
-            unionSize += makeUnweighted ? 1 : max(record.second, mapB[record.first]);
+            intersection += makeUnweighted ? 1 : std::min(record.second, mapB[record.first]);
+            unionSize += makeUnweighted ? 1 : std::max(record.second, mapB[record.first]);
         } else {
             unionSize += makeUnweighted ? 1 : record.second;
         }
@@ -99,8 +99,8 @@ R JaccardSimilarityIterable(T objectA, T objectB) { // vectors and other iterabl
 }
 template <typename T, typename dt, typename R>
 R JaccardDistance(T objectA, T objectB, bool makeUnweighted) { // arrays
-    unordered_map<int, int> mapA, mapB;
-    unordered_map<int, int> mapUnion;
+    std::unordered_map<int, int> mapA, mapB;
+    std::unordered_map<int, int> mapUnion;
     for_each(objectA, *(&objectA + 1), [&](auto value) {
         mapA[value] ++;
     });
@@ -199,7 +199,7 @@ template <typename T>
 int EditDistance(T objectA, T objectB) {
     int lA = int(objectA.size());
     int lB = int(objectB.size());
-    vector<vector<int>> dpTables(lA + 1);
+    std::vector<std::vector<int>> dpTables(lA + 1);
     for_each(begin(dpTables), end(dpTables), [=](auto &row) {
         row.resize(lB + 1);
     });
@@ -209,22 +209,22 @@ int EditDistance(T objectA, T objectB) {
             else if (j == 0) dpTables[i][j] = i;
             else if (objectA[i] == objectB[j])
                 dpTables[i][j] = dpTables[i - 1][j - 1];
-            else dpTables[i][j] = min({dpTables[i - 1][j], dpTables[i][j - 1], dpTables[i - 1][j - 1]}) + 1;
+            else dpTables[i][j] = std::min({dpTables[i - 1][j], dpTables[i][j - 1], dpTables[i - 1][j - 1]}) + 1;
         }
     }
     return dpTables[lA][lB];
 }
 template <typename T, typename R>
-map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
-    map<R, int> bins;
+std::map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
+    std::map<R, int> bins;
     for_each(begin(stream), end(stream), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
 template <typename T, typename R>
-map<R, int> StreamToBins(T &stream) { // arrays
-    map<R, int> bins;
+std::map<R, int> StreamToBins(T &stream) { // arrays
+    std::map<R, int> bins;
     for_each(stream, *(&stream + 1), [&](R record) {
         bins[record] ++;
     });
@@ -246,8 +246,8 @@ R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outlie
             }
         }
     } else {
-        vector<T> columnMaxA(columns + 1, 0);
-        vector<T> columnMaxB(columns + 1, 0);
+        std::vector<T> columnMaxA(columns + 1, 0);
+        std::vector<T> columnMaxB(columns + 1, 0);
         for (int i = 1; i <= rows; i ++) {
             for (int j = 1; j <= columns; j ++) {
                 if (tableA.getValueAt(i, j) > columnMaxA[j])
