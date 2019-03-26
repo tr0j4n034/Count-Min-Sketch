@@ -91,7 +91,7 @@ public:
     T getAlpha();
     T getBeta();
     T generate();
-    vector<T> generateList(int size, T scalingFactor = 1);
+    std::vector<T> generateList(int size, T scalingFactor = 1);
     
     ~BetaRandomVar();
 };

@@ -23,11 +23,11 @@ std::vector<T> generateRandomListViaGammaParams
 
 #if __has_include("boost/random.hpp")
 template<typename T = double>
-vector<T> generateRandomListViaBeta
+std::vector<T> generateRandomListViaBeta
     (int setSize, BetaRandomVar<T> b, double scaler = 1.);
 
 template<typename T = double>
-vector<T> generateRandomListViaBetaParams
+std::vector<T> generateRandomListViaBetaParams
     (int setSize, T alpha, T beta, double scaler = 1.);
 #endif
 

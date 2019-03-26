@@ -11,8 +11,6 @@
 
 #include "CWSSketch.hpp"
 
-#include <vector>
-
 template<typename T>
 CWSSketch<T>::CWSSketch() {
     

@@ -33,7 +33,6 @@ void CountMinTesting() {
         }
         return 1. * deltaSum / streamSize;
     };
-    int universeSize = 100000;
     
 //    for (int i = 0; i < 50; i ++) {
 //        double errorTolerance = 0.01 * (rand() % 100 + 1);
@@ -42,16 +41,13 @@ void CountMinTesting() {
 //        cout << errorTolerance << " " << confidence << " " <<
 //            getMeanErrorOnStream(stream_size, universeSize, errorTolerance, confidence) << endl;
 //    }
-
-
+    
+    int universeSize = 100000;
+    
     cout << "Count-Min sketch average errors over artificial datasets:" << endl;
     cout << endl;
-    cout << "The values per line shows" << endl;
-    cout << "1. sketch error parameter" << endl;
-    cout << "2. sketch confidence parameter" << endl;
-    cout << "3. mean average error of the sketch on all possible inputs" << endl;
-    cout << endl;
-    for (int streamSize = 50000; streamSize <= 200000; streamSize *= 2) {
+    
+    for (int streamSize = 50000; streamSize <= 50000000; streamSize *= 2) {
         int trials = 10;
         long long errorSum = 0;
         for (int i = 0; i < trials; i ++) {
@@ -60,7 +56,6 @@ void CountMinTesting() {
         cout.precision(3);
         cout << fixed << "for stream size = " << streamSize << ", mean average error is: " << 1. * errorSum / trials << endl;
     }
-
 }
 
 #endif /* CountMinTable_testing_h */

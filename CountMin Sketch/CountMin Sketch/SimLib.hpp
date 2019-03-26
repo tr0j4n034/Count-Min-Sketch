@@ -9,9 +9,6 @@
 #ifndef SimLib_h
 #define SimLib_h
 
-#include <cmath>
-
-#include <cassert>
 #include <map>
 #include <unordered_map>
 

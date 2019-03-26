@@ -25,7 +25,7 @@ Hasher<T>::Hasher(T __A, T __B, T __C) {
 }
 template<typename T>
 Hasher<T>::Hasher(T maxRange) {
-    Random device = Random(1LL * (unsigned int)clock() * SALT % INT_MAX);
+    Random device(1LL * (unsigned int)clock() * SALT % INT_MAX);
     SALT ^= 1LL * rand() * rand() % (1 << 30);
     A = 1ULL * (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
     B = 1ULL * (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;

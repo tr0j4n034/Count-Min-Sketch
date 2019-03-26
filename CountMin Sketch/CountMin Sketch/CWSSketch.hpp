@@ -12,8 +12,6 @@
 
 #endif /* CWSSketch_hpp */
 
-#include <vector>
-
 template <typename T>
 class CWSSketch {
     std::vector<T> sketchElements;

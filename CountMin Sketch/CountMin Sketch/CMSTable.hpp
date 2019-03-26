@@ -10,7 +10,6 @@
 #define CMSTable_hpp
 
 #include <cmath>
-#include <algorithm>
 
 #include "HashColumn.cpp"
 #include "Hasher.cpp"

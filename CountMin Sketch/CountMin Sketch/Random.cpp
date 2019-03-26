@@ -16,7 +16,6 @@
 
 #include "Random.hpp"
 
-
 Random::Random() {
     
 }
@@ -40,7 +39,7 @@ int Random::generatePrimeInRange(int low, int high) {
     int result = -1;
     for (int trials = 0; trials < PRIME_CHECK_TRIALS; trials ++) {
         result = generate(low, high);
-        if (isPrime(result)) return result;
+        if (isPrime<int>(result)) return result;
     }
     return -1;
 }
@@ -64,8 +63,8 @@ GammaRandomVar<T>::GammaRandomVar() {
 }
 template<typename T>
 GammaRandomVar<T>::GammaRandomVar(T __alpha, T __beta) {
-    alpha = 0;
-    beta = 0;
+    alpha = __alpha;
+    beta = __beta;
     dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
     distribution = std::gamma_distribution<T>(alpha, beta);
 }
@@ -157,7 +156,7 @@ T BetaRandomVar<T>::generate() {
 }
 template<typename T>
 std::vector<T> BetaRandomVar<T>::generateList(int size, T scalingFactor) {
-    vector<T> list(size);
+    std::vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });

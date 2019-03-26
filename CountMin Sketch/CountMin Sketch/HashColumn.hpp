@@ -9,8 +9,6 @@
 #ifndef HashColumn_hpp
 #define HashColumn_hpp
 
-#include <functional>
-
 template <typename T>
 class HashColumn {
     int size;

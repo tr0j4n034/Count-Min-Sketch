@@ -11,13 +11,13 @@
 
 #include "Generator.hpp"
 
-#include <functional>
-#include <algorithm>
 #include <ctime>
 #include <cstdlib>
 
+const int MAX_VALUE = 1 << 30;
+
 std::vector<int> generateRandomList(int setSize, int maxRange) {
-    Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
+    Random device(1LL * (unsigned int)clock() * rand() % MAX_VALUE);
     std::vector<int> list(setSize);
     for (auto &element: list) {
         element = device.generate(1, maxRange);
@@ -44,17 +44,17 @@ std::vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, do
 
 #if __has_include("boost/random.hpp")
 template<typename T>
-vector<T> generateRandomListViaBeta(int setSize, BetaRandomVar<T> b, double scaler) {
-    vector<T> list(setSize);
+std::vector<T> generateRandomListViaBeta(int setSize, BetaRandomVar<T> b, double scaler) {
+    std::vector<T> list(setSize);
     for (auto &element: list) {
         element = T(scaler * b.generate());
     }
     return list;
 }
 template<typename T>
-vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double scaler) {
+std::vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double scaler) {
     BetaRandomVar<T> b(alpha, beta);
-    vector<T> list(setSize);
+    std::vector<T> list(setSize);
     for (auto &element: list) {
         element = T(scaler * b.generate());
     }
@@ -63,7 +63,7 @@ vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double s
 #endif
 
 std::vector<std::vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange) {
-    Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
+    Random device(1LL * (unsigned int)clock() * rand() % MAX_VALUE);
     std::vector<std::vector<int>> v(dataSetSize);
     for (auto list: v) list.resize(setSize);
     for (auto list: v) {
@@ -74,7 +74,7 @@ std::vector<std::vector<int>> generateRandomDataSet(int dataSetSize, int setSize
 }
 std::vector<std::vector<int>> generateRandomPair(int sizeA, int sizeB, bool sameSize, int maxRange) {
     if (sameSize) sizeB = sizeA;
-    Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
+    Random device(1LL * (unsigned int)clock() * rand() % MAX_VALUE);
     std::vector<std::vector<int>> v(2);
     v[0].resize(sizeA);
     v[1].resize(sizeB);
@@ -87,7 +87,7 @@ std::vector<std::vector<int>> generateRandomPair(int sizeA, int sizeB, bool same
 }
 std::vector<std::vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int sizeB, bool sameSize) {
     if (sameSize) sizeB = sizeA;
-    Random device = Random(1LL * (unsigned int)clock() * rand() % INT_MAX);
+    Random device(1LL * (unsigned int)clock() * rand() % MAX_VALUE);
     std::vector<std::vector<int>> v(2);
     int common = 0;
     for (int i = MAX_BIT; i >= 0; i --) {
@@ -117,6 +117,5 @@ std::vector<std::vector<int>> generatePairWithSimilarity(int sizeA, double simil
     });
     return v;
 }
-
 
 #endif /* Generator_h */
