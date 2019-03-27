@@ -32,10 +32,10 @@ class CWSEngineManasse {
 public:
     CWSEngineManasse();
     template<typename R, typename V = int>
-    CWSSketch<T> getSketchIterableManasse(const R& stream, int sketchSize = 1000);
+    CWSSketch<T> getSketchIterableManasseNaive(const R& stream, int sketchSize = 1000);
     
-    template<typename R, typename V = int>
-    CWSSketch<T> getSketchManasse(const R& stream, int sketchSize = 1000);
+//    template<typename R, typename V = int>
+//    CWSSketch<T> getSketchManasse(const R& stream, int sketchSize = 1000);
     
     ~CWSEngineManasse();
 };

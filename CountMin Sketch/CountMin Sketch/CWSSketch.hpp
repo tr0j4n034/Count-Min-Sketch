@@ -20,11 +20,14 @@ public:
     CWSSketch();
     CWSSketch(std::vector<T> __elems, std::vector<T> __hashes);
     CWSSketch(int __size);
+    
     void append(T __element, T __hash);
     int getCWSSketchSize();
     std::vector<T> getSketchElems();
     std::vector<T> getSketchHashes();
+    
     void clear();
+    
     ~CWSSketch();
 };
 

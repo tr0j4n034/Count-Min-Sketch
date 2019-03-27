@@ -11,8 +11,13 @@
 #ifndef CWSLib_cpp
 #define CWSLib_cpp
 
+#include <utility>
+#include <algorithm>
+
 #include "CWSSketch.cpp"
+
 #include "CWSLib.hpp"
+#include "ExtraFactory.hpp"
 
 template<typename T>
 CWSEngineIoffe<T>::CWSEngineIoffe() {
@@ -83,20 +88,27 @@ CWSEngineManasse<T>::CWSEngineManasse() {
     u = UniformRandomVar<T>(0, 1);
 }
 
-//template<typename T>
-//template<typename R, typename V>
-//CWSSketch<T> CWSEngineManasse<T>::getSketchIterableManasse(const R& stream, int sketchSize) {
-//    CWSSketch<T> sk;
-//    std::map<V, int> streamBins = StreamToBinsIterable(stream);
-//    for_each(begin(streamBins), end(streamBins), [&](auto &element) {
-//        int counter = int(std::round(u.generate() * element.second));
-//        T hashvalue = 0; // ** fix later **
-//        double chosingProbability = u.generate();
-//        double chosingThreshold = 1. * element.second / int(stream.size());
-//        if (chosingProbability >= chosingThreshold)
-//    });
-//}
 
+template<typename T>
+template<typename R, typename V>
+CWSSketch<T> CWSEngineManasse<T>::getSketchIterableManasseNaive(const R& stream, int sketchSize) {
+    CWSSketch<T> sk;
+    std::hash<std::string> hasher;
+    std::map<V, int> streamBins = StreamToBinsIterable(stream);
+    std::vector<std::pair<int, int>> starters;
+    int counter = 0;
+    for_each(begin(streamBins), end(streamBins), [&](auto &element) {
+        starters.push_back(std::make_pair(counter, element.first));
+        counter += element.second;
+    });
+    for (int it = 0; it < sketchSize; it ++) {
+        double uout = u.generate();
+        int position = int(std::round(1. * uout * int(stream.size())));
+        auto item = --upper_bound(begin(starters), end(starters), std::make_pair(position + 1, -1));
+        sk.append((*item).second, hasher(toString((*item).second)));
+    }
+    return sk;
+}
 
 template<typename T>
 CWSEngineManasse<T>::~CWSEngineManasse() {
