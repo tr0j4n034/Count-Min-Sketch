@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		510513D821ECA4B6004167EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 510513D721ECA4B6004167EA /* main.cpp */; };
+		51F161C5224A603800CCDC9F /* ExtraFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F161C3224A603800CCDC9F /* ExtraFactory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +43,8 @@
 		51E0C7BC2249218E00B56912 /* CMSTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CMSTable.hpp; sourceTree = "<group>"; };
 		51E6323121ED124000D17F76 /* Hasher.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hasher.cpp; sourceTree = "<group>"; };
 		51E6323221ED1A0C00D17F76 /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
+		51F161C3224A603800CCDC9F /* ExtraFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ExtraFactory.cpp; sourceTree = "<group>"; };
+		51F161C4224A603800CCDC9F /* ExtraFactory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExtraFactory.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				510513D721ECA4B6004167EA /* main.cpp */,
+				51F161C3224A603800CCDC9F /* ExtraFactory.cpp */,
+				51F161C4224A603800CCDC9F /* ExtraFactory.hpp */,
 				51460EFB224956AE00D1ED1C /* CountMinTable_testing.h */,
 				518DA17121FCAFF40074D447 /* CWSLib.cpp */,
 				51E0C7BB2249200800B56912 /* CWSLib.hpp */,
@@ -154,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				510513D821ECA4B6004167EA /* main.cpp in Sources */,
+				51F161C5224A603800CCDC9F /* ExtraFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
