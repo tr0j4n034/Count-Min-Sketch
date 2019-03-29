@@ -12,7 +12,7 @@
 #include "SimLib.hpp"
 
 template <typename T, typename R>
-R EuclideanDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+R EuclideanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert((int)objectA.size() == (int)objectB.size());
@@ -26,7 +26,7 @@ R EuclideanDistanceIterable(T objectA, T objectB) { // vectors and other iterabl
     return sqrt(result);
 }
 template <typename T, typename R>
-R EuclideanDistance(T objectA, T objectB) { // arrays
+R EuclideanDistance(const T& objectA, const T& objectB) { // arrays
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert(sizeof(objectA) && sizeof(objectB));
@@ -40,7 +40,7 @@ R EuclideanDistance(T objectA, T objectB) { // arrays
     return sqrt(result);
 }
 template <typename T, typename R>
-R ManhattanDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+R ManhattanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert((int)objectA.size() == (int)objectB.size());
@@ -54,7 +54,7 @@ R ManhattanDistanceIterable(T objectA, T objectB) { // vectors and other iterabl
     return sqrt(result);
 }
 template <typename T, typename R>
-R ManhattanDistance(T objectA, T objectB) { // arrays
+R ManhattanDistance(const T& objectA, const T& objectB) { // arrays
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert(sizeof(objectA) && sizeof(objectB));
@@ -68,7 +68,7 @@ R ManhattanDistance(T objectA, T objectB) { // arrays
     return sqrt(result);
 }
 template <typename T, typename dt, typename R>
-R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted) { // vectors and other iterables
+R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighted) { // vectors and other iterables
     std::unordered_map<int, int> mapA, mapB;
     std::unordered_map<int, int> mapUnion;
     for_each(begin(objectA), end(objectA), [&](auto value) {
@@ -94,11 +94,11 @@ R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted) { // vector
     return 1. - 1. * intersection / unionSize;
 }
 template <typename T, typename dt, typename R>
-R JaccardSimilarityIterable(T objectA, T objectB) { // vectors and other iterables
+R JaccardSimilarityIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     return 1. - JaccardDistanceIterable<T, dt, R>(objectA, objectB);
 }
 template <typename T, typename dt, typename R>
-R JaccardDistance(T objectA, T objectB, bool makeUnweighted) { // arrays
+R JaccardDistance(const T& objectA, const T& objectB, bool makeUnweighted) { // arrays
     std::unordered_map<int, int> mapA, mapB;
     std::unordered_map<int, int> mapUnion;
     for_each(objectA, *(&objectA + 1), [&](auto value) {
@@ -124,11 +124,11 @@ R JaccardDistance(T objectA, T objectB, bool makeUnweighted) { // arrays
     return 1. - 1. * intersection / unionSize;
 }
 template <typename T, typename dt, typename R>
-R JaccardSimilarity(T objectA, T objectB) { // arrays
+R JaccardSimilarity(const T& objectA, const T& objectB) { // arrays
     return 1. - JaccardDistance<T, dt, R>(objectA, objectB);
 }
 template <typename T, typename R>
-R HammingDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+R HammingDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     assert(objectA.size() == objectB.size());
     int deltas = 0;
     auto itB = begin(objectB);
@@ -138,11 +138,11 @@ R HammingDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     return 1. - 1. * deltas / int(objectA.size());
 }
 template <typename T, typename R>
-R HammingSimilarityIterable(T objectA, T objectB) { // vectors and other iterables
+R HammingSimilarityIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     return 1. - HammingDistanceIterable<T, R>(objectA, objectB);
 }
 template <typename T, typename R>
-R HammingDistance(T objectA, T objectB) { // arrays
+R HammingDistance(const T& objectA, const T& objectB) { // arrays
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert(sizeof(objectA) && sizeof(objectB));
@@ -154,7 +154,7 @@ R HammingDistance(T objectA, T objectB) { // arrays
     return 1. * deltas / length;
 }
 template <typename T, typename R>
-R CosineDistanceIterable(T objectA, T objectB) { // vectors and other iterables
+R CosineDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     assert(objectA.size() == objectB.size());
     R dotProduct = 0;
     auto itB = begin(objectB);
@@ -170,11 +170,11 @@ R CosineDistanceIterable(T objectA, T objectB) { // vectors and other iterables
     return 1. * dotProduct / normA / normB;
 }
 template <typename T, typename R>
-R CosineSimilarityIterable(T objectA, T objectB) {
+R CosineSimilarityIterable(const T& objectA, const T& objectB) {
     return 1. - CosineDistanceIterable<T, R>(objectA, objectB);
 }
 template <typename T, typename R>
-R CosineDistance(T objectA, T objectB) { // arrays
+R CosineDistance(const T& objectA, const T& objectB) { // arrays
     // for custom data types
     // use (std::is_base_of<your_data_type, iterables>::value) or some other option
     assert(sizeof(objectA) && sizeof(objectB));
@@ -192,11 +192,11 @@ R CosineDistance(T objectA, T objectB) { // arrays
     return 1. * dotProduct / normA / normB;
 }
 template <typename T, typename R>
-R CosineSimilarity(T objectA, T objectB) {
+R CosineSimilarity(const T& objectA, const T& objectB) {
     return 1. - CosineDistance<T, R>(objectA, objectB);
 }
 template <typename T>
-int EditDistance(T objectA, T objectB) {
+int EditDistance(const T& objectA, const T& objectB) {
     int lA = int(objectA.size());
     int lB = int(objectB.size());
     std::vector<std::vector<int>> dpTables(lA + 1);
@@ -215,7 +215,7 @@ int EditDistance(T objectA, T objectB) {
     return dpTables[lA][lB];
 }
 template <typename T, typename R>
-std::map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterables
+std::map<R, int> StreamToBinsIterable(const T& stream) { // vectors and other iterables
     std::map<R, int> bins;
     for_each(begin(stream), end(stream), [&](R record) {
         bins[record] ++;
@@ -223,13 +223,47 @@ std::map<R, int> StreamToBinsIterable(T &stream) { // vectors and other iterable
     return bins;
 }
 template <typename T, typename R>
-std::map<R, int> StreamToBins(T &stream) { // arrays
+std::map<R, int> StreamToBins(const T& stream) { // arrays
     std::map<R, int> bins;
     for_each(stream, *(&stream + 1), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
+template<typename T, typename R>
+std::vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize) {
+    if (globeSize == -1) {
+        globeSize = *std::max_element(begin(stream), end(stream));
+    }
+    std::vector<int> bins(globeSize, 0);
+    for_each(begin(stream), end(stream), [&](R record) {
+        bins[record] ++;
+    });
+    return bins;
+}
+template<typename T, typename R>
+std::vector<R> StreamToBinsGlobe(const T& stream, int globeSize) {
+    if (globeSize == -1) {
+        globeSize = *std::max_element(stream, *(&stream + 1));
+    }
+    std::vector<int> bins(globeSize, 0);
+    for_each(begin(stream), end(stream), [&](R record) {
+        bins[record] ++;
+    });
+    return bins;
+}
+template<typename R>
+std::vector<R> BinsToStream(const std::vector<R>& bins) {
+    std::vector<R> streamData;
+    for (int i = 0; i < int(bins.size()); i ++) {
+        for (int j = 0; j < bins[i]; j ++) {
+            streamData.push_back(i);
+        }
+    }
+    return streamData;
+}
+
+
 template<typename T, typename R>
 R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outliersIn) {
     assert(tableA.getTableSize() == tableB.getTableSize());

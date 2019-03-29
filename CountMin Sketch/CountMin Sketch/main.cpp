@@ -21,11 +21,14 @@ using namespace std;
 
 #include "CountMinTable_testing.h"
 #include "CWS_Manasse_testing.h"
+#include "CWS_Ioffe_testing.h"
 
 int main(int argc, const char * argv[]) {
     // CountMinTesting();
     
-    CWS_Manasse_testing();
+    // CWS_Manasse_testing();
+    
+    CWS_Ioffe_testing();
     
     return 0;
 }

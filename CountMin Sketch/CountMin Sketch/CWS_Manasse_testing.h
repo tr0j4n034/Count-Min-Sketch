@@ -10,9 +10,9 @@
 #define CWS_Manasse_testing_h
 
 void CWS_Manasse_testing() {
-    int streamSize = 100'000'000;
-    int sketchSize = 10'000'000;
-    int universeSize = 200'000;
+    int streamSize = 100'000;
+    int sketchSize = 10'000;
+    int universeSize = 20'000;
     
     cout << "Size of each stream is " << 4. * streamSize / (1 << 20) << " megabytes" << endl;
     cout << "Size of each sketch is " << 4. * sketchSize / (1 << 20) << " megabytes" << endl;
@@ -26,13 +26,20 @@ void CWS_Manasse_testing() {
     
     // stream1 = stream2;
     
+    int noiseCounter = streamSize / 1000;
+    default_random_engine generator(0);
+    uniform_int_distribution<int> distribution(0, streamSize - 1);
+    for (int i = 0; i < noiseCounter; i ++) {
+        stream2[distribution(generator)] ++;
+    }
+    
     cout << "Jaccard distance between the original streams: ";
     cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2) << endl;
     
     cout << endl;
     cout << "Getting sketches..." << endl;
     
-    CWSEngineManasse<double> engine;
+    CWSEngineManasse<double> engine(0);
     CWSSketch<double> cws1 = engine.getSketchIterableManasseNaive(stream1, sketchSize);
     vector<double> sketchData1 = cws1.getSketchElems();
     //cout << describe(sketchData1) << endl;

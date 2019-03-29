@@ -21,36 +21,57 @@
 
 template<typename T>
 CWSEngineIoffe<T>::CWSEngineIoffe() {
-    r = GammaRandomVar<T>(2., 1.);
-    c = GammaRandomVar<T>(2., 1.);
-    b = UniformRandomVar<T>(0., 1.);
+    seed = 42;
+    r = GammaRandomVar<T>(2., 1., seed);
+    c = GammaRandomVar<T>(2., 1., seed);
+    b = UniformRandomVar<T>(0., 1., seed);
+}
+template<typename T>
+CWSEngineIoffe<T>::CWSEngineIoffe(int __seed) {
+    seed = __seed;
+    r = GammaRandomVar<T>(2., 1., seed);
+    c = GammaRandomVar<T>(2., 1., seed);
+    b = UniformRandomVar<T>(0., 1., seed);
 }
 template<typename T>
 void CWSEngineIoffe<T>::resetVarsIoffe() {
-    r = GammaRandomVar<T>(2., 1.);
-    c = GammaRandomVar<T>(2., 1.);
-    b = UniformRandomVar<T>(0., 1.);
+    r = GammaRandomVar<T>(2., 1., seed);
+    c = GammaRandomVar<T>(2., 1., seed);
+    b = UniformRandomVar<T>(0., 1., seed);
 }
 template<typename T>
 template<typename R, typename V>
-CWSSketch<T> CWSEngineIoffe<T>::getSketchIterableIoffe(const R& stream, int sketchSize) {
+CWSSketch<T> CWSEngineIoffe<T>::getSketchIterableIoffe(const R& stream, int sketchSize, int globeSize) {
     CWSSketch<T> sk;
-    std::map<V, int> streamBins = StreamToBinsIterable(stream);
+    // std::map<V, int> streamBins = StreamToBinsIterable(stream);
+    std::vector<V> streamBins = StreamToBinsIterableGlobe(stream, globeSize);
+    resetVarsIoffe();
     for (int it = 0; it < sketchSize; it ++) {
-        resetVarsIoffe();
         T minHashElement, minHash = 1e308;
+        T minArgv = 1e308;
+        int elemID = 0;
         for_each(begin(streamBins), end(streamBins), [&](auto& element) {
             T rval = r.generate();
             T bval = b.generate();
             T cval = c.generate();
-            T delta = 1. * rval * (int(std::log(1. * element.second / rval + bval)) - bval);
-            T y = std::exp(delta);
-            T z = y * std::exp(rval);
-            T aux = cval / z;
-            if (aux < minHash) {
-                minHashElement = element.first;
-                minHash = aux;
+//            T delta = 1. * rval * (int(std::log(1. * element.second / rval + bval)) - bval);
+//            T y = std::exp(delta);
+//            T z = y * std::exp(rval);
+//            T aux = cval / z;
+//            if (aux < minHash) {
+//                minHashElement = element.first;
+//                minHash = aux;
+//            }
+            double vlog = std::log(1. * element);
+            double delta = std::floor(vlog / rval + bval);
+            double lny = (delta - bval) * rval;
+            double lna = cval - lny - rval;
+            if (lna < minArgv) {
+                minArgv = lna;
+                minHashElement = elemID;
+                minHash = int(delta);
             }
+            elemID ++;
         });
         sk.append(minHashElement, minHash);
     }
@@ -58,14 +79,15 @@ CWSSketch<T> CWSEngineIoffe<T>::getSketchIterableIoffe(const R& stream, int sket
 }
 template<typename T>
 template<typename R, typename V>
-CWSSketch<T> CWSEngineIoffe<T>::getSketchIoffe(const R& stream, int sketchSize) {
+CWSSketch<T> CWSEngineIoffe<T>::getSketchIoffe(const R& stream, int sketchSize, int globeSize) {
+    resetVarsIoffe();
     CWSSketch<T> sk;
     std::map<V, int> streamBins = StreamToBins(stream);
     for (int it = 0; it < sketchSize; it ++) {
         T minHashElement, minHash = 1e308;
         for_each(stream, *(&stream + 1), [&](auto& element) {
             T rval = r.generate();
-            T y = std::exp(std::log(element.second) + rval * b.generate());
+            T y = std::exp(std::log(1. * element.second) + rval * b.generate());
             T aux = c.generate() / (y * std::exp(rval));
             if (aux < minHash) {
                 minHashElement = element.first;
@@ -85,10 +107,18 @@ CWSEngineIoffe<T>::~CWSEngineIoffe() {
 
 template<typename T>
 CWSEngineManasse<T>::CWSEngineManasse() {
-    u = UniformRandomVar<T>(0, 1);
+    seed = 42;
+    u = UniformRandomVar<T>(0., 1., seed);
 }
-
-
+template<typename T>
+CWSEngineManasse<T>::CWSEngineManasse(int __seed) {
+    seed = __seed;
+    u = UniformRandomVar<T>(0., 1., seed);
+}
+template<typename T>
+void CWSEngineManasse<T>::resetVarsManasse() {
+    u = UniformRandomVar<T>(0., 1., seed);
+}
 template<typename T>
 template<typename R, typename V>
 CWSSketch<T> CWSEngineManasse<T>::getSketchIterableManasseNaive(const R& stream, int sketchSize) {
@@ -101,6 +131,7 @@ CWSSketch<T> CWSEngineManasse<T>::getSketchIterableManasseNaive(const R& stream,
         starters.push_back(std::make_pair(counter, element.first));
         counter += element.second;
     });
+    resetVarsManasse();
     for (int it = 0; it < sketchSize; it ++) {
         double uout = u.generate();
         int position = int(std::round(1. * uout * int(stream.size())));

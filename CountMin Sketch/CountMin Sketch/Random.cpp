@@ -17,11 +17,14 @@
 #include "Random.hpp"
 
 Random::Random() {
-    
+    seed = -1;
 }
-Random::Random(int __range):
+Random::Random(int __range, int __seed):
 dist(std::uniform_int_distribution<>(0, __range - 1)){
-    generator.seed(unsigned(time((NULL))));
+    generator.seed(__seed == -1 ? unsigned(time((NULL))) : __seed);
+}
+void Random::setSeed(int __seed) {
+    generator.seed(__seed);
 }
 int Random::getRange() {
     return range;
@@ -54,6 +57,7 @@ Random::~Random() {
     
 }
 
+
 template<typename T>
 GammaRandomVar<T>::GammaRandomVar() {
     alpha = 0;
@@ -62,11 +66,15 @@ GammaRandomVar<T>::GammaRandomVar() {
     distribution = std::gamma_distribution<T>(alpha, beta);
 }
 template<typename T>
-GammaRandomVar<T>::GammaRandomVar(T __alpha, T __beta) {
+GammaRandomVar<T>::GammaRandomVar(T __alpha, T __beta, int __seed) {
     alpha = __alpha;
     beta = __beta;
-    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    dre = std::default_random_engine(__seed == -1 ? 1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30) : __seed);
     distribution = std::gamma_distribution<T>(alpha, beta);
+}
+template<typename T>
+void GammaRandomVar<T>::setSeed(int __seed) {
+    seed = __seed;
 }
 template<typename T>
 T GammaRandomVar<T>::getAlpha() {
@@ -93,16 +101,21 @@ GammaRandomVar<T>::~GammaRandomVar() {
     
 }
 
+
 template<typename T>
 UniformRandomVar<T>::UniformRandomVar() {
     
 }
 template<typename T>
-UniformRandomVar<T>::UniformRandomVar(T __low, T __high) {
+UniformRandomVar<T>::UniformRandomVar(T __low, T __high, int __seed) {
     lowBound = __low;
     highBound = __high;
-    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    dre = std::default_random_engine(__seed == -1 ? 1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30) : seed);
     distribution = std::uniform_real_distribution<T>(lowBound, highBound);
+}
+template<typename T>
+void UniformRandomVar<T>::setSeed(int __seed) {
+    seed = __seed;
 }
 template<typename T>
 T UniformRandomVar<T>::getLowBound() {

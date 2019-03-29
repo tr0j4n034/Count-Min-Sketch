@@ -13,61 +13,70 @@
 #include <unordered_map>
 
 template <typename T, typename R>
-R EuclideanDistanceIterable(T objectA, T objectB);
+R EuclideanDistanceIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R EuclideanDistance(T objectA, T objectB);
+R EuclideanDistance(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R ManhattanDistanceIterable(T objectA, T objectB);
+R ManhattanDistanceIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R ManhattanDistance(T objectA, T objectB);
+R ManhattanDistance(const T& objectA, const T& objectB);
 
 template <typename T, typename dt, typename R>
-R JaccardDistanceIterable(T objectA, T objectB, bool makeUnweighted = false);
+R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighted = false);
 
 template <typename T, typename dt, typename R>
-R JaccardSimilarityIterable(T objectA, T objectB);
+R JaccardSimilarityIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename dt, typename R>
-R JaccardDistance(T objectA, T objectB, bool makeUnweighted = false);
+R JaccardDistance(const T& objectA, const T& objectB, bool makeUnweighted = false);
 
 template <typename T, typename dt, typename R>
-R JaccardSimilarity(T objectA, T objectB);
+R JaccardSimilarity(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R HammingDistanceIterable(T objectA, T objectB);
+R HammingDistanceIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R HammingSimilarityIterable(T objectA, T objectB);
+R HammingSimilarityIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R HammingDistance(T objectA, T objectB);
+R HammingDistance(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R CosineDistanceIterable(T objectA, T objectB);
+R CosineDistanceIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R CosineSimilarityIterable(T objectA, T objectB);
+R CosineSimilarityIterable(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R CosineDistance(T objectA, T objectB);
+R CosineDistance(const T& objectA, const T& objectB);
 
 template <typename T, typename R>
-R CosineSimilarity(T objectA, T objectB);
+R CosineSimilarity(const T& objectA, const T& objectB);
 
 template <typename T>
-int EditDistance(T objectA, T objectB);
+int EditDistance(const T& objectA, const T& objectB);
 
 template <typename T = std::vector<int>, typename R = int>
-std::map<R, int> StreamToBinsIterable(T &stream);
+std::map<R, int> StreamToBinsIterable(const T &stream);
 
 template <typename T, typename R = int>
-std::map<R, int> StreamToBins(T &stream);
+std::map<R, int> StreamToBins(const T &stream);
+
+template <typename T, typename R = int>
+std::vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize = -1);
+
+template <typename T, typename R = int>
+std::vector<R> StreamToBinsGlobe(const T& stream, int globeSize = -1);
+
+template<typename R = int>
+std::vector<R> BinsToStream(const std::vector<R>& bins);
 
 template<typename T = int, typename R = double>
-R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outliersIn = true);
+R HammingDistanceCMSTables(const CMSTable<T>& tableA, const CMSTable<T>& tableB, bool outliersIn = true);
 
 
 #endif /* SimLib_h */
