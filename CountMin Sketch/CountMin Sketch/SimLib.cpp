@@ -81,8 +81,10 @@ R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighte
     int unionSize = 0;
     for_each(begin(mapA), end(mapA), [&](auto record) {
         if (mapB.count(record.first)) {
-            intersection += makeUnweighted ? 1 : std::min(record.second, mapB[record.first]);
-            unionSize += makeUnweighted ? 1 : std::max(record.second, mapB[record.first]);
+            intersection += makeUnweighted ?
+                            1 : std::min(record.second, mapB[record.first]);
+            unionSize += makeUnweighted ?
+                            1 : std::max(record.second, mapB[record.first]);
         } else {
             unionSize += makeUnweighted ? 1 : record.second;
         }
@@ -126,6 +128,28 @@ R JaccardDistance(const T& objectA, const T& objectB, bool makeUnweighted) { // 
 template <typename T, typename dt, typename R>
 R JaccardSimilarity(const T& objectA, const T& objectB) { // arrays
     return 1. - JaccardDistance<T, dt, R>(objectA, objectB);
+}
+template<typename T, typename dt, typename R>
+R JaccardDistanceBinned(const T& binsA, const T& binsB, bool makeUnweighted) {
+    if (int(binsA.size()) != int(binsB.size())) {
+        throw std::runtime_error("Vectors do not have the same size");
+    }
+    int intersection = 0;
+    int unionSize = 0;
+    for (int i = 0; i < int(binsA.size()); i ++) {
+        if (makeUnweighted) {
+            intersection += int(binsA[i] == binsB[i]);
+            unionSize ++;
+        } else {
+            intersection += std::min(binsA[i], binsB[i]);
+            unionSize += std::max(binsA[i], binsB[i]);
+        }
+    }
+    return 1. - 1. * intersection / unionSize;
+}
+template<typename T, typename dt, typename R>
+R JaccardSimilarityBinned(const T& binsA, const T& binsB, bool makeUnweighted) {
+    return 1. - JaccardDistanceBinned<T, dt, R>(binsA, binsB, makeUnweighted);
 }
 template <typename T, typename R>
 R HammingDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables

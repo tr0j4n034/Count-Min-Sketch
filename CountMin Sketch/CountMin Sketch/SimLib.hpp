@@ -27,6 +27,12 @@ R ManhattanDistance(const T& objectA, const T& objectB);
 template <typename T, typename dt, typename R>
 R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighted = false);
 
+template<typename T, typename dt, typename R>
+R JaccardDistanceBinned(const T& binsA, const T& binsB, bool makeUnweighted = false);
+
+template<typename T, typename dt, typename R>
+R JaccardSimilarityBinned(const T& binsA, const T& binsB, bool makeUnweighted = false);
+
 template <typename T, typename dt, typename R>
 R JaccardSimilarityIterable(const T& objectA, const T& objectB);
 

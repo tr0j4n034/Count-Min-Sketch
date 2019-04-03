@@ -19,4 +19,8 @@ std::string toString(const T& element);
 template<typename T>
 std::string describe(const std::vector<T>& stream);
 
+
+template<typename T>
+std::vector<int> reduceToUnWeighted(const std::vector<T>& stream, int offset = 0);
+
 #endif /* ExtraFactory_hpp */

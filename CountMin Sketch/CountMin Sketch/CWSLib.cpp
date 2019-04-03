@@ -44,28 +44,23 @@ template<typename R, typename V>
 CWSSketch<T> CWSEngineIoffe<T>::getSketchIterableIoffe(const R& stream, int sketchSize, int globeSize) {
     CWSSketch<T> sk;
     // std::map<V, int> streamBins = StreamToBinsIterable(stream);
-    std::vector<V> streamBins = StreamToBinsIterableGlobe(stream, globeSize);
+    auto streamBins = stream;
+    
     resetVarsIoffe();
     for (int it = 0; it < sketchSize; it ++) {
         T minHashElement, minHash = 1e308;
         T minArgv = 1e308;
         int elemID = 0;
-        for_each(begin(streamBins), end(streamBins), [&](auto& element) {
+        for_each(begin(stream), end(stream), [&](auto& element) {
             T rval = r.generate();
             T bval = b.generate();
             T cval = c.generate();
-//            T delta = 1. * rval * (int(std::log(1. * element.second / rval + bval)) - bval);
-//            T y = std::exp(delta);
-//            T z = y * std::exp(rval);
-//            T aux = cval / z;
-//            if (aux < minHash) {
-//                minHashElement = element.first;
-//                minHash = aux;
-//            }
+            
             double vlog = std::log(1. * element);
             double delta = std::floor(vlog / rval + bval);
             double lny = (delta - bval) * rval;
             double lna = cval - lny - rval;
+            
             if (lna < minArgv) {
                 minArgv = lna;
                 minHashElement = elemID;

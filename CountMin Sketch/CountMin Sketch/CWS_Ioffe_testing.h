@@ -10,9 +10,9 @@
 #define CWS_Ioffe_testing_h
 
 void CWS_Ioffe_testing() {
-    int streamSize = 2'000;
+    int streamSize = 10'000;
     int sketchSize = 1'000;
-    int universeSize = 1'000;
+    int universeSize = 2'000;
     
     cout << "Size of each stream is " << 4. * streamSize / (1 << 20) << " megabytes" << endl;
     cout << "Size of each sketch is " << 4. * sketchSize / (1 << 20) << " megabytes" << endl;
@@ -26,16 +26,17 @@ void CWS_Ioffe_testing() {
     
     stream1 = stream2;
     
-    int noiseCounter = streamSize / 50;
+    int noiseCounter = streamSize;
     default_random_engine generator(0);
     uniform_int_distribution<int> distribution(0, streamSize - 1);
     for (int i = 0; i < noiseCounter; i ++) {
         stream2[distribution(generator)] ++;
     }
     
-    cout << "Jaccard distance between the original streams: ";
-    cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2, false) << endl;
-    
+    cout << "Jaccard distance between the original streams: " << endl;
+    // cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2, false) << endl;
+    cout << "Binned weighted: " << JaccardDistanceBinned<vector<int>, int, double>(stream1, stream2) << endl;
+    // cout << "Binned unweighted: " << JaccardDistanceBinned<vector<int>, int, double>(stream1, stream2, true) << endl;
     cout << endl;
     cout << "Getting sketches..." << endl;
     
@@ -49,8 +50,10 @@ void CWS_Ioffe_testing() {
     //cout << describe(sketchData2) << endl;
     cout << "Done." << endl << endl;
     
-    cout << "Jaccard distance between the sketches: ";
-    cout << JaccardDistanceIterable<vector<double>, int, double>(sketchData1, sketchData2, false) << endl;
+    cout << "Jaccard distance between the sketches: " << endl;
+    // cout << JaccardDistanceIterable<vector<double>, int, double>(sketchData1, sketchData2, false) << endl;
+    cout << "Binned weighted: " << JaccardDistanceBinned<vector<double>, int, double>(sketchData1, sketchData2) << endl;
+    // cout << "Binned unweighted: " << JaccardDistanceBinned<vector<double>, int, double>(sketchData1, sketchData2, true) << endl;
 }
 
 #endif /* CWS_Ioffe_testing_h */
