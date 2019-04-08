@@ -1,0 +1,128 @@
+        -:    0:Source:./Generator.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  Generator.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/17/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef Generator_cpp
+        -:   10:#define Generator_cpp
+        -:   11:
+        -:   12:#include "Generator.hpp"
+        -:   13:
+        -:   14:#include <ctime>
+        -:   15:#include <cstdlib>
+        -:   16:
+        -:   17:const int MAX_VALUE = 1 << 30;
+        -:   18:
+        -:   19:std::vector<int> generateRandomList(int setSize, int maxRange, int seed) {
+    #####:   20:    Random device(seed == -1 ? 1LL * (unsigned int)clock() * rand() % MAX_VALUE : seed);
+    #####:   21:    std::vector<int> list(setSize);
+    #####:   22:    for (auto &element: list) {
+    #####:   23:        element = device.generate(1, maxRange);
+        -:   24:    }
+    #####:   25:    return list;
+    #####:   26:}
+        -:   27:template <typename T>
+        -:   28:std::vector<T> generateRandomListViaGamma(int setSize, GammaRandomVar<T> g, double scaler, int seed) {
+        -:   29:    g.setSeed(seed);
+        -:   30:    std::vector<T> list(setSize);
+        -:   31:    for (auto &element: list) {
+        -:   32:        element = T(scaler * g.generate());
+        -:   33:    }
+        -:   34:    return list;
+        -:   35:}
+        -:   36:template <typename T>
+        -:   37:std::vector<T> generateRandomListViaGammaParams(int setSize, T alpha, T beta, double scaler, int seed) {
+        -:   38:    GammaRandomVar<T> g = GammaRandomVar<T>(alpha, beta, seed);
+        -:   39:    std::vector<T> list(setSize);
+        -:   40:    for (auto &element: list) {
+        -:   41:        element = T(scaler * g.generate());
+        -:   42:    }
+        -:   43:    return list;
+        -:   44:}
+        -:   45:
+        -:   46:#if __has_include("boost/random.hpp")
+        -:   47:template<typename T>
+        -:   48:std::vector<T> generateRandomListViaBeta(int setSize, BetaRandomVar<T> b, double scaler, int seed) {
+        -:   49:    b.setSeed(seed);
+        -:   50:    std::vector<T> list(setSize);
+        -:   51:    for (auto &element: list) {
+        -:   52:        element = T(scaler * b.generate());
+        -:   53:    }
+        -:   54:    return list;
+        -:   55:}
+        -:   56:template<typename T>
+        -:   57:std::vector<T> generateRandomListViaBetaParams(int setSize, T alpha, T beta, double scaler, int seed) {
+        -:   58:    BetaRandomVar<T> b(alpha, beta, seed);
+        -:   59:    std::vector<T> list(setSize);
+        -:   60:    for (auto &element: list) {
+        -:   61:        element = T(scaler * b.generate());
+        -:   62:    }
+        -:   63:    return list;
+        -:   64:}
+        -:   65:#endif
+        -:   66:
+        -:   67:std::vector<std::vector<int>> generateRandomDataSet(int dataSetSize, int setSize, int maxRange, int seed) {
+    #####:   68:    Random device(seed == -1 ? 1LL * (unsigned int)clock() * rand() % MAX_VALUE : seed);
+    #####:   69:    std::vector<std::vector<int>> v(dataSetSize);
+    #####:   70:    for (auto list: v) list.resize(setSize);
+    #####:   71:    for (auto list: v) {
+    #####:   72:        for (auto &element: list)
+    #####:   73:            element = device.generate(1, maxRange);
+    #####:   74:    }
+    #####:   75:    return v;
+    #####:   76:}
+        -:   77:std::vector<std::vector<int>> generateRandomPair(int sizeA, int sizeB, bool sameSize, int maxRange, int seed) {
+    #####:   78:    if (sameSize) sizeB = sizeA;
+    #####:   79:    Random device(seed == -1 ? 1LL * (unsigned int)clock() * rand() % MAX_VALUE : seed);
+    #####:   80:    std::vector<std::vector<int>> v(2);
+    #####:   81:    v[0].resize(sizeA);
+    #####:   82:    v[1].resize(sizeB);
+    #####:   83:    for (auto list: v) {
+    #####:   84:        for (auto &element: list) {
+    #####:   85:            element = device.generate(1, maxRange);
+        -:   86:        }
+    #####:   87:    }
+    #####:   88:    return v;
+    #####:   89:}
+        -:   90:std::vector<std::vector<int>> generatePairWithSimilarity(int sizeA, double similarity, int sizeB, bool sameSize, int seed) {
+    #####:   91:    if (sameSize) sizeB = sizeA;
+    #####:   92:    Random device(seed == -1 ? 1LL * (unsigned int)clock() * rand() % MAX_VALUE : seed);
+    #####:   93:    std::vector<std::vector<int>> v(2);
+    #####:   94:    int common = 0;
+    #####:   95:    for (int i = MAX_BIT; i >= 0; i --) {
+    #####:   96:        if (common + (1 << i) > std::min(sizeA, sizeB)) continue;
+    #####:   97:        int candidate = common + (1 << i);
+    #####:   98:        int currentUnionSize = sizeA + sizeB - candidate;
+    #####:   99:        if (1. * candidate / currentUnionSize <= similarity)
+    #####:  100:            common = candidate;
+    #####:  101:    }
+    #####:  102:    int unionSize = sizeA + sizeB - common;
+    #####:  103:    std::vector<int> elements(unionSize);
+    #####:  104:    iota(elements.begin(), elements.end(), 0);
+    #####:  105:    shuffle(elements.begin(), elements.end(), device.getGenerator());
+    #####:  106:    for (int i = 0; i < common; i ++) {
+    #####:  107:        v[0].push_back(elements[i]);
+    #####:  108:        v[1].push_back(elements[i]);
+    #####:  109:    }
+    #####:  110:    for (int i = common; i < sizeA; i ++) {
+    #####:  111:        int position = device.generate(i + 1, unionSize - 1);
+    #####:  112:        v[0].push_back(elements[position]);
+    #####:  113:        std::swap(elements[i], elements[position]);
+    #####:  114:    }
+    #####:  115:    for (int i = sizeA; i < unionSize; i ++)
+    #####:  116:        v[1].push_back(elements[i]);
+    #####:  117:    for_each(v.begin(), v.end(), [&](std::vector<int> &list) {
+    #####:  118:        shuffle(list.begin(), list.end(), device.getGenerator());
+    #####:  119:    });
+    #####:  120:    return v;
+    #####:  121:}
+        -:  122:
+        -:  123:#endif /* Generator_h */

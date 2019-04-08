@@ -1,0 +1,73 @@
+        -:    0:Source:./HashColumn.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  HashColumn.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/14/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef HashColumn_cpp
+        -:   10:#define HashColumn_cpp
+        -:   11:
+        -:   12:#include "HashColumn.hpp"
+        -:   13:
+        -:   14:template<typename T>
+    #####:   15:HashColumn<T>::HashColumn() {
+        -:   16:    
+    #####:   17:}
+    #####:   18:template<typename T>
+    #####:   19:HashColumn<T>::HashColumn(int __size) {
+    #####:   20:    size = __size;
+    #####:   21:    entries = std::vector<T>(size + 1, 0);
+    #####:   22:}
+        -:   23:template<typename T>
+        -:   24:HashColumn<T>::HashColumn(std::vector<T> __entries) {
+        -:   25:    size = int(__entries.size());
+        -:   26:    entries = __entries;
+        -:   27:}
+        -:   28:template<typename T>
+        -:   29:HashColumn<T>::HashColumn(int __size, std::vector<T> __entries) {
+        -:   30:    size = __size;
+        -:   31:    entries = __entries;
+        -:   32:}
+        -:   33:template<typename T>
+        -:   34:int HashColumn<T>::getSize() {
+        -:   35:    return size;
+        -:   36:}
+        -:   37:template<typename T>
+        -:   38:std::vector<T> HashColumn<T>::getEntries() {
+        -:   39:    return entries;
+        -:   40:}
+        -:   41:template<typename T>
+        -:   42:int HashColumn<T>::getValueAt(int position) {
+    #####:   43:    return entries[position];
+        -:   44:}
+        -:   45:template<typename T>
+        -:   46:void HashColumn<T>::updateValueAt(int position, T newValue) {
+        -:   47:    entries[position] = newValue;
+        -:   48:}
+        -:   49:template<typename T>
+        -:   50:void HashColumn<T>::incrementValueAt(int position) {
+    #####:   51:    ++entries[position];
+    #####:   52:}
+        -:   53:template<typename T>
+        -:   54:int HashColumn<T>::getMinimumNaive() {
+        -:   55:    T result = 1 << 30;
+        -:   56:    for (int i = 1; i <= size; i ++) {
+        -:   57:        if (entries[i] < result)
+        -:   58:            result = entries[i];
+        -:   59:    }
+        -:   60:    return result;
+        -:   61:}
+        -:   62:template<typename T>
+    #####:   63:HashColumn<T>::~HashColumn() {
+        -:   64:    
+    #####:   65:}
+        -:   66:
+        -:   67:#endif /* HashColumn_cpp */
+        -:   68:

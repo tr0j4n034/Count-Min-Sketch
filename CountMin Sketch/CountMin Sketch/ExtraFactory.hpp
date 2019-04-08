@@ -20,7 +20,7 @@ template<typename T>
 std::string describe(const std::vector<T>& stream);
 
 
-template<typename T>
-std::vector<int> reduceToUnWeighted(const std::vector<T>& stream, int offset = 0);
+template<typename T = int, typename R=  int>
+std::vector<T> reduceToUnWeighted(const std::vector<T>& stream, int offset = 0);
 
 #endif /* ExtraFactory_hpp */

@@ -1,0 +1,61 @@
+        -:    0:Source:./CWS_Manasse_testing.h
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  CWS_Manasse_testing.h
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/27/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef CWS_Manasse_testing_h
+        -:   10:#define CWS_Manasse_testing_h
+        -:   11:
+        -:   12:void CWS_Manasse_testing() {
+    #####:   13:    int streamSize = 100'000;
+    #####:   14:    int sketchSize = 10'000;
+    #####:   15:    int universeSize = 20'000;
+        -:   16:    
+    #####:   17:    cout << "Size of each stream is " << 4. * streamSize / (1 << 20) << " megabytes" << endl;
+    #####:   18:    cout << "Size of each sketch is " << 4. * sketchSize / (1 << 20) << " megabytes" << endl;
+    #####:   19:    cout << "Compression ratio is " << 1. * streamSize / sketchSize << endl;
+    #####:   20:    cout << endl;
+        -:   21:    
+    #####:   22:    cout << "Generating data..." << endl;
+    #####:   23:    vector<int> stream1 = generateRandomList(streamSize, universeSize);
+    #####:   24:    vector<int> stream2 = generateRandomList(streamSize, universeSize);
+    #####:   25:    cout << "Done." << endl << endl;
+        -:   26:    
+        -:   27:    // stream1 = stream2;
+        -:   28:    
+    #####:   29:    int noiseCounter = streamSize / 1000;
+    #####:   30:    default_random_engine generator(0);
+    #####:   31:    uniform_int_distribution<int> distribution(0, streamSize - 1);
+    #####:   32:    for (int i = 0; i < noiseCounter; i ++) {
+    #####:   33:        stream2[distribution(generator)] ++;
+    #####:   34:    }
+        -:   35:    
+    #####:   36:    cout << "Jaccard distance between the original streams: ";
+    #####:   37:    cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2) << endl;
+        -:   38:    
+    #####:   39:    cout << endl;
+    #####:   40:    cout << "Getting sketches..." << endl;
+        -:   41:    
+    #####:   42:    CWSEngineManasse<double> engine(0);
+    #####:   43:    CWSSketch<double> cws1 = engine.getSketchIterableManasseNaive(stream1, sketchSize);
+    #####:   44:    vector<double> sketchData1 = cws1.getSketchElems();
+        -:   45:    //cout << describe(sketchData1) << endl;
+        -:   46:    
+    #####:   47:    CWSSketch<double> cws2 = engine.getSketchIterableManasseNaive(stream2, sketchSize);
+    #####:   48:    vector<double> sketchData2 = cws2.getSketchElems();
+        -:   49:    //cout << describe(sketchData2) << endl;
+    #####:   50:    cout << "Done." << endl << endl;
+        -:   51:    
+    #####:   52:    cout << "Jaccard distance between the sketches: ";
+    #####:   53:    cout << JaccardDistanceIterable<vector<double>, int, double>(sketchData1, sketchData2) << endl;
+    #####:   54:}
+        -:   55:
+        -:   56:#endif /* CWS_Manasse_testing_h */

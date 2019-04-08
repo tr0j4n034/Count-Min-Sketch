@@ -1,0 +1,62 @@
+        -:    0:Source:./CWSSketch.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  CWSSketch.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/28/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef CWSSketch_cpp
+        -:   10:#define CWSSketch_cpp
+        -:   11:
+        -:   12:#include "CWSSketch.hpp"
+        -:   13:
+        -:   14:template<typename T>
+    #####:   15:CWSSketch<T>::CWSSketch() {
+        -:   16:    
+    #####:   17:}
+        -:   18:template<typename T>
+        -:   19:CWSSketch<T>::CWSSketch(std::vector<T> __elems, std::vector<T> __hashes) {
+    #####:   20:    if (int(__elems.size()) != int(__hashes.size()))
+        -:   21:        throw std::runtime_error("the sets should have the same size!");
+        -:   22:    sketchElements = __elems;
+        -:   23:    sketchHashes = __hashes;
+        -:   24:}
+        -:   25:template<typename T>
+        -:   26:CWSSketch<T>::CWSSketch(int __size) {
+        -:   27:    sketchElements.resize(__size);
+        -:   28:    sketchHashes.resize(__size);
+        -:   29:}
+        -:   30:template<typename T>
+        -:   31:void CWSSketch<T>::append(T __element, T __hash) {
+    #####:   32:    sketchElements.push_back(__element);
+    #####:   33:    sketchHashes.push_back(__hash);
+    #####:   34:}
+        -:   35:template<typename T>
+        -:   36:int CWSSketch<T>::getCWSSketchSize() {
+        -:   37:    return int(sketchElements.size());
+        -:   38:}
+        -:   39:template<typename T>
+        -:   40:std::vector<T> CWSSketch<T>::getSketchElems() {
+    #####:   41:    return sketchElements;
+        -:   42:}
+        -:   43:template<typename T>
+        -:   44:std::vector<T> CWSSketch<T>::getSketchHashes() {
+        -:   45:    return sketchHashes;
+        -:   46:}
+        -:   47:template<typename T>
+        -:   48:void CWSSketch<T>::clear() {
+        -:   49:    sketchElements.clear();
+        -:   50:    sketchHashes.clear();
+        -:   51:}
+        -:   52:template<typename T>
+    #####:   53:CWSSketch<T>::~CWSSketch() {
+        -:   54:    
+    #####:   55:}
+        -:   56:
+        -:   57:#endif /* CWSSketch_cpp */

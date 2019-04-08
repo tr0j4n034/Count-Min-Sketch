@@ -6,8 +6,6 @@
 //  Copyright © 2019 Mahmud. All rights reserved.
 //
 
-#ifndef CWSSketch_cpp
-#define CWSSketch_cpp
 
 #include "CWSSketch.hpp"
 
@@ -54,4 +52,3 @@ CWSSketch<T>::~CWSSketch() {
     
 }
 
-#endif /* CWSSketch_cpp */

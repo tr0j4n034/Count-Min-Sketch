@@ -9,6 +9,8 @@
 #ifndef Random_hpp
 #define Random_hpp
 
+#include <random>
+
 const int PRIME_CHECK_TRIALS = 1 << 7;
 
 template<typename T>

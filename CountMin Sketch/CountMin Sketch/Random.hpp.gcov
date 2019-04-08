@@ -1,0 +1,122 @@
+        -:    0:Source:./Random.hpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  Random.hpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/25/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef Random_hpp
+        -:   10:#define Random_hpp
+        -:   11:
+        -:   12:const int PRIME_CHECK_TRIALS = 1 << 7;
+        -:   13:
+        -:   14:template<typename T>
+        -:   15:auto isPrime(T N) {
+    #####:   16:    if (N < 2) return false;
+    #####:   17:    for (int i = 2; 1LL * i * i <= N; i ++) {
+    #####:   18:        if (N % i == 0) return false;
+    #####:   19:    }
+    #####:   20:    return true;
+    #####:   21:}
+        -:   22:
+        -:   23:class Random { // PseudoRandom number generator
+        -:   24:private:
+        -:   25:    int range;
+        -:   26:    int seed;
+        -:   27:    std::random_device rd;
+        -:   28:    std::mt19937 generator;
+        -:   29:    std::uniform_int_distribution<int> dist;
+        -:   30:public:
+        -:   31:    Random();
+        -:   32:    Random(int __range, int seed = 42);
+        -:   33:    
+        -:   34:    void setSeed(int __seed);
+        -:   35:    
+        -:   36:    int getRange();
+        -:   37:    std::mt19937 getGenerator();
+        -:   38:    int generate();
+        -:   39:    int generate(int low, int high);
+        -:   40:    
+        -:   41:    int generatePrimeInRange(int low, int high);
+        -:   42:    
+        -:   43:    std::vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1);
+        -:   44:    
+        -:   45:    ~Random();
+        -:   46:};
+        -:   47:
+        -:   48:template<typename T>
+        -:   49:class GammaRandomVar {
+        -:   50:    T alpha;
+        -:   51:    T beta;
+        -:   52:    int seed;
+        -:   53:    std::default_random_engine dre;
+        -:   54:    std::gamma_distribution<T> distribution;
+        -:   55:    
+        -:   56:public:
+        -:   57:    GammaRandomVar();
+        -:   58:    GammaRandomVar(T __alpha, T __beta, int seed = 42);
+        -:   59:    
+        -:   60:    void setSeed(int seed);
+        -:   61:    
+        -:   62:    T getAlpha();
+        -:   63:    T getBeta();
+        -:   64:    T generate();
+        -:   65:    std::vector<T> generateList(int size, T scalingFactor = 1);
+        -:   66:    
+        -:   67:    ~GammaRandomVar();
+        -:   68:};
+        -:   69:
+        -:   70:template <typename T>
+        -:   71:class UniformRandomVar {
+        -:   72:    T lowBound;
+        -:   73:    T highBound;
+        -:   74:    int seed;
+        -:   75:    std::default_random_engine dre;
+        -:   76:    std::uniform_real_distribution<T> distribution;
+        -:   77:public:
+        -:   78:    UniformRandomVar();
+        -:   79:    UniformRandomVar(T __low, T __high, int seed = 42);
+        -:   80:    
+        -:   81:    void setSeed(int seed);
+        -:   82:    
+        -:   83:    T getLowBound();
+        -:   84:    T getHighBound();
+        -:   85:    T generate();
+        -:   86:    std::vector<T> generateList(int size, T scalingFactor = 1);
+        -:   87:    
+        -:   88:    ~UniformRandomVar();
+        -:   89:};
+        -:   90:
+        -:   91:
+        -:   92:#if __has_include("boost/random.hpp")
+        -:   93:#include <boost/random.hpp>
+        -:   94:
+        -:   95:template <typename T>
+        -:   96:class BetaRandomVar {
+        -:   97:    T alpha;
+        -:   98:    T beta;
+        -:   99:    int seed;
+        -:  100:    boost::random::mt19937 rng = boost::random::mt19937(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+        -:  101:    boost::random::beta_distribution<> distribution;
+        -:  102:    
+        -:  103:public:
+        -:  104:    BetaRandomVar();
+        -:  105:    BetaRandomVar(T __alpha, T __beta);
+        -:  106:    T getAlpha();
+        -:  107:    T getBeta();
+        -:  108:    T generate();
+        -:  109:    std::vector<T> generateList(int size, T scalingFactor = 1);
+        -:  110:    
+        -:  111:    ~BetaRandomVar();
+        -:  112:};
+        -:  113:
+        -:  114:#endif
+        -:  115:
+        -:  116:
+        -:  117:#endif /* Random_hpp */

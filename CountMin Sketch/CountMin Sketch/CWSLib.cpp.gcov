@@ -1,0 +1,150 @@
+        -:    0:Source:./CWSLib.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  CWSLib.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/26/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#pragma once
+        -:   10:
+        -:   11:#ifndef CWSLib_cpp
+        -:   12:#define CWSLib_cpp
+        -:   13:
+        -:   14:#include <utility>
+        -:   15:#include <algorithm>
+        -:   16:
+        -:   17:#include "CWSSketch.cpp"
+        -:   18:
+        -:   19:#include "CWSLib.hpp"
+    #####:   20:#include "ExtraFactory.hpp"
+        -:   21:
+        -:   22:template<typename T>
+        -:   23:CWSEngineIoffe<T>::CWSEngineIoffe() {
+        -:   24:    seed = 42;
+        -:   25:    r = GammaRandomVar<T>(2., 1., seed);
+        -:   26:    c = GammaRandomVar<T>(2., 1., seed);
+        -:   27:    b = UniformRandomVar<T>(0., 1., seed);
+        -:   28:}
+        -:   29:template<typename T>
+    #####:   30:CWSEngineIoffe<T>::CWSEngineIoffe(int __seed) {
+    #####:   31:    seed = __seed;
+    #####:   32:    r = GammaRandomVar<T>(2., 1., seed);
+    #####:   33:    c = GammaRandomVar<T>(2., 1., seed);
+    #####:   34:    b = UniformRandomVar<T>(0., 1., seed);
+    #####:   35:}
+        -:   36:template<typename T>
+    #####:   37:void CWSEngineIoffe<T>::resetVarsIoffe() {
+    #####:   38:    r = GammaRandomVar<T>(2., 1., seed);
+    #####:   39:    c = GammaRandomVar<T>(2., 1., seed);
+    #####:   40:    b = UniformRandomVar<T>(0., 1., seed);
+    #####:   41:}
+        -:   42:template<typename T>
+        -:   43:template<typename R, typename V>
+        -:   44:CWSSketch<T> CWSEngineIoffe<T>::getSketchIterableIoffe(const R& stream, int sketchSize, int globeSize) {
+    #####:   45:    CWSSketch<T> sk;
+        -:   46:    // std::map<V, int> streamBins = StreamToBinsIterable(stream);
+    #####:   47:    auto streamBins = stream;
+        -:   48:    
+    #####:   49:    resetVarsIoffe();
+    #####:   50:    for (int it = 0; it < sketchSize; it ++) {
+    #####:   51:        T minHashElement, minHash = 1e308;
+    #####:   52:        T minArgv = 1e308;
+    #####:   53:        int elemID = 0;
+    #####:   54:        for_each(begin(stream), end(stream), [&](auto& element) {
+    #####:   55:            T rval = r.generate();
+    #####:   56:            T bval = b.generate();
+    #####:   57:            T cval = c.generate();
+        -:   58:            
+    #####:   59:            double vlog = std::log(1. * element);
+    #####:   60:            double delta = std::floor(vlog / rval + bval);
+    #####:   61:            double lny = (delta - bval) * rval;
+    #####:   62:            double lna = cval - lny - rval;
+        -:   63:            
+    #####:   64:            if (lna < minArgv) {
+    #####:   65:                minArgv = lna;
+    #####:   66:                minHashElement = elemID;
+    #####:   67:                minHash = int(delta);
+    #####:   68:            }
+    #####:   69:            elemID ++;
+    #####:   70:        });
+    #####:   71:        sk.append(minHashElement, minHash);
+    #####:   72:    }
+    #####:   73:    return sk;
+    #####:   74:}
+        -:   75:template<typename T>
+        -:   76:template<typename R, typename V>
+        -:   77:CWSSketch<T> CWSEngineIoffe<T>::getSketchIoffe(const R& stream, int sketchSize, int globeSize) {
+        -:   78:    resetVarsIoffe();
+        -:   79:    CWSSketch<T> sk;
+        -:   80:    std::map<V, int> streamBins = StreamToBins(stream);
+        -:   81:    for (int it = 0; it < sketchSize; it ++) {
+        -:   82:        T minHashElement, minHash = 1e308;
+        -:   83:        for_each(stream, *(&stream + 1), [&](auto& element) {
+        -:   84:            T rval = r.generate();
+        -:   85:            T y = std::exp(std::log(1. * element.second) + rval * b.generate());
+        -:   86:            T aux = c.generate() / (y * std::exp(rval));
+        -:   87:            if (aux < minHash) {
+        -:   88:                minHashElement = element.first;
+        -:   89:                minHash = aux;
+        -:   90:            }
+        -:   91:        });
+        -:   92:        sk.append(minHashElement, minHash);
+        -:   93:    }
+        -:   94:    return sk;
+        -:   95:}
+        -:   96:template<typename T>
+    #####:   97:CWSEngineIoffe<T>::~CWSEngineIoffe() {
+        -:   98:    
+    #####:   99:}
+        -:  100:
+        -:  101:
+        -:  102:
+        -:  103:template<typename T>
+        -:  104:CWSEngineManasse<T>::CWSEngineManasse() {
+        -:  105:    seed = 42;
+        -:  106:    u = UniformRandomVar<T>(0., 1., seed);
+        -:  107:}
+        -:  108:template<typename T>
+    #####:  109:CWSEngineManasse<T>::CWSEngineManasse(int __seed) {
+    #####:  110:    seed = __seed;
+    #####:  111:    u = UniformRandomVar<T>(0., 1., seed);
+    #####:  112:}
+        -:  113:template<typename T>
+        -:  114:void CWSEngineManasse<T>::resetVarsManasse() {
+    #####:  115:    u = UniformRandomVar<T>(0., 1., seed);
+    #####:  116:}
+        -:  117:template<typename T>
+        -:  118:template<typename R, typename V>
+        -:  119:CWSSketch<T> CWSEngineManasse<T>::getSketchIterableManasseNaive(const R& stream, int sketchSize) {
+    #####:  120:    CWSSketch<T> sk;
+        -:  121:    std::hash<std::string> hasher;
+    #####:  122:    std::map<V, int> streamBins = StreamToBinsIterable(stream);
+    #####:  123:    std::vector<std::pair<int, int>> starters;
+    #####:  124:    int counter = 0;
+    #####:  125:    for_each(begin(streamBins), end(streamBins), [&](auto &element) {
+    #####:  126:        starters.push_back(std::make_pair(counter, element.first));
+    #####:  127:        counter += element.second;
+    #####:  128:    });
+    #####:  129:    resetVarsManasse();
+    #####:  130:    for (int it = 0; it < sketchSize; it ++) {
+    #####:  131:        double uout = u.generate();
+    #####:  132:        int position = int(std::round(1. * uout * int(stream.size())));
+    #####:  133:        auto item = --upper_bound(begin(starters), end(starters), std::make_pair(position + 1, -1));
+    #####:  134:        sk.append((*item).second, hasher(toString((*item).second)));
+    #####:  135:    }
+    #####:  136:    return sk;
+    #####:  137:}
+        -:  138:
+        -:  139:template<typename T>
+    #####:  140:CWSEngineManasse<T>::~CWSEngineManasse() {
+        -:  141:    
+    #####:  142:}
+        -:  143:
+        -:  144:
+        -:  145:#endif /* CWSLib_cpp */

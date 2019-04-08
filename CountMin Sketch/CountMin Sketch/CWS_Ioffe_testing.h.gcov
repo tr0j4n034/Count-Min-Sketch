@@ -1,0 +1,65 @@
+        -:    0:Source:./CWS_Ioffe_testing.h
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  CWS_Ioffe_testing.h
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/28/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef CWS_Ioffe_testing_h
+        -:   10:#define CWS_Ioffe_testing_h
+        -:   11:
+        -:   12:void CWS_Ioffe_testing() {
+    #####:   13:    int streamSize = 10'000;
+    #####:   14:    int sketchSize = 1'000;
+    #####:   15:    int universeSize = 2'000;
+        -:   16:    
+    #####:   17:    cout << "Size of each stream is " << 4. * streamSize / (1 << 20) << " megabytes" << endl;
+    #####:   18:    cout << "Size of each sketch is " << 4. * sketchSize / (1 << 20) << " megabytes" << endl;
+    #####:   19:    cout << "Compression ratio is " << 1. * streamSize / sketchSize << endl;
+    #####:   20:    cout << endl;
+        -:   21:    
+    #####:   22:    cout << "Generating data..." << endl;
+    #####:   23:    vector<int> stream1 = generateRandomList(streamSize, universeSize);
+    #####:   24:    vector<int> stream2 = generateRandomList(streamSize, universeSize);
+    #####:   25:    cout << "Done." << endl << endl;
+        -:   26:    
+    #####:   27:    stream1 = stream2;
+        -:   28:    
+    #####:   29:    int noiseCounter = streamSize;
+    #####:   30:    default_random_engine generator(0);
+    #####:   31:    uniform_int_distribution<int> distribution(0, streamSize - 1);
+    #####:   32:    for (int i = 0; i < noiseCounter; i ++) {
+    #####:   33:        stream2[distribution(generator)] ++;
+    #####:   34:    }
+        -:   35:    
+    #####:   36:    cout << "Jaccard distance between the original streams: " << endl;
+        -:   37:    // cout << JaccardDistanceIterable<vector<int>, int, double>(stream1, stream2, false) << endl;
+    #####:   38:    cout << "Binned weighted: " << JaccardDistanceBinned<vector<int>, int, double>(stream1, stream2) << endl;
+        -:   39:    // cout << "Binned unweighted: " << JaccardDistanceBinned<vector<int>, int, double>(stream1, stream2, true) << endl;
+    #####:   40:    cout << endl;
+    #####:   41:    cout << "Getting sketches..." << endl;
+        -:   42:    
+    #####:   43:    CWSEngineIoffe<double> engine(0);
+    #####:   44:    CWSSketch<double> cws1 = engine.getSketchIterableIoffe(stream1, sketchSize, universeSize);
+    #####:   45:    vector<double> sketchData1 = cws1.getSketchElems();
+        -:   46:    //cout << describe(sketchData1) << endl;
+        -:   47:    
+    #####:   48:    CWSSketch<double> cws2 = engine.getSketchIterableIoffe(stream2, sketchSize, universeSize);
+    #####:   49:    vector<double> sketchData2 = cws2.getSketchElems();
+        -:   50:    //cout << describe(sketchData2) << endl;
+    #####:   51:    cout << "Done." << endl << endl;
+        -:   52:    
+    #####:   53:    cout << "Jaccard distance between the sketches: " << endl;
+        -:   54:    // cout << JaccardDistanceIterable<vector<double>, int, double>(sketchData1, sketchData2, false) << endl;
+    #####:   55:    cout << "Binned weighted: " << JaccardDistanceBinned<vector<double>, int, double>(sketchData1, sketchData2) << endl;
+        -:   56:    // cout << "Binned unweighted: " << JaccardDistanceBinned<vector<double>, int, double>(sketchData1, sketchData2, true) << endl;
+    #####:   57:}
+        -:   58:
+        -:   59:#endif /* CWS_Ioffe_testing_h */
+        -:   60:

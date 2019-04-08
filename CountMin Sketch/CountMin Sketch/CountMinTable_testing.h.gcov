@@ -1,0 +1,69 @@
+        -:    0:Source:./CountMinTable_testing.h
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  CountMinTable_testing.h
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/25/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef CountMinTable_testing_h
+        -:   10:#define CountMinTable_testing_h
+        -:   11:
+        -:   12:void CountMinTesting() {
+        -:   13:    auto getMeanErrorOnStream = [](int streamSize, int universeSize = 10000,
+        -:   14:                                   int memory = 1000000, double error = 0.05, double confidence = 0.95) {
+    #####:   15:        CMSTable<int> cms;
+    #####:   16:        cms.setParams(error, confidence);
+        -:   17:        //cms.setDims(20, 50000);
+    #####:   18:        cms.scaleDims(memory);
+        -:   19:        
+    #####:   20:        std::vector<int> counts(universeSize + 1);
+    #####:   21:        for (int i = 0; i < streamSize; i ++) {
+    #####:   22:            int position = rand() % universeSize + 1;
+    #####:   23:            counts[position] ++;
+    #####:   24:        }
+    #####:   25:        for (int i = 1; i <= universeSize; i ++) {
+    #####:   26:            for (int j = 0; j < counts[i]; j ++) {
+        -:   27:                //cout << "inserting: " << i << endl;
+    #####:   28:                cms.insertEntry(i);
+    #####:   29:            }
+    #####:   30:        }
+    #####:   31:        long long deltaSum = 0;
+    #####:   32:        for (int i = 1; i <= universeSize; i ++) {
+    #####:   33:            deltaSum += std::abs(counts[i] - cms.getCount(i));
+    #####:   34:        }
+    #####:   35:        return 1. * deltaSum / streamSize;
+    #####:   36:    };
+        -:   37:    
+        -:   38:    //    for (int i = 0; i < 50; i ++) {
+        -:   39:    //        double errorTolerance = 0.01 * (rand() % 100 + 1);
+        -:   40:    //        double confidence = 0.01 * (rand() % 100 + 1);
+        -:   41:    //        int stream_size = int(100000 * max(0.5, errorTolerance / confidence));
+        -:   42:    //        cout << errorTolerance << " " << confidence << " " <<
+        -:   43:    //            getMeanErrorOnStream(stream_size, universeSize, errorTolerance, confidence) << endl;
+        -:   44:    //    }
+        -:   45:    
+    #####:   46:    const int universeSize = 100000;
+    #####:   47:    const int memory = 1000000;
+        -:   48:    
+    #####:   49:    std::cout << "Count-Min sketch average errors over artificial datasets:" << std::endl;
+    #####:   50:    std::cout << std::fixed << "The size of the Count Min Table is " << 4. * memory / (1 << 20) << " mb" << std::endl;
+    #####:   51:    std::cout << std::endl;
+        -:   52:    
+    #####:   53:    for (int streamSize = 500000; streamSize <= 50000000; streamSize *= 2) {
+    #####:   54:        int trials = 10;
+    #####:   55:        long long errorSum = 0;
+    #####:   56:        for (int i = 0; i < trials; i ++) {
+    #####:   57:            errorSum += getMeanErrorOnStream(streamSize, universeSize, memory, 0.01, 0.99);
+    #####:   58:        }
+    #####:   59:        std::cout.precision(3);
+    #####:   60:        std::cout << std::fixed << "for stream size = " << 4. * streamSize / (1 << 20) << " mb"
+    #####:   61:        << ", the mean average error is: " << 1. * errorSum / trials << std::endl;
+    #####:   62:    }
+    #####:   63:}
+        -:   64:#endif /* CountMinTable_testing_h */

@@ -61,4 +61,8 @@ void CountMinTesting() {
         << ", the mean average error is: " << 1. * errorSum / trials << std::endl;
     }
 }
+void CountMinJaccardTesting() {
+    
+}
+
 #endif /* CountMinTable_testing_h */

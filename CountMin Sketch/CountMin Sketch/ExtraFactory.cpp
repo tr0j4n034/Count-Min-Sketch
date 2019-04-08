@@ -7,6 +7,7 @@
 //
 
 #include "ExtraFactory.hpp"
+#include "Random.hpp"
 
 template<typename T>
 std::string toString(const T& element) {
@@ -29,16 +30,16 @@ std::string describe(const std::vector<T>& stream) {
     return result;
 }
 
-template<typename T>
-std::vector<int> reduceToUnWeighted(const std::vector<T>& stream, int offset) { // Haeupler 2014
-    std::vector<int> unweighted;
+template<typename T, typename R>
+std::vector<R> reduceToUnWeighted(const std::vector<T>& stream, int offset) { // Haeupler 2014
+    std::vector<R> unweighted;
     UniformRandomVar<double> urv(0, 1);
     int value = offset;
     for (int i = 0; i < (int)stream.size(); i ++) {
         for (int j = 0; j < int(stream[i]); j ++) {
             unweighted.push_back(value);
         }
-        if (stream[i] - std::floor(stream[i]) > 1.e-9) {
+        if (stream[i] - int(stream[i]) > 1.e-9) {
             if (urv.generate() <= stream[i] - int(stream[i])) {
                 unweighted.push_back(value);
             }

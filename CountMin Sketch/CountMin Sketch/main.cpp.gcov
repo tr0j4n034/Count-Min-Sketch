@@ -1,0 +1,39 @@
+        -:    0:Source:main.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  main.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/14/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#include <iostream>
+        -:   10:#include <cmath>
+        -:   11:#include <vector>
+        -:   12:
+        -:   13:#include "CMSTable.cpp"
+        -:   14:#include "Generator.cpp"
+        -:   15:#include "SimLib.cpp"
+        -:   16:#include "CWSLib.cpp"
+        -:   17:
+        -:   18:#include "ExtraFactory.cpp"
+        -:   19:
+        -:   20:using namespace std;
+        -:   21:
+        -:   22:#include "CountMinTable_testing.h"
+        -:   23:#include "CWS_Manasse_testing.h"
+        -:   24:#include "CWS_Ioffe_testing.h"
+        -:   25:
+        -:   26:int main(int argc, const char * argv[]) {
+        -:   27:    // CountMinTesting();
+        -:   28:    
+        -:   29:    // CWS_Manasse_testing();
+        -:   30:    
+    #####:   31:    CWS_Ioffe_testing();
+        -:   32:    
+    #####:   33:    return 0;
+        -:   34:}

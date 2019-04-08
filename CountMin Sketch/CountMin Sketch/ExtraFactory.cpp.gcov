@@ -1,0 +1,54 @@
+        -:    0:Source:./ExtraFactory.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  ExtraFactory.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/26/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#include "ExtraFactory.hpp"
+        -:   10:
+        -:   11:template<typename T>
+        -:   12:std::string toString(const T& element) {
+    #####:   13:    std::ostringstream os;
+    #####:   14:    os << element;
+    #####:   15:    return os.str();
+    #####:   16:}
+        -:   17:
+        -:   18:template<typename T>
+        -:   19:std::string describe(const std::vector<T>& stream) {
+        -:   20:    std::string result = "[";
+        -:   21:    for (auto element: stream) {
+        -:   22:        if (result.back() != '[') {
+        -:   23:            result.push_back(',');
+        -:   24:            result.push_back(' ');
+        -:   25:        }
+        -:   26:        result += toString(element);
+        -:   27:    }
+        -:   28:    result.push_back(']');
+        -:   29:    return result;
+        -:   30:}
+        -:   31:
+        -:   32:template<typename T>
+        -:   33:std::vector<int> reduceToUnWeighted(const std::vector<T>& stream, int offset) { // Haeupler 2014
+        -:   34:    std::vector<int> unweighted;
+        -:   35:    UniformRandomVar<double> urv(0, 1);
+        -:   36:    int value = offset;
+        -:   37:    for (int i = 0; i < (int)stream.size(); i ++) {
+        -:   38:        for (int j = 0; j < int(stream[i]); j ++) {
+        -:   39:            unweighted.push_back(value);
+        -:   40:        }
+        -:   41:        if (stream[i] - std::floor(stream[i]) > 1.e-9) {
+        -:   42:            if (urv.generate() <= stream[i] - int(stream[i])) {
+        -:   43:                unweighted.push_back(value);
+        -:   44:            }
+        -:   45:        }
+        -:   46:        ++value;
+        -:   47:    }
+        -:   48:    return unweighted;
+        -:   49:}

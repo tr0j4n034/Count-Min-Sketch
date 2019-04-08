@@ -1,0 +1,192 @@
+        -:    0:Source:./Random.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  Random.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/14/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#pragma once
+        -:   10:
+        -:   11:#ifndef Random_cpp
+        -:   12:#define Random_cpp
+        -:   13:
+        -:   14:#include <ctime>
+        -:   15:#include <random>
+        -:   16:
+        -:   17:#include "Random.hpp"
+        -:   18:
+    #####:   19:Random::Random() {
+    #####:   20:    seed = -1;
+    #####:   21:}
+    #####:   22:Random::Random(int __range, int __seed):
+    #####:   23:dist(std::uniform_int_distribution<>(0, __range - 1)){
+    #####:   24:    generator.seed(__seed == -1 ? unsigned(time((NULL))) : __seed);
+    #####:   25:}
+        -:   26:void Random::setSeed(int __seed) {
+    #####:   27:    generator.seed(__seed);
+    #####:   28:}
+        -:   29:int Random::getRange() {
+    #####:   30:    return range;
+        -:   31:}
+        -:   32:std::mt19937 Random::getGenerator() {
+    #####:   33:    return generator;
+        -:   34:}
+        -:   35:int Random::generate() {
+    #####:   36:    return dist(generator);
+        -:   37:}
+        -:   38:int Random::generate(int low, int high) {
+    #####:   39:    return low = 1ULL * dist(generator) % (high - low + 1);
+        -:   40:}
+        -:   41:int Random::generatePrimeInRange(int low, int high) {
+    #####:   42:    int result = -1;
+    #####:   43:    for (int trials = 0; trials < PRIME_CHECK_TRIALS; trials ++) {
+    #####:   44:        result = generate(low, high);
+    #####:   45:        if (isPrime<int>(result)) return result;
+    #####:   46:    }
+    #####:   47:    return -1;
+    #####:   48:}
+        -:   49:std::vector<int> Random::generateList(int size, int minValue, int maxValue, int scalingFactor) {
+    #####:   50:    std::vector<int> list(size);
+    #####:   51:    for_each(begin(list), end(list), [=](int &elem) {
+    #####:   52:        elem = scalingFactor * generate(minValue, maxValue);
+    #####:   53:    });
+    #####:   54:    return list;
+    #####:   55:}
+    #####:   56:Random::~Random() {
+    #####:   57:    
+    #####:   58:}
+        -:   59:
+        -:   60:
+        -:   61:template<typename T>
+    #####:   62:GammaRandomVar<T>::GammaRandomVar() {
+    #####:   63:    alpha = 0;
+    #####:   64:    beta = 0;
+    #####:   65:    dre = std::default_random_engine(1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30));
+    #####:   66:    distribution = std::gamma_distribution<T>(alpha, beta);
+    #####:   67:}
+        -:   68:template<typename T>
+    #####:   69:GammaRandomVar<T>::GammaRandomVar(T __alpha, T __beta, int __seed) {
+    #####:   70:    alpha = __alpha;
+    #####:   71:    beta = __beta;
+    #####:   72:    dre = std::default_random_engine(__seed == -1 ? 1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30) : __seed);
+    #####:   73:    distribution = std::gamma_distribution<T>(alpha, beta);
+    #####:   74:}
+        -:   75:template<typename T>
+        -:   76:void GammaRandomVar<T>::setSeed(int __seed) {
+        -:   77:    seed = __seed;
+    #####:   78:}
+    #####:   79:template<typename T>
+        -:   80:T GammaRandomVar<T>::getAlpha() {
+        -:   81:    return alpha;
+        -:   82:}
+        -:   83:template<typename T>
+        -:   84:T GammaRandomVar<T>::getBeta() {
+        -:   85:    return beta;
+        -:   86:}
+        -:   87:template<typename T>
+        -:   88:T GammaRandomVar<T>::generate() {
+    #####:   89:    return distribution(dre);
+        -:   90:}
+        -:   91:template<typename T>
+        -:   92:std::vector<T> GammaRandomVar<T>::generateList(int size, T scalingFactor) {
+        -:   93:    std::vector<T> list(size);
+        -:   94:    for_each(begin(list), end(list), [=](T &elem) {
+        -:   95:        elem = scalingFactor * generate();
+        -:   96:    });
+        -:   97:    return list;
+        -:   98:}
+        -:   99:template<typename T>
+    #####:  100:GammaRandomVar<T>::~GammaRandomVar() {
+        -:  101:    
+    #####:  102:}
+        -:  103:
+        -:  104:
+        -:  105:template<typename T>
+    #####:  106:UniformRandomVar<T>::UniformRandomVar() {
+        -:  107:    
+    #####:  108:}
+        -:  109:template<typename T>
+    #####:  110:UniformRandomVar<T>::UniformRandomVar(T __low, T __high, int __seed) {
+    #####:  111:    lowBound = __low;
+    #####:  112:    highBound = __high;
+    #####:  113:    dre = std::default_random_engine(__seed == -1 ? 1ULL * unsigned(time(NULL)) * clock() * rand() % (1 << 30) : seed);
+    #####:  114:    distribution = std::uniform_real_distribution<T>(lowBound, highBound);
+    #####:  115:}
+        -:  116:template<typename T>
+        -:  117:void UniformRandomVar<T>::setSeed(int __seed) {
+        -:  118:    seed = __seed;
+        -:  119:}
+        -:  120:template<typename T>
+        -:  121:T UniformRandomVar<T>::getLowBound() {
+        -:  122:    return lowBound;
+        -:  123:}
+        -:  124:template<typename T>
+        -:  125:T UniformRandomVar<T>::getHighBound() {
+        -:  126:    return highBound;
+        -:  127:}
+        -:  128:template<typename T>
+        -:  129:T UniformRandomVar<T>::generate() {
+    #####:  130:    return distribution(dre);
+        -:  131:}
+        -:  132:template<typename T>
+        -:  133:std::vector<T> UniformRandomVar<T>::
+        -:  134:generateList(int size, T scalingFactor) {
+        -:  135:    std::vector<T> list(size);
+        -:  136:    for_each(begin(list), end(list), [=](T &elem) {
+        -:  137:        elem = scalingFactor * generate();
+        -:  138:    });
+        -:  139:    return list;
+        -:  140:}
+        -:  141:template<typename T>
+    #####:  142:UniformRandomVar<T>::~UniformRandomVar() {
+        -:  143:    
+    #####:  144:}
+        -:  145:
+        -:  146:
+        -:  147:#if __has_include("boost/random.hpp")
+        -:  148:template<typename T>
+        -:  149:BetaRandomVar<T>::BetaRandomVar() {
+        -:  150:    
+        -:  151:}
+        -:  152:template<typename T>
+        -:  153:BetaRandomVar<T>::BetaRandomVar(T __alpha, T __beta) {
+        -:  154:    alpha = __alpha;
+        -:  155:    beta = __beta;
+        -:  156:    distribution = boost::random::beta_distribution<T>(alpha, beta);
+        -:  157:}
+        -:  158:template<typename T>
+        -:  159:T BetaRandomVar<T>::getAlpha() {
+        -:  160:    return alpha;
+        -:  161:}
+        -:  162:template<typename T>
+        -:  163:T BetaRandomVar<T>::getBeta() {
+        -:  164:    return beta;
+        -:  165:}
+        -:  166:template<typename T>
+        -:  167:T BetaRandomVar<T>::generate() {
+        -:  168:    return distribution(rng);
+        -:  169:}
+        -:  170:template<typename T>
+        -:  171:std::vector<T> BetaRandomVar<T>::generateList(int size, T scalingFactor) {
+        -:  172:    std::vector<T> list(size);
+        -:  173:    for_each(begin(list), end(list), [=](T &elem) {
+        -:  174:        elem = scalingFactor * generate();
+        -:  175:    });
+        -:  176:    return list;
+        -:  177:}
+        -:  178:template<typename T>
+        -:  179:BetaRandomVar<T>::~BetaRandomVar() {
+        -:  180:    
+        -:  181:}
+        -:  182:
+        -:  183:#endif
+        -:  184:
+        -:  185:#endif /* Random_cpp */
+        -:  186:
+        -:  187:

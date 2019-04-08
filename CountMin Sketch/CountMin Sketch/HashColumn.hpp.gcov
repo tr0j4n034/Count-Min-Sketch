@@ -1,0 +1,37 @@
+        -:    0:Source:./HashColumn.hpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  HashColumn.hpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 3/25/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef HashColumn_hpp
+        -:   10:#define HashColumn_hpp
+        -:   11:
+        -:   12:template <typename T>
+    #####:   13:class HashColumn {
+        -:   14:    int size;
+        -:   15:    std::vector<T> entries;
+        -:   16:    
+        -:   17:public:
+        -:   18:    HashColumn();
+        -:   19:    HashColumn(int __size);
+        -:   20:    HashColumn(std::vector<T> __entries);
+        -:   21:    HashColumn(int __size, std::vector<T> __entries);
+        -:   22:    int getSize();
+        -:   23:    std::vector<T> getEntries();
+        -:   24:    int getValueAt(int position);
+        -:   25:    void updateValueAt(int position, T newValue);
+        -:   26:    void incrementValueAt(int position);
+        -:   27:    int getMinimumNaive();
+        -:   28:    ~HashColumn();
+        -:   29:};
+        -:   30:
+        -:   31:
+        -:   32:#endif /* HashColumn_hpp */

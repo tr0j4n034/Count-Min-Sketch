@@ -1,0 +1,338 @@
+        -:    0:Source:./SimLib.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  SimLib.h
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/17/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#ifndef SimLib_cpp
+        -:   10:#define SimLib_cpp
+        -:   11:
+        -:   12:#include "SimLib.hpp"
+        -:   13:
+        -:   14:template <typename T, typename R>
+        -:   15:R EuclideanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:   16:    // for custom data types
+        -:   17:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:   18:    assert((int)objectA.size() == (int)objectB.size());
+        -:   19:    auto itB = begin(objectB);
+        -:   20:    transform(begin(objectA), end(objectA), begin(objectA), [&](R value) {
+        -:   21:        return value - (*itB ++);
+        -:   22:    });
+        -:   23:    R result = accumulate(begin(objectA), end(objectA), 0, [](R currentResult, R delta) {
+        -:   24:        return currentResult + delta * delta;
+        -:   25:    });
+        -:   26:    return sqrt(result);
+        -:   27:}
+        -:   28:template <typename T, typename R>
+        -:   29:R EuclideanDistance(const T& objectA, const T& objectB) { // arrays
+        -:   30:    // for custom data types
+        -:   31:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:   32:    assert(sizeof(objectA) && sizeof(objectB));
+        -:   33:    assert(sizeof(objectA) / sizeof(objectA[0]) == sizeof(objectB) / sizeof(objectB[0]));
+        -:   34:    R result = 0;
+        -:   35:    R* ptrB = *objectB;
+        -:   36:    for_each(objectA, *(&objectA + 1), [&](R value) {
+        -:   37:        T delta = value - *(ptrB ++);
+        -:   38:        result += delta * delta;
+        -:   39:    });
+        -:   40:    return sqrt(result);
+        -:   41:}
+        -:   42:template <typename T, typename R>
+        -:   43:R ManhattanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:   44:    // for custom data types
+        -:   45:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:   46:    assert((int)objectA.size() == (int)objectB.size());
+        -:   47:    auto itB = begin(objectB);
+        -:   48:    transform(begin(objectA), end(objectA), begin(objectA), [&](R value) {
+        -:   49:        return value - (*itB ++);
+        -:   50:    });
+        -:   51:    R result = accumulate(begin(objectA), end(objectA), 0, [](R currentResult, R delta) {
+        -:   52:        return currentResult + abs(delta);
+        -:   53:    });
+        -:   54:    return sqrt(result);
+        -:   55:}
+        -:   56:template <typename T, typename R>
+        -:   57:R ManhattanDistance(const T& objectA, const T& objectB) { // arrays
+        -:   58:    // for custom data types
+        -:   59:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:   60:    assert(sizeof(objectA) && sizeof(objectB));
+        -:   61:    assert(sizeof(objectA) / sizeof(objectA[0]) == sizeof(objectB) / sizeof(objectB[0]));
+        -:   62:    R result = 0;
+        -:   63:    R* ptrB = *objectB;
+        -:   64:    for_each(objectA, *(&objectA + 1), [&](R value) {
+        -:   65:        T delta = value - *(ptrB ++);
+        -:   66:        result += abs(delta);
+        -:   67:    });
+        -:   68:    return sqrt(result);
+        -:   69:}
+        -:   70:template <typename T, typename dt, typename R>
+        -:   71:R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighted) { // vectors and other iterables
+    #####:   72:    std::unordered_map<int, int> mapA, mapB;
+    #####:   73:    std::unordered_map<int, int> mapUnion;
+    #####:   74:    for_each(begin(objectA), end(objectA), [&](auto value) {
+    #####:   75:        mapA[value] ++;
+    #####:   76:    });
+    #####:   77:    for_each(begin(objectB), end(objectB), [&](auto value) {
+    #####:   78:        mapB[value] ++;
+    #####:   79:    });
+    #####:   80:    int intersection = 0;
+    #####:   81:    int unionSize = 0;
+    #####:   82:    for_each(begin(mapA), end(mapA), [&](auto record) {
+    #####:   83:        if (mapB.count(record.first)) {
+    #####:   84:            intersection += makeUnweighted ?
+    #####:   85:                            1 : std::min(record.second, mapB[record.first]);
+    #####:   86:            unionSize += makeUnweighted ?
+    #####:   87:                            1 : std::max(record.second, mapB[record.first]);
+    #####:   88:        } else {
+    #####:   89:            unionSize += makeUnweighted ? 1 : record.second;
+        -:   90:        }
+    #####:   91:    });
+    #####:   92:    for_each(begin(mapB), end(mapB), [&](auto record) {
+    #####:   93:        if (!mapA.count(record.first))
+    #####:   94:            unionSize += makeUnweighted ? 1 : record.second;
+    #####:   95:    });
+    #####:   96:    return 1. - 1. * intersection / unionSize;
+    #####:   97:}
+        -:   98:template <typename T, typename dt, typename R>
+        -:   99:R JaccardSimilarityIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:  100:    return 1. - JaccardDistanceIterable<T, dt, R>(objectA, objectB);
+        -:  101:}
+        -:  102:template <typename T, typename dt, typename R>
+        -:  103:R JaccardDistance(const T& objectA, const T& objectB, bool makeUnweighted) { // arrays
+        -:  104:    std::unordered_map<int, int> mapA, mapB;
+        -:  105:    std::unordered_map<int, int> mapUnion;
+        -:  106:    for_each(objectA, *(&objectA + 1), [&](auto value) {
+        -:  107:        mapA[value] ++;
+        -:  108:    });
+        -:  109:    for_each(objectB, *(&objectB + 1), [&](auto value) {
+        -:  110:        mapB[value] ++;
+        -:  111:    });
+        -:  112:    int intersection = 0;
+        -:  113:    int unionSize = 0;
+        -:  114:    for_each(begin(mapA), end(mapA), [&](auto record) {
+        -:  115:        if (mapB.count(record.first)) {
+        -:  116:            intersection += makeUnweighted ? 1 : min(record.second, mapB[record.first]);
+        -:  117:            unionSize += makeUnweighted ? 1 : max(record.second, mapB[record.first]);
+        -:  118:        } else {
+        -:  119:            unionSize += makeUnweighted ? 1 : record.second;
+        -:  120:        }
+        -:  121:    });
+        -:  122:    for_each(begin(mapB), end(mapB), [&](auto record) {
+        -:  123:        if (!mapA.count(record.first))
+        -:  124:            unionSize += makeUnweighted ? 1 : record.second;
+        -:  125:    });
+        -:  126:    return 1. - 1. * intersection / unionSize;
+        -:  127:}
+        -:  128:template <typename T, typename dt, typename R>
+        -:  129:R JaccardSimilarity(const T& objectA, const T& objectB) { // arrays
+        -:  130:    return 1. - JaccardDistance<T, dt, R>(objectA, objectB);
+        -:  131:}
+        -:  132:template<typename T, typename dt, typename R>
+        -:  133:R JaccardDistanceBinned(const T& binsA, const T& binsB, bool makeUnweighted) {
+    #####:  134:    if (int(binsA.size()) != int(binsB.size())) {
+    #####:  135:        throw std::runtime_error("Vectors do not have the same size");
+        -:  136:    }
+    #####:  137:    int intersection = 0;
+    #####:  138:    int unionSize = 0;
+    #####:  139:    for (int i = 0; i < int(binsA.size()); i ++) {
+    #####:  140:        if (makeUnweighted) {
+    #####:  141:            intersection += int(binsA[i] == binsB[i]);
+    #####:  142:            unionSize ++;
+    #####:  143:        } else {
+    #####:  144:            intersection += std::min(binsA[i], binsB[i]);
+    #####:  145:            unionSize += std::max(binsA[i], binsB[i]);
+        -:  146:        }
+    #####:  147:    }
+    #####:  148:    return 1. - 1. * intersection / unionSize;
+    #####:  149:}
+        -:  150:template<typename T, typename dt, typename R>
+        -:  151:R JaccardSimilarityBinned(const T& binsA, const T& binsB, bool makeUnweighted) {
+        -:  152:    return 1. - JaccardDistanceBinned<T, dt, R>(binsA, binsB, makeUnweighted);
+        -:  153:}
+        -:  154:template <typename T, typename R>
+        -:  155:R HammingDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:  156:    assert(objectA.size() == objectB.size());
+        -:  157:    int deltas = 0;
+        -:  158:    auto itB = begin(objectB);
+        -:  159:    for_each(begin(objectA), end(objectA), [&](auto record) {
+        -:  160:        deltas += int(record == *itB); itB ++;
+        -:  161:    });
+        -:  162:    return 1. - 1. * deltas / int(objectA.size());
+        -:  163:}
+        -:  164:template <typename T, typename R>
+        -:  165:R HammingSimilarityIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:  166:    return 1. - HammingDistanceIterable<T, R>(objectA, objectB);
+        -:  167:}
+        -:  168:template <typename T, typename R>
+        -:  169:R HammingDistance(const T& objectA, const T& objectB) { // arrays
+        -:  170:    // for custom data types
+        -:  171:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:  172:    assert(sizeof(objectA) && sizeof(objectB));
+        -:  173:    assert(sizeof(objectA) / sizeof(objectA[0]) == sizeof(objectB) / sizeof(objectB[0]));
+        -:  174:    R deltas = 0;
+        -:  175:    int length = sizeof(objectA) / sizeof(objectA[0]);
+        -:  176:    for (int i = 0; i < length; i ++)
+        -:  177:        deltas += int(objectA[i] != objectB[i]);
+        -:  178:    return 1. * deltas / length;
+        -:  179:}
+        -:  180:template <typename T, typename R>
+        -:  181:R CosineDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
+        -:  182:    assert(objectA.size() == objectB.size());
+        -:  183:    R dotProduct = 0;
+        -:  184:    auto itB = begin(objectB);
+        -:  185:    for_each(begin(objectA), end(objectA), [&](auto record) {
+        -:  186:        dotProduct += 1. * record * (*itB); itB ++;
+        -:  187:    });
+        -:  188:    R normA = accumulate(begin(objectA), end(objectA), 0., [](R result, R record) {
+        -:  189:        return result + 1. * record * record;
+        -:  190:    }); normA = sqrtl(normA);
+        -:  191:    R normB = accumulate(begin(objectB), end(objectB), 0., [](R result, R record) {
+        -:  192:        return result + 1. * record * record;
+        -:  193:    }); normB = sqrtl(normB);
+        -:  194:    return 1. * dotProduct / normA / normB;
+        -:  195:}
+        -:  196:template <typename T, typename R>
+        -:  197:R CosineSimilarityIterable(const T& objectA, const T& objectB) {
+        -:  198:    return 1. - CosineDistanceIterable<T, R>(objectA, objectB);
+        -:  199:}
+        -:  200:template <typename T, typename R>
+        -:  201:R CosineDistance(const T& objectA, const T& objectB) { // arrays
+        -:  202:    // for custom data types
+        -:  203:    // use (std::is_base_of<your_data_type, iterables>::value) or some other option
+        -:  204:    assert(sizeof(objectA) && sizeof(objectB));
+        -:  205:    assert(sizeof(objectA) / sizeof(objectA[0]) == sizeof(objectB) / sizeof(objectB[0]));
+        -:  206:    int length = sizeof(objectA) / sizeof(objectA[0]);
+        -:  207:    R dotProduct = 0;
+        -:  208:    for (int i = 0; i < length; i ++)
+        -:  209:        dotProduct += 1. * objectA[i] * objectB[i];
+        -:  210:    R normA = accumulate(objectA, objectA + length, 0., [](R result, R record) {
+        -:  211:        return result + 1. * record * record;
+        -:  212:    }); normA = sqrtl(normA);
+        -:  213:    R normB = accumulate(objectB, objectB + length, 0., [](R result, R record) {
+        -:  214:        return result + 1. * record * record;
+        -:  215:    }); normB = sqrtl(normB);
+        -:  216:    return 1. * dotProduct / normA / normB;
+        -:  217:}
+        -:  218:template <typename T, typename R>
+        -:  219:R CosineSimilarity(const T& objectA, const T& objectB) {
+        -:  220:    return 1. - CosineDistance<T, R>(objectA, objectB);
+        -:  221:}
+        -:  222:template <typename T>
+        -:  223:int EditDistance(const T& objectA, const T& objectB) {
+        -:  224:    int lA = int(objectA.size());
+        -:  225:    int lB = int(objectB.size());
+        -:  226:    std::vector<std::vector<int>> dpTables(lA + 1);
+        -:  227:    for_each(begin(dpTables), end(dpTables), [=](auto &row) {
+        -:  228:        row.resize(lB + 1);
+        -:  229:    });
+        -:  230:    for (int i = 0; i <= lA; i ++) {
+        -:  231:        for (int j = 0; j <= lB; j ++) {
+        -:  232:            if (i == 0) dpTables[i][j] = j;
+        -:  233:            else if (j == 0) dpTables[i][j] = i;
+        -:  234:            else if (objectA[i] == objectB[j])
+        -:  235:                dpTables[i][j] = dpTables[i - 1][j - 1];
+        -:  236:            else dpTables[i][j] = std::min({dpTables[i - 1][j], dpTables[i][j - 1], dpTables[i - 1][j - 1]}) + 1;
+        -:  237:        }
+        -:  238:    }
+        -:  239:    return dpTables[lA][lB];
+        -:  240:}
+        -:  241:template <typename T, typename R>
+        -:  242:std::map<R, int> StreamToBinsIterable(const T& stream) { // vectors and other iterables
+    #####:  243:    std::map<R, int> bins;
+    #####:  244:    for_each(begin(stream), end(stream), [&](R record) {
+    #####:  245:        bins[record] ++;
+    #####:  246:    });
+    #####:  247:    return bins;
+    #####:  248:}
+        -:  249:template <typename T, typename R>
+        -:  250:std::map<R, int> StreamToBins(const T& stream) { // arrays
+        -:  251:    std::map<R, int> bins;
+        -:  252:    for_each(stream, *(&stream + 1), [&](R record) {
+        -:  253:        bins[record] ++;
+        -:  254:    });
+        -:  255:    return bins;
+        -:  256:}
+        -:  257:template<typename T, typename R>
+        -:  258:std::vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize) {
+        -:  259:    if (globeSize == -1) {
+        -:  260:        globeSize = *std::max_element(begin(stream), end(stream));
+        -:  261:    }
+        -:  262:    std::vector<int> bins(globeSize, 0);
+        -:  263:    for_each(begin(stream), end(stream), [&](R record) {
+        -:  264:        bins[record] ++;
+        -:  265:    });
+        -:  266:    return bins;
+        -:  267:}
+        -:  268:template<typename T, typename R>
+        -:  269:std::vector<R> StreamToBinsGlobe(const T& stream, int globeSize) {
+        -:  270:    if (globeSize == -1) {
+        -:  271:        globeSize = *std::max_element(stream, *(&stream + 1));
+        -:  272:    }
+        -:  273:    std::vector<int> bins(globeSize, 0);
+        -:  274:    for_each(begin(stream), end(stream), [&](R record) {
+        -:  275:        bins[record] ++;
+        -:  276:    });
+        -:  277:    return bins;
+        -:  278:}
+        -:  279:template<typename R>
+        -:  280:std::vector<R> BinsToStream(const std::vector<R>& bins) {
+        -:  281:    std::vector<R> streamData;
+        -:  282:    for (int i = 0; i < int(bins.size()); i ++) {
+        -:  283:        for (int j = 0; j < bins[i]; j ++) {
+        -:  284:            streamData.push_back(i);
+        -:  285:        }
+        -:  286:    }
+        -:  287:    return streamData;
+        -:  288:}
+        -:  289:
+        -:  290:
+        -:  291:template<typename T, typename R>
+        -:  292:R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outliersIn) {
+        -:  293:    assert(tableA.getTableSize() == tableB.getTableSize());
+        -:  294:    assert(tableA.getHashesCount() == tableB.getHashesCount());
+        -:  295:    int rows = tableA.getHashesCount(), columns = tableA.getTableSize();
+        -:  296:    R all = 0;
+        -:  297:    R same = 0;
+        -:  298:    if (outliersIn) {
+        -:  299:        all = 1. * rows * columns;
+        -:  300:        for (int i = 1; i <= rows; i ++) {
+        -:  301:            for (int j = 1; j <= columns; j ++) {
+        -:  302:                if (tableA.getValueAt(i, j) == tableB.getValueAt(i, j))
+        -:  303:                    same ++;
+        -:  304:            }
+        -:  305:        }
+        -:  306:    } else {
+        -:  307:        std::vector<T> columnMaxA(columns + 1, 0);
+        -:  308:        std::vector<T> columnMaxB(columns + 1, 0);
+        -:  309:        for (int i = 1; i <= rows; i ++) {
+        -:  310:            for (int j = 1; j <= columns; j ++) {
+        -:  311:                if (tableA.getValueAt(i, j) > columnMaxA[j])
+        -:  312:                    columnMaxA[j] = tableA.getValueAt(i, j);
+        -:  313:                if (tableB.getValueAt(i, j) > columnMaxB[j])
+        -:  314:                    columnMaxB[j] = tableB.getValueAt(i, j);
+        -:  315:            }
+        -:  316:        }
+        -:  317:        for (int i = 1; i <= rows; i ++) {
+        -:  318:            for (int j = 1; j <= columns; j ++) {
+        -:  319:                bool ismaxA = (tableA.getValueAt(i, j) == columnMaxA[j]);
+        -:  320:                bool ismaxB = (tableB.getValueAt(i, j) == columnMaxB[j]);
+        -:  321:                if (ismaxA && ismaxB)
+        -:  322:                    continue;
+        -:  323:                all ++;
+        -:  324:                if (!ismaxA && !ismaxB && tableA.getValueAt(i, j) == tableB.getValueAt(i, j))
+        -:  325:                    same ++;
+        -:  326:            }
+        -:  327:        }
+        -:  328:    }
+        -:  329:    return 1. - 1. * same / all;
+        -:  330:}
+        -:  331:
+        -:  332:
+        -:  333:#endif /* SimLib_cpp */

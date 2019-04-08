@@ -168,6 +168,51 @@ std::vector<T> CMSTable<T>:: getTableElems(bool outliersIN, bool includeZeros, b
     return elems;
 }
 template<typename T>
+double CMSTable<T>::getJaccardDistance(const CMSTable<T>& rhs, bool outliersIN, bool unweighted) {
+    if (hashesCount != rhs.getHashesCount() || tableSize != rhs.getTableSize()) {
+        throw std::runtime_error("Tables do not have same size");
+    }
+    long long intersectionSize = 0, unionSize = 0;
+    for (int i = 1; i <= hashesCount; i ++) {
+        std::vector<T> values(tableSize + 1);
+        std::vector<T> rhsValues(tableSize + 1);
+        for (int j = 1; j <= tableSize; j ++) {
+            values[j] = getValueAt(i, j);
+            rhsValues[j] = rhs.getValueAt(i, j);
+        }
+        T maxValue = *(std::max_element(values.begin(), values.end()));
+        T rhsMaxValue = *(std::max_element(rhs.begin(), rhs.end()));
+        
+        for (int j = 1; j <= tableSize; j ++) {
+            if (outliersIN) {
+                if (unweighted) {
+                    intersectionSize += int(values[j] == rhsValues[j]);
+                    unionSize ++;
+                }
+                else {
+                    intersectionSize += std::min(values[j], rhsValues[j]);
+                    unionSize += std::max(values[j], rhsValues[j]);
+                }
+            }
+            else {
+                bool peak = !values[j] || values[j] == maxValue;
+                bool rhsPeak = !rhsValues[j] || rhsValues[j] == rhsMaxValue;
+                if (peak && rhsPeak) continue;
+                if (unweighted) {
+                    intersectionSize += int(!peak && !rhsPeak && values[j] == rhsValues[j]);
+                    unionSize ++;
+                }
+                else {
+                    intersectionSize += std::min(peak ? 0 : values[j], rhsPeak ? 0 : rhsValues[j]);
+                    intersectionSize += std::max(peak ? 0 : values[j], rhsPeak ? 0 : rhsValues[j]);
+                }
+            }
+        }
+    }
+    return 1. * intersectionSize / unionSize;
+}
+
+template<typename T>
 void CMSTable<T>::insertEntry(T& entry) {
     for (int i = 1; i <= hashesCount; i ++) {
         int hashValue = hashFunctions[i].getHash(entry) % tableSize + 1;

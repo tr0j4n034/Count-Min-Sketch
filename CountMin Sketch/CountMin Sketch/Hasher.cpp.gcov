@@ -1,0 +1,68 @@
+        -:    0:Source:./Hasher.cpp
+        -:    0:Graph:main.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  Hasher.cpp
+        -:    3://  CountMin Sketch
+        -:    4://
+        -:    5://  Created by Mahmud on 1/14/19.
+        -:    6://  Copyright © 2019 Mahmud. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#include "Hasher.hpp"
+        -:   10:
+        -:   11:const int MAX_COEFFICIENT = INT_MAX;
+        -:   12:int SALT = 0;
+        -:   13:
+        -:   14:template<typename T>
+        -:   15:Hasher<T>::Hasher() {
+        -:   16:    A = 0;
+        -:   17:    B = 0;
+        -:   18:    C = 0;
+        -:   19:}
+        -:   20:template<typename T>
+        -:   21:Hasher<T>::Hasher(T __A, T __B, T __C) {
+        -:   22:    A = __A;
+        -:   23:    B = __B;
+        -:   24:    C = __C;
+        -:   25:}
+        -:   26:template<typename T>
+    #####:   27:Hasher<T>::Hasher(T maxRange) {
+    #####:   28:    Random device(1LL * (unsigned int)clock() * SALT % INT_MAX);
+    #####:   29:    SALT ^= 1LL * rand() * rand() % (1 << 30);
+    #####:   30:    A = 1ULL * (SALT + device.generate(2, ((maxRange >> 1) < 3 ? 3 : (maxRange >> 1)))) % MAX_COEFFICIENT + 1;
+    #####:   31:    B = 1ULL * (SALT + device.generate(2, (maxRange - 1 < 3 ? 3: maxRange - 1))) % MAX_COEFFICIENT + 1;
+    #####:   32:    C = device.generatePrimeInRange(1 << 27, 1 << 30);
+    #####:   33:    A %= C;
+    #####:   34:    B %= C;
+    #####:   35:}
+        -:   36:template<typename T>
+        -:   37:T Hasher<T>::getA() {
+        -:   38:    return A;
+        -:   39:}
+        -:   40:template<typename T>
+        -:   41:T Hasher<T>::getB() {
+        -:   42:    return B;
+        -:   43:}
+        -:   44:template<typename T>
+        -:   45:T Hasher<T>::getC() {
+        -:   46:    return C;
+        -:   47:}
+        -:   48:template<typename T>
+        -:   49:T Hasher<T>::getHash(T data) {
+    #####:   50:    return (1ULL * A * data + B) % C;
+        -:   51:}
+        -:   52:template<typename T>
+    #####:   53:Hasher<T>::~Hasher() {
+        -:   54:    
+    #####:   55:}
+        -:   56:template<typename T>
+        -:   57:std::string Hasher<T>::describe() {
+        -:   58:    std::string desc = "hash(x) = (Ax + B) % C\n";
+        -:   59:    desc += "A = " + to_string(A) + "\n";
+        -:   60:    desc += "B = " + to_string(B) + "\n";
+        -:   61:    desc += "C = " + to_string(C) + "\n";
+        -:   62:    return desc;
+        -:   63:}

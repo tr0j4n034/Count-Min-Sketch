@@ -9,9 +9,6 @@
 #ifndef CWSSketch_hpp
 #define CWSSketch_hpp
 
-
-#endif /* CWSSketch_hpp */
-
 template <typename T>
 class CWSSketch {
     std::vector<T> sketchElements;
@@ -31,3 +28,4 @@ public:
     ~CWSSketch();
 };
 
+#endif /* CWSSketch_hpp */

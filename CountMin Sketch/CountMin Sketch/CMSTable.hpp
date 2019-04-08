@@ -13,6 +13,8 @@
 
 #include "HashColumn.cpp"
 #include "Hasher.cpp"
+#include "CWSSketch.hpp"
+
 
 template <typename T>
 class CMSTable {
@@ -41,6 +43,10 @@ public:
     std::vector<HashColumn<T>> getTable();
     std::vector<Hasher<T>> getHashFunctions();
     std::vector<T> getTableElems(bool outliersIN = false, bool includeZeros = false, bool __sorted = false);
+    
+    double getJaccardDistance(const CMSTable<T>& other, bool outliersIN = false, bool unweighted = false);
+    CWSSketch<T> getSketchIoffe();
+    
     
     void insertEntry(T& entry);
     int getCount(T& entry);
