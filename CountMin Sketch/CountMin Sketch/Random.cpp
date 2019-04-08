@@ -16,6 +16,8 @@
 
 #include "Random.hpp"
 
+using std::vector;
+
 Random::Random() {
     seed = -1;
 }
@@ -46,8 +48,8 @@ int Random::generatePrimeInRange(int low, int high) {
     }
     return -1;
 }
-std::vector<int> Random::generateList(int size, int minValue, int maxValue, int scalingFactor) {
-    std::vector<int> list(size);
+vector<int> Random::generateList(int size, int minValue, int maxValue, int scalingFactor) {
+    vector<int> list(size);
     for_each(begin(list), end(list), [=](int &elem) {
         elem = scalingFactor * generate(minValue, maxValue);
     });
@@ -89,8 +91,8 @@ T GammaRandomVar<T>::generate() {
     return distribution(dre);
 }
 template<typename T>
-std::vector<T> GammaRandomVar<T>::generateList(int size, T scalingFactor) {
-    std::vector<T> list(size);
+vector<T> GammaRandomVar<T>::generateList(int size, T scalingFactor) {
+    vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });
@@ -130,9 +132,9 @@ T UniformRandomVar<T>::generate() {
     return distribution(dre);
 }
 template<typename T>
-std::vector<T> UniformRandomVar<T>::
+vector<T> UniformRandomVar<T>::
 generateList(int size, T scalingFactor) {
-    std::vector<T> list(size);
+    vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });
@@ -168,8 +170,8 @@ T BetaRandomVar<T>::generate() {
     return distribution(rng);
 }
 template<typename T>
-std::vector<T> BetaRandomVar<T>::generateList(int size, T scalingFactor) {
-    std::vector<T> list(size);
+vector<T> BetaRandomVar<T>::generateList(int size, T scalingFactor) {
+    vector<T> list(size);
     for_each(begin(list), end(list), [=](T &elem) {
         elem = scalingFactor * generate();
     });
@@ -179,7 +181,6 @@ template<typename T>
 BetaRandomVar<T>::~BetaRandomVar() {
     
 }
-
 #endif
 
 #endif /* Random_cpp */

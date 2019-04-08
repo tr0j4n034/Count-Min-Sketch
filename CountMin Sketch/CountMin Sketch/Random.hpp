@@ -11,6 +11,8 @@
 
 #include <random>
 
+using std::vector;
+
 const int PRIME_CHECK_TRIALS = 1 << 7;
 
 template<typename T>
@@ -42,7 +44,7 @@ public:
     
     int generatePrimeInRange(int low, int high);
     
-    std::vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1);
+    vector<int> generateList(int size, int minValue, int maxValue, int scalingFactor = 1);
     
     ~Random();
 };
@@ -64,7 +66,7 @@ public:
     T getAlpha();
     T getBeta();
     T generate();
-    std::vector<T> generateList(int size, T scalingFactor = 1);
+    vector<T> generateList(int size, T scalingFactor = 1);
     
     ~GammaRandomVar();
 };
@@ -85,7 +87,7 @@ public:
     T getLowBound();
     T getHighBound();
     T generate();
-    std::vector<T> generateList(int size, T scalingFactor = 1);
+    vector<T> generateList(int size, T scalingFactor = 1);
     
     ~UniformRandomVar();
 };
@@ -108,7 +110,7 @@ public:
     T getAlpha();
     T getBeta();
     T generate();
-    std::vector<T> generateList(int size, T scalingFactor = 1);
+    vector<T> generateList(int size, T scalingFactor = 1);
     
     ~BetaRandomVar();
 };

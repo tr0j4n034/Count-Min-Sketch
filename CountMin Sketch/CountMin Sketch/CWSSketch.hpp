@@ -9,19 +9,21 @@
 #ifndef CWSSketch_hpp
 #define CWSSketch_hpp
 
+using std::vector;
+
 template <typename T>
 class CWSSketch {
-    std::vector<T> sketchElements;
-    std::vector<T> sketchHashes;
+    vector<T> sketchElements;
+    vector<T> sketchHashes;
 public:
     CWSSketch();
-    CWSSketch(std::vector<T> __elems, std::vector<T> __hashes);
+    CWSSketch(const vector<T> &__elems, const vector<T> &__hashes);
     CWSSketch(int __size);
     
     void append(T __element, T __hash);
     int getCWSSketchSize();
-    std::vector<T> getSketchElems();
-    std::vector<T> getSketchHashes();
+    vector<T> getSketchElems();
+    vector<T> getSketchHashes();
     
     void clear();
     

@@ -12,6 +12,8 @@
 #include <map>
 #include <unordered_map>
 
+using std::vector;
+
 template <typename T, typename R>
 R EuclideanDistanceIterable(const T& objectA, const T& objectB);
 
@@ -66,20 +68,20 @@ R CosineSimilarity(const T& objectA, const T& objectB);
 template <typename T>
 int EditDistance(const T& objectA, const T& objectB);
 
-template <typename T = std::vector<int>, typename R = int>
+template <typename T = vector<int>, typename R = int>
 std::map<R, int> StreamToBinsIterable(const T &stream);
 
 template <typename T, typename R = int>
 std::map<R, int> StreamToBins(const T &stream);
 
 template <typename T, typename R = int>
-std::vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize = -1);
+vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize = -1);
 
 template <typename T, typename R = int>
-std::vector<R> StreamToBinsGlobe(const T& stream, int globeSize = -1);
+vector<R> StreamToBinsGlobe(const T& stream, int globeSize = -1);
 
 template<typename R = int>
-std::vector<R> BinsToStream(const std::vector<R>& bins);
+vector<R> BinsToStream(const vector<R>& bins);
 
 template<typename T = int, typename R = double>
 R HammingDistanceCMSTables(const CMSTable<T>& tableA, const CMSTable<T>& tableB, bool outliersIn = true);

@@ -14,7 +14,7 @@ CWSSketch<T>::CWSSketch() {
     
 }
 template<typename T>
-CWSSketch<T>::CWSSketch(std::vector<T> __elems, std::vector<T> __hashes) {
+CWSSketch<T>::CWSSketch(const vector<T> &__elems, const vector<T> &__hashes) {
     if (int(__elems.size()) != int(__hashes.size()))
         throw std::runtime_error("the sets should have the same size!");
     sketchElements = __elems;
@@ -35,11 +35,11 @@ int CWSSketch<T>::getCWSSketchSize() {
     return int(sketchElements.size());
 }
 template<typename T>
-std::vector<T> CWSSketch<T>::getSketchElems() {
+vector<T> CWSSketch<T>::getSketchElems() {
     return sketchElements;
 }
 template<typename T>
-std::vector<T> CWSSketch<T>::getSketchHashes() {
+vector<T> CWSSketch<T>::getSketchHashes() {
     return sketchHashes;
 }
 template<typename T>

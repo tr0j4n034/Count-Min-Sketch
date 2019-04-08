@@ -15,6 +15,7 @@
 #include "Hasher.cpp"
 #include "CWSSketch.hpp"
 
+using std::vector;
 
 template <typename T>
 class CMSTable {
@@ -22,13 +23,13 @@ class CMSTable {
     double confidence;
     int hashesCount;
     int tableSize;
-    std::vector<HashColumn<T>> table;
-    std::vector<Hasher<T>> hashFunctions;
+    vector<HashColumn<T>> table;
+    vector<Hasher<T>> hashFunctions;
     
 public:
     CMSTable();
     CMSTable(int __hashCount, int __tableSize);
-    CMSTable(int __hashCount, int __tableSize, std::vector<HashColumn<T>> __table);
+    CMSTable(int __hashCount, int __tableSize, const vector<HashColumn<T>> __table);
     
     CMSTable& operator= (const CMSTable& rhs);
     
@@ -43,9 +44,9 @@ public:
     int getTableSize();
     int getValueAt(int row, int column);
     
-    std::vector<HashColumn<T>> getTable();
-    std::vector<Hasher<T>> getHashFunctions();
-    std::vector<T> getTableElems(bool outliersIN = false, bool includeZeros = false, bool __sorted = false);
+    vector<HashColumn<T>> getTable();
+    vector<Hasher<T>> getHashFunctions();
+    vector<T> getTableElems(bool outliersIN = false, bool includeZeros = false, bool __sorted = false);
     
     double getJaccardDistance(const CMSTable<T>& other, bool outliersIN = false, bool unweighted = false);
     template<typename R = double>

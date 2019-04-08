@@ -11,6 +11,10 @@
 
 #include "SimLib.hpp"
 
+using std::vector;
+using std::map;
+using std::unordered_map;
+
 template <typename T, typename R>
 R EuclideanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     // for custom data types
@@ -69,8 +73,8 @@ R ManhattanDistance(const T& objectA, const T& objectB) { // arrays
 }
 template <typename T, typename dt, typename R>
 R JaccardDistanceIterable(const T& objectA, const T& objectB, bool makeUnweighted) { // vectors and other iterables
-    std::unordered_map<int, int> mapA, mapB;
-    std::unordered_map<int, int> mapUnion;
+    unordered_map<int, int> mapA, mapB;
+    unordered_map<int, int> mapUnion;
     for_each(begin(objectA), end(objectA), [&](auto value) {
         mapA[value] ++;
     });
@@ -101,8 +105,8 @@ R JaccardSimilarityIterable(const T& objectA, const T& objectB) { // vectors and
 }
 template <typename T, typename dt, typename R>
 R JaccardDistance(const T& objectA, const T& objectB, bool makeUnweighted) { // arrays
-    std::unordered_map<int, int> mapA, mapB;
-    std::unordered_map<int, int> mapUnion;
+    unordered_map<int, int> mapA, mapB;
+    unordered_map<int, int> mapUnion;
     for_each(objectA, *(&objectA + 1), [&](auto value) {
         mapA[value] ++;
     });
@@ -223,7 +227,7 @@ template <typename T>
 int EditDistance(const T& objectA, const T& objectB) {
     int lA = int(objectA.size());
     int lB = int(objectB.size());
-    std::vector<std::vector<int>> dpTables(lA + 1);
+    vector<vector<int>> dpTables(lA + 1);
     for_each(begin(dpTables), end(dpTables), [=](auto &row) {
         row.resize(lB + 1);
     });
@@ -239,46 +243,46 @@ int EditDistance(const T& objectA, const T& objectB) {
     return dpTables[lA][lB];
 }
 template <typename T, typename R>
-std::map<R, int> StreamToBinsIterable(const T& stream) { // vectors and other iterables
-    std::map<R, int> bins;
+map<R, int> StreamToBinsIterable(const T& stream) { // vectors and other iterables
+    map<R, int> bins;
     for_each(begin(stream), end(stream), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
 template <typename T, typename R>
-std::map<R, int> StreamToBins(const T& stream) { // arrays
-    std::map<R, int> bins;
+map<R, int> StreamToBins(const T& stream) { // arrays
+    map<R, int> bins;
     for_each(stream, *(&stream + 1), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
 template<typename T, typename R>
-std::vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize) {
+vector<R> StreamToBinsIterableGlobe(const T& stream, int globeSize) {
     if (globeSize == -1) {
         globeSize = *std::max_element(begin(stream), end(stream));
     }
-    std::vector<int> bins(globeSize, 0);
+    vector<int> bins(globeSize, 0);
     for_each(begin(stream), end(stream), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
 template<typename T, typename R>
-std::vector<R> StreamToBinsGlobe(const T& stream, int globeSize) {
+vector<R> StreamToBinsGlobe(const T& stream, int globeSize) {
     if (globeSize == -1) {
         globeSize = *std::max_element(stream, *(&stream + 1));
     }
-    std::vector<int> bins(globeSize, 0);
+    vector<int> bins(globeSize, 0);
     for_each(begin(stream), end(stream), [&](R record) {
         bins[record] ++;
     });
     return bins;
 }
 template<typename R>
-std::vector<R> BinsToStream(const std::vector<R>& bins) {
-    std::vector<R> streamData;
+vector<R> BinsToStream(const vector<R>& bins) {
+    vector<R> streamData;
     for (int i = 0; i < int(bins.size()); i ++) {
         for (int j = 0; j < bins[i]; j ++) {
             streamData.push_back(i);
@@ -304,8 +308,8 @@ R HammingDistanceCMSTables(CMSTable<T>& tableA, CMSTable<T>& tableB, bool outlie
             }
         }
     } else {
-        std::vector<T> columnMaxA(columns + 1, 0);
-        std::vector<T> columnMaxB(columns + 1, 0);
+        vector<T> columnMaxA(columns + 1, 0);
+        vector<T> columnMaxB(columns + 1, 0);
         for (int i = 1; i <= rows; i ++) {
             for (int j = 1; j <= columns; j ++) {
                 if (tableA.getValueAt(i, j) > columnMaxA[j])
