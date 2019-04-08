@@ -26,12 +26,12 @@ void CWS_Ioffe_testing() {
     
     stream1 = stream2;
     
-//    int noiseCounter = 100;
-//    default_random_engine generator(0);
-//    uniform_int_distribution<int> distribution(0, streamSize - 1);
-//    for (int i = 0; i < noiseCounter; i ++) {
-//        stream2[distribution(generator)] ++;
-//    }
+    int noiseCounter = 100;
+    default_random_engine generator(0);
+    uniform_int_distribution<int> distribution(0, streamSize - 1);
+    for (int i = 0; i < noiseCounter; i ++) {
+        stream2[distribution(generator)] ++;
+    }
     
 //    for (int i = 0; i < 1000; i ++) {
 //        stream2[i] ++;

@@ -29,6 +29,9 @@ public:
     CMSTable();
     CMSTable(int __hashCount, int __tableSize);
     CMSTable(int __hashCount, int __tableSize, std::vector<HashColumn<T>> __table);
+    
+    CMSTable& operator= (const CMSTable& rhs);
+    
     void setParams(double __error, double __confidence);
     void setDims(int __hashCount, int __tableSize);
     void setParamsDefault(bool ORIGINAL_PAPER_PARAMS = true, long long memory = -1);
@@ -45,7 +48,8 @@ public:
     std::vector<T> getTableElems(bool outliersIN = false, bool includeZeros = false, bool __sorted = false);
     
     double getJaccardDistance(const CMSTable<T>& other, bool outliersIN = false, bool unweighted = false);
-    CWSSketch<T> getSketchIoffe();
+    template<typename R = double>
+    CWSSketch<R> getTableSketchIoffe(int sketchSize, int seed = 0);
     
     
     void insertEntry(T& entry);

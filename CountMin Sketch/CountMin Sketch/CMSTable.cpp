@@ -15,6 +15,7 @@
 #endif /* CMSTable_h */
 
 #include "CMSTable.hpp"
+#include "CWSLib.hpp"
 
 const double EPSILON = 1.e-9;
 
@@ -48,6 +49,22 @@ CMSTable<T>::CMSTable(int __hashCount, int __tableSize, std::vector<HashColumn<T
     hashFunctions = std::vector<Hasher<T>>(hashesCount + 1);
     setHashFunctions();
 }
+template<typename T>
+CMSTable<T>& CMSTable<T>::operator=(const CMSTable<T>& rhs) {
+    if (this == &rhs) {
+        return (*this);
+    }
+    errorFactor = rhs.errorFactor;
+    confidence = rhs.confidence;
+    hashesCount = rhs.hashesCount;
+    tableSize = rhs.tableSize;
+    table = rhs.table;
+    hashFunctions = rhs.hashFunctions;
+    
+    return (*this);
+}
+
+
 template<typename T>
 void CMSTable<T>::setParams(double __error, double __confidence) {
     errorFactor = __error;
@@ -230,6 +247,15 @@ int CMSTable<T>::getCount(T &entry) {
     }
     return minimumCount;
 }
+template<typename T>
+template<typename R>
+CWSSketch<R> CMSTable<T>::getTableSketchIoffe(int sketchSize, int seed) {
+    std::vector<T> tableData = getTableElems(false, false, false);
+    CWSEngineIoffe<R> engine(seed);
+    return engine.getSketchIterableIoffe(tableData, sketchSize, sketchSize); // check on universeSize
+}
+
+
 template<typename T>
 void CMSTable<T>::clearTable() {
     for (auto row: table) {

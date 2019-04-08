@@ -28,7 +28,8 @@ int main(int argc, const char * argv[]) {
     
     // CWS_Manasse_testing();
     
-    CWS_Ioffe_testing();
+    // CWS_Ioffe_testing();
+    CountMinTableSketching();
     
     return 0;
 }
