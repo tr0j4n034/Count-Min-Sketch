@@ -20,7 +20,7 @@ public:
     CWSSketch(const vector<T> &__elems, const vector<T> &__hashes);
     CWSSketch(int __size);
     
-    void append(T __element, T __hash);
+    void append(const T& __element, const T& __hash);
     int getCWSSketchSize();
     vector<T> getSketchElems();
     vector<T> getSketchHashes();

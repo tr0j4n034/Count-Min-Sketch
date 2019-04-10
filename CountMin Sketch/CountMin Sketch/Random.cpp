@@ -16,8 +16,6 @@
 
 #include "Random.hpp"
 
-using std::vector;
-
 Random::Random() {
     seed = -1;
 }

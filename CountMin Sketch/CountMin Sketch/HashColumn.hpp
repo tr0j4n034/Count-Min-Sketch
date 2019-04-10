@@ -9,18 +9,20 @@
 #ifndef HashColumn_hpp
 #define HashColumn_hpp
 
+using std::vector;
+
 template <typename T>
 class HashColumn {
     int size;
-    std::vector<T> entries;
+    vector<T> entries;
     
 public:
     HashColumn();
     HashColumn(int __size);
-    HashColumn(std::vector<T> __entries);
-    HashColumn(int __size, std::vector<T> __entries);
+    HashColumn(const vector<T>& __entries);
+    HashColumn(int __size, const vector<T>& __entries);
     int getSize();
-    std::vector<T> getEntries();
+    vector<T> getEntries();
     int getValueAt(int position);
     void updateValueAt(int position, T newValue);
     void incrementValueAt(int position);

@@ -18,15 +18,15 @@ HashColumn<T>::HashColumn() {
 template<typename T>
 HashColumn<T>::HashColumn(int __size) {
     size = __size;
-    entries = std::vector<T>(size + 1, 0);
+    entries = vector<T>(size + 1, 0);
 }
 template<typename T>
-HashColumn<T>::HashColumn(std::vector<T> __entries) {
+HashColumn<T>::HashColumn(const vector<T>& __entries) {
     size = int(__entries.size());
     entries = __entries;
 }
 template<typename T>
-HashColumn<T>::HashColumn(int __size, std::vector<T> __entries) {
+HashColumn<T>::HashColumn(int __size, const vector<T>& __entries) {
     size = __size;
     entries = __entries;
 }
@@ -35,7 +35,7 @@ int HashColumn<T>::getSize() {
     return size;
 }
 template<typename T>
-std::vector<T> HashColumn<T>::getEntries() {
+vector<T> HashColumn<T>::getEntries() {
     return entries;
 }
 template<typename T>

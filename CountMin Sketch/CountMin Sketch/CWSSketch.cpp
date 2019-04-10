@@ -26,7 +26,7 @@ CWSSketch<T>::CWSSketch(int __size) {
     sketchHashes.resize(__size);
 }
 template<typename T>
-void CWSSketch<T>::append(T __element, T __hash) {
+void CWSSketch<T>::append(const T& __element, const T& __hash) {
     sketchElements.push_back(__element);
     sketchHashes.push_back(__hash);
 }

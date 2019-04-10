@@ -10,15 +10,15 @@
 #include "Random.hpp"
 
 template<typename T>
-std::string toString(const T& element) {
+string toString(const T& element) {
     std::ostringstream os;
     os << element;
     return os.str();
 }
 
 template<typename T>
-std::string describe(const std::vector<T>& stream) {
-    std::string result = "[";
+string describe(const vector<T>& stream) {
+    string result = "[";
     for (auto element: stream) {
         if (result.back() != '[') {
             result.push_back(',');
@@ -31,8 +31,8 @@ std::string describe(const std::vector<T>& stream) {
 }
 
 template<typename T, typename R>
-std::vector<R> reduceToUnWeighted(const std::vector<T>& stream, int offset) { // Haeupler 2014
-    std::vector<R> unweighted;
+vector<R> reduceToUnWeighted(const vector<T>& stream, int offset) { // Haeupler 2014
+    vector<R> unweighted;
     UniformRandomVar<double> urv(0, 1);
     int value = offset;
     for (int i = 0; i < (int)stream.size(); i ++) {

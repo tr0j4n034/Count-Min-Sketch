@@ -13,6 +13,8 @@
 #include <unordered_map>
 
 using std::vector;
+using std::map;
+using std::unordered_map;
 
 template <typename T, typename R>
 R EuclideanDistanceIterable(const T& objectA, const T& objectB);

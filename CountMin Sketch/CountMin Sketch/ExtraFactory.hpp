@@ -13,14 +13,17 @@
 #include <stdlib.h>
 #include <sstream>
 
-template<typename T>
-std::string toString(const T& element);
+using std::string;
+using std::vector;
 
 template<typename T>
-std::string describe(const std::vector<T>& stream);
+string toString(const T& element);
+
+template<typename T>
+string describe(const vector<T>& stream);
 
 
-template<typename T = int, typename R=  int>
-std::vector<T> reduceToUnWeighted(const std::vector<T>& stream, int offset = 0);
+template<typename T = int, typename R = int>
+vector<T> reduceToUnWeighted(const vector<T>& stream, int offset = 0);
 
 #endif /* ExtraFactory_hpp */

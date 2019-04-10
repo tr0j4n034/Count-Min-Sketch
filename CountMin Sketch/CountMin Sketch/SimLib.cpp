@@ -11,10 +11,6 @@
 
 #include "SimLib.hpp"
 
-using std::vector;
-using std::map;
-using std::unordered_map;
-
 template <typename T, typename R>
 R EuclideanDistanceIterable(const T& objectA, const T& objectB) { // vectors and other iterables
     // for custom data types
