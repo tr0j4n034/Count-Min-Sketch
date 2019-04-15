@@ -22,7 +22,6 @@ string toString(const T& element);
 template<typename T>
 string describe(const vector<T>& stream);
 
-
 template<typename T = int, typename R = int>
 vector<T> reduceToUnWeighted(const vector<T>& stream, int offset = 0);
 

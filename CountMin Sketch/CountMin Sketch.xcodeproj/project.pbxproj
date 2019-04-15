@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		510513D821ECA4B6004167EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 510513D721ECA4B6004167EA /* main.cpp */; };
+		511C5FDB22632A830052835E /* MinHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 511C5FD922632A830052835E /* MinHash.cpp */; };
 		51F161C5224A603800CCDC9F /* ExtraFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F161C3224A603800CCDC9F /* ExtraFactory.cpp */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,8 @@
 		510513E021ECB65F004167EA /* CMSTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CMSTable.cpp; sourceTree = "<group>"; };
 		511B61A821F1097600CE50F1 /* Generator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Generator.cpp; sourceTree = "<group>"; };
 		511B61A921F1151A00CE50F1 /* SimLib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimLib.cpp; sourceTree = "<group>"; };
+		511C5FD922632A830052835E /* MinHash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MinHash.cpp; sourceTree = "<group>"; };
+		511C5FDA22632A830052835E /* MinHash.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MinHash.hpp; sourceTree = "<group>"; };
 		511CF342224D0971001EDB65 /* CWS_Ioffe_testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWS_Ioffe_testing.h; sourceTree = "<group>"; };
 		513AED3921FEDE5D00241617 /* CWSSketch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CWSSketch.cpp; sourceTree = "<group>"; };
 		51460EFB224956AE00D1ED1C /* CountMinTable_testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CountMinTable_testing.h; sourceTree = "<group>"; };
@@ -88,6 +91,8 @@
 				518DA17121FCAFF40074D447 /* CWSLib.cpp */,
 				51E0C7BB2249200800B56912 /* CWSLib.hpp */,
 				513AED3921FEDE5D00241617 /* CWSSketch.cpp */,
+				511C5FD922632A830052835E /* MinHash.cpp */,
+				511C5FDA22632A830052835E /* MinHash.hpp */,
 				51E0C7B722490D8800B56912 /* CWSSketch.hpp */,
 				511B61A821F1097600CE50F1 /* Generator.cpp */,
 				51E0C7B82249111500B56912 /* Generator.hpp */,
@@ -163,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				510513D821ECA4B6004167EA /* main.cpp in Sources */,
+				511C5FDB22632A830052835E /* MinHash.cpp in Sources */,
 				51F161C5224A603800CCDC9F /* ExtraFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

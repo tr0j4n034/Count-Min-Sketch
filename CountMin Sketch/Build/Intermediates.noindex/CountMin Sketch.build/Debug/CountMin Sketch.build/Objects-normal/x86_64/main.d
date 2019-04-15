@@ -17,6 +17,8 @@ dependencies: \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSLib.cpp \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWSSketch.cpp \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/ExtraFactory.hpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/MinHash.cpp \
+  /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/MinHash.hpp \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/ExtraFactory.cpp \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CountMinTable_testing.h \
   /Users/Mahmud/Documents/Github/Count-Min-Sketch/CountMin\ Sketch/CountMin\ Sketch/CWS_Manasse_testing.h \
