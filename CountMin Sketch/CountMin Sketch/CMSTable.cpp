@@ -1,15 +1,10 @@
 //
-//  CMSTable.h
+//  CMSTable.cpp
 //  CountMin Sketch
 //
 //  Created by Mahmud on 1/14/19.
 //  Copyright © 2019 Mahmud. All rights reserved.
 //
-
-#pragma once
-
-#ifndef CMSTable_h
-#define CMSTable_h
 
 #include "CMSTable.hpp"
 #include "CWSLib.hpp"
@@ -274,5 +269,3 @@ std::string CMSTable<T>::describe() {
     desc += "confidence: " + std::to_string(confidence) + "\n";
     return desc;
 }
-
-#endif /* CMSTable_h */

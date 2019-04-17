@@ -9,8 +9,6 @@
 #ifndef MinHash_hpp
 #define MinHash_hpp
 
-#include "ExtraFactory.hpp"
-
 #include <iostream>
 
 using std::string;
@@ -20,14 +18,12 @@ const int DEFAULT_SHINGLE_SIZE = 5;
 
 class MinHasher {
 public:
-    MinHasher();
+    MinHasher() {};
     template<typename Container = vector<int>>
     vector<string> getShingles(const Container& stream, int shingleSize = DEFAULT_SHINGLE_SIZE);
     template<typename Container = vector<int>>
     vector<size_t> getHashes(const Container& stream, int shingleSize = DEFAULT_SHINGLE_SIZE);
 };
-
-
 
 
 #endif /* MinHash_hpp */

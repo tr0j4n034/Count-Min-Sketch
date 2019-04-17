@@ -33,9 +33,15 @@ int main(int argc, const char * argv[]) {
     // CountMinTableSketching();
     
     vector<int> v = vector<int>{3, 1, 4, 1, 5, 9, 2, 6};
+    vector<int> other = vector<int>{3, 1, 4, 9, 2, 6, 4};
     MinHasher mh;
     vector<size_t> hashes = mh.getHashes(v, 3);
     for (auto i: hashes) {
+        cout << i << endl;
+    }
+    
+    vector<size_t> hashes2 = mh.getHashes(other, 3);
+    for (auto i: hashes2) {
         cout << i << endl;
     }
     

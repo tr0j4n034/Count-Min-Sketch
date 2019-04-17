@@ -7,24 +7,16 @@
 //
 
 #include "MinHash.hpp"
+#include "ExtraFactory.hpp"
 
 #include <cstring>
 #include <vector>
 #include <functional>
 
-//template<typename Container = vector<int>>
-//vector<size_t> getShingles(const Container& stream);
-//template<typename Container = vector<int>>
-//vector<size_t> getHashes(const Container& stream);
-
-
-MinHasher::MinHasher() {
-    
-};
 template<typename Container>
 std::vector<string> MinHasher::getShingles(const Container& stream, int shingleSize) {
     int streamSize = int(stream.size());
-    std::vector<string> shingles(streamSize);
+    std::vector<string> shingles(streamSize - shingleSize + 1);
     for (int i = 0; i < streamSize - shingleSize; i ++) {
         string shingle = "";
         for (int j = i; j < i + shingleSize; j ++) {
