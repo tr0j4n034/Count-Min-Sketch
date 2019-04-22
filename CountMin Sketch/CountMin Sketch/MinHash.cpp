@@ -14,9 +14,9 @@
 #include <functional>
 
 template<typename Container>
-std::vector<string> MinHasher::getShingles(const Container& stream, int shingleSize) {
+std::vector<std::string> MinHasher::getShingles(const Container& stream, int shingleSize) {
     int streamSize = int(stream.size());
-    std::vector<string> shingles(streamSize - shingleSize + 1);
+    std::vector<std::string> shingles(streamSize - shingleSize + 1);
     for (int i = 0; i < streamSize - shingleSize; i ++) {
         string shingle = "";
         for (int j = i; j < i + shingleSize; j ++) {
@@ -28,11 +28,11 @@ std::vector<string> MinHasher::getShingles(const Container& stream, int shingleS
 }
 template<typename Container>
 std::vector<size_t> MinHasher::getHashes(const Container& stream, int shingleSize) {
-    vector<string> shingles = getShingles(stream, shingleSize);
+    vector<std::string> shingles = getShingles(stream, shingleSize);
     vector<size_t> output(int(shingles.size()));
-    std::hash<string> hasher;
+    std::hash<std::string> hasher;
     transform(begin(shingles), end(shingles), output.begin(), [&](string sh) {
-        return hasher(sh);
+        return (bitCount == -1 ? hasher(sh) : hasher(sh) & bitCount);
     });
     return output;
 }
